@@ -1,3 +1,5 @@
 # algorithm
 算法基本
 涵盖基本算法基础
+BubbleSort为冒泡排序实现类，main函数实现相应测试
+HeapSort为堆排序实现类，main函数实现相应测试
