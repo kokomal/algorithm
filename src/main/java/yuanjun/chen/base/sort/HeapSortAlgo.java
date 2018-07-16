@@ -1,8 +1,7 @@
 package yuanjun.chen.base.sort;
 
 import java.util.Arrays;
-import yuanjun.chen.base.common.DispUtil;
-import yuanjun.chen.base.common.RandomIntArrayGenner;
+import yuanjun.chen.base.common.MyArrayUtils;
 import yuanjun.chen.base.common.SortOrderEnum;
 
 /**
@@ -12,18 +11,19 @@ public class HeapSortAlgo {
     /*
      * 采用递归max-heapify算法进行堆整理 缺点是在大数据时会导致栈溢出
      */
-    public static void heapSort(int[] arr, SortOrderEnum order, boolean recurFlag) {
-        if (arr.length == 1) return;
-        
+    public static void inplaceHeapSort(int[] arr, SortOrderEnum order, boolean recurFlag) {
+        if (arr.length == 1)
+            return;
+
         // 1.BUILD-MAX-HEAP
         for (int i = arr.length / 2; i >= 0; i--) {
             maxheapify(arr, order, recurFlag, i, arr.length);
         }
-        System.out.println(
-                "after " + (recurFlag ? " recursive" : " non-recusive") + " MaxHeapify---" + Arrays.toString(arr));
+        System.out.println("after " + order + (recurFlag ? " recursive" : " non-recusive") + " MaxHeapify---"
+                + Arrays.toString(arr));
         // 2.调整堆结构+交换堆顶元素与末尾元素
         for (int j = arr.length - 1; j > 0; j--) {
-            swap(arr, 0, j);// 将堆顶元素与末尾元素进行交换
+            MyArrayUtils.swap(arr, 0, j);// 将堆顶元素与末尾元素进行交换
             maxheapify(arr, order, recurFlag, 0, j);
         }
     }
@@ -46,16 +46,18 @@ public class HeapSortAlgo {
         int maxPos = i;
         int left = 2 * i + 1;
         int right = left + 1;
-        if (left < length && ((arr[left] > arr[i] && order.equals(SortOrderEnum.ASC))
-                || (arr[left] < arr[i] && order.equals(SortOrderEnum.DESC)))) { // 左大
+        boolean leftMoveAsc = (left < length) && (arr[left] > arr[i] && order.equals(SortOrderEnum.ASC));
+        boolean leftMoveDesc = (left < length) && (arr[left] < arr[i] && order.equals(SortOrderEnum.DESC));
+        if (leftMoveAsc || leftMoveDesc) { // 左大
             maxPos = left;
         }
-        if (right < length && ((arr[right] > arr[maxPos] && order.equals(SortOrderEnum.ASC))
-                || (arr[right] < arr[maxPos] && order.equals(SortOrderEnum.DESC)))) { // 右大
+        boolean rightMoveAsc = (right < length) && (arr[right] > arr[maxPos] && order.equals(SortOrderEnum.ASC));
+        boolean rightMoveDesc = (right < length) && (arr[right] < arr[maxPos] && order.equals(SortOrderEnum.DESC));
+        if (rightMoveAsc || rightMoveDesc) { // 右大
             maxPos = right;
         }
         if (maxPos != i) {
-            swap(arr, i, maxPos);
+            MyArrayUtils.swap(arr, i, maxPos);
             recursiveMaxHeapify(arr, maxPos, length, order);
         }
     }
@@ -70,11 +72,13 @@ public class HeapSortAlgo {
     public static void nonRecursiveMaxHeapify(int[] arr, int i, int length, SortOrderEnum order) {
         int temp = arr[i]; // 先取出当前元素i
         for (int k = i * 2 + 1; k < length; k = k * 2 + 1) { // 从i结点的左子结点开始，也就是2i+1处开始
-            if (k + 1 < length && ((arr[k] < arr[k + 1] && order.equals(SortOrderEnum.ASC))
-                    || (arr[k] > arr[k + 1] && order.equals(SortOrderEnum.DESC)))) { // 如果左子结点小于右子结点，k指向右子结点
+            boolean nextKAsc = k + 1 < length && (arr[k] < arr[k + 1] && order.equals(SortOrderEnum.ASC));
+            boolean nextKDesc = k + 1 < length && (arr[k] > arr[k + 1] && order.equals(SortOrderEnum.DESC));
+            if (nextKAsc || nextKDesc) { // 如果左子结点小于右子结点，k指向右子结点
                 k++;
             }
-            if ((arr[k] > temp && order.equals(SortOrderEnum.ASC)) || (arr[k] < temp && order.equals(SortOrderEnum.DESC))) { // 如果子节点大于父节点，将子节点值赋给父节点（不用进行交换）
+            if ((arr[k] > temp && order.equals(SortOrderEnum.ASC))
+                    || (arr[k] < temp && order.equals(SortOrderEnum.DESC))) { // 如果子节点大于父节点，将子节点值赋给父节点（不用进行交换）
                 arr[i] = arr[k];
                 i = k;
             } else {
@@ -82,40 +86,6 @@ public class HeapSortAlgo {
             }
         }
         arr[i] = temp;// 将temp值放到最终的位置
-    }
-
-    /**
-     * 交换int[]的元素
-     * 
-     * @param int[] arr 原始数组
-     * @param int a 待交换的index
-     * @param int b 另一个待交换的index
-     */
-    public static void swap(int[] arr, int a, int b) {
-        int temp = arr[a];
-        arr[a] = arr[b];
-        arr[b] = temp;
-    }
-
-    public static void testHeapSort(int size, int bound, SortOrderEnum order, boolean recurFlag) {
-        int[] arr = RandomIntArrayGenner.generateRandomIntArray(size, bound);
-        System.out.println("before " + order + (recurFlag ? " recursive" : " non-recusive") + " heap sort---"
-                + Arrays.toString(arr));
-        heapSort(arr, order, recurFlag);
-        System.out.println("after " + order + (recurFlag ? " recursive" : " non-recusive") + " heap sort---"
-                + Arrays.toString(arr));
-    }
-
-    public static void main(String[] args) {
-        int size = 10;
-        int bound = 100;
-        testHeapSort(size, bound, SortOrderEnum.ASC, true);
-        DispUtil.split(size * 4, '=');
-        testHeapSort(size, bound, SortOrderEnum.DESC, true);
-        DispUtil.split(size * 4, '=');
-        testHeapSort(size, bound, SortOrderEnum.ASC, false);
-        DispUtil.split(size * 4, '=');
-        testHeapSort(size, bound, SortOrderEnum.DESC, false);
     }
 
 }

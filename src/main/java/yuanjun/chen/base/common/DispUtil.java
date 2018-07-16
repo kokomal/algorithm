@@ -7,4 +7,16 @@ public class DispUtil {
         }
         System.out.println();
     }
+
+    public static void embed(int len, char x, String word) {
+        for (int i = 0; i < len; i++) {
+            System.out.print(x);
+        }
+        System.out.print(word);
+        for (int i = 0; i < len; i++) {
+            System.out.print(x);
+        }
+        System.out.println();
+    }
+
 }
