@@ -1,5 +1,5 @@
 package yuanjun.chen.base.common;
 
-public enum SORT_ORDER {
+public enum SortOrderEnum {
     ASC, DESC;
 }
