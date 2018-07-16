@@ -27,7 +27,7 @@ public class TestCase001 {
     }
     
     public void testInplaceBubbleSort(int size, int bound, SortOrderEnum order) {
-        int[] arr = RandomIntArrayGenner.generateRandomIntArray(size, bound);
+        Integer[] arr = RandomIntArrayGenner.generateRandomIntArray(size, bound);
         System.out.println("the unsorted data---" + Arrays.toString(arr));
         BubbleSortAlgo.inplaceBubbleSort(arr, order);
         System.out.println("after " + order + " inplace bubble sort, the sorted data---" + Arrays.toString(arr));

@@ -12,9 +12,9 @@ public class RandomIntArrayGenner {
      * @param size 元素个数
      * @param bound 每一个元素上界
      **/
-    public static int[] generateRandomIntArray(int size, int bound) {
+    public static Integer[] generateRandomIntArray(int size, int bound) {
         Random seed = new Random();
-        int[] arr = new int[size];
+        Integer[] arr = new Integer[size];
         for (int i = 0; i < arr.length; i++) {
             arr[i] = seed.nextInt(bound);
         }

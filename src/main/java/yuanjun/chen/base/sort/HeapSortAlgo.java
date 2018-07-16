@@ -10,7 +10,7 @@ public class HeapSortAlgo {
     /*
      * 采用递归max-heapify算法进行堆整理 缺点是在大数据时会导致栈溢出
      */
-    public static void inplaceHeapSort(int[] arr, SortOrderEnum order, boolean recurFlag) {
+    public static void inplaceHeapSort(Integer[] arr, SortOrderEnum order, boolean recurFlag) {
         if (arr.length == 1)
             return;
 
@@ -27,7 +27,7 @@ public class HeapSortAlgo {
         }
     }
 
-    private static void maxheapify(int[] arr, SortOrderEnum order, boolean recurFlag, int i, int length) {
+    private static void maxheapify(Integer[] arr, SortOrderEnum order, boolean recurFlag, int i, int length) {
         if (recurFlag) {
             recursiveMaxHeapify(arr, i, length, order);// 重新对堆进行调整
         } else {
@@ -41,7 +41,7 @@ public class HeapSortAlgo {
      * @param int length 数组影响范围
      * @param SortOrderEnum order 排序方向
      */
-    private static void recursiveMaxHeapify(int[] arr, int i, int length, SortOrderEnum order) {
+    private static void recursiveMaxHeapify(Integer[] arr, int i, int length, SortOrderEnum order) {
         int maxPos = i;
         int left = 2 * i + 1;
         int right = left + 1;
@@ -68,7 +68,7 @@ public class HeapSortAlgo {
      * @param int i maxheapify操作数组的开始序号
      * @param int length 数组影响范围
      */
-    public static void nonRecursiveMaxHeapify(int[] arr, int i, int length, SortOrderEnum order) {
+    public static void nonRecursiveMaxHeapify(Integer[] arr, int i, int length, SortOrderEnum order) {
         int temp = arr[i]; // 先取出当前元素i
         for (int k = i * 2 + 1; k < length; k = k * 2 + 1) { // 从i结点的左子结点开始，也就是2i+1处开始
             boolean nextKAsc = k + 1 < length && (arr[k] < arr[k + 1] && order.equals(SortOrderEnum.ASC));

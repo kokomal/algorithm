@@ -7,7 +7,7 @@ public class BubbleSortAlgo {
     /*
      * 每次从位置0开始冒泡，决定最右侧max值，每冒泡一次，则待排序的数组左移一格
      */
-    public static void inplaceBubbleSort(int[] arr, SortOrderEnum order) {
+    public static void inplaceBubbleSort(Integer[] arr, SortOrderEnum order) {
         int len = arr.length;
         if (len == 1)
             return; // 为单值则不处理
