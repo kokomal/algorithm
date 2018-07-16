@@ -6,6 +6,9 @@ import yuanjun.chen.base.common.DispUtil;
 import yuanjun.chen.base.common.RandomIntArrayGenner;
 import yuanjun.chen.base.common.SortOrderEnum;
 
+/*
+ * 冒泡排序测试
+ * */
 public class TestCase001 {
     @Test
     public void testBubble() {

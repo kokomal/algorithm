@@ -1,6 +1,5 @@
 package yuanjun.chen.base.sort;
 
-import java.util.Arrays;
 import yuanjun.chen.base.common.MyArrayUtils;
 import yuanjun.chen.base.common.SortOrderEnum;
 
@@ -19,8 +18,8 @@ public class HeapSortAlgo {
         for (int i = arr.length / 2; i >= 0; i--) {
             maxheapify(arr, order, recurFlag, i, arr.length);
         }
-        System.out.println("after " + order + (recurFlag ? " recursive" : " non-recusive") + " MaxHeapify---"
-                + Arrays.toString(arr));
+        //System.out.println("after " + order + (recurFlag ? " recursive" : " non-recusive") + " MaxHeapify---"
+        //        + Arrays.toString(arr));
         // 2.调整堆结构+交换堆顶元素与末尾元素
         for (int j = arr.length - 1; j > 0; j--) {
             MyArrayUtils.swap(arr, 0, j);// 将堆顶元素与末尾元素进行交换
