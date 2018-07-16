@@ -6,6 +6,7 @@
 .project
 .settings
 .springBeans
+*/classes/*
 
 # Log file
 *.log
