@@ -5,7 +5,7 @@ import yuanjun.chen.base.common.DispUtil;
 import yuanjun.chen.base.common.RandomIntArrayGenner;
 import yuanjun.chen.base.common.SORT_ORDER;
 
-public class BubbleSort {
+public class BubbleSortAlgo {
     /*
      * 每次从位置0开始冒泡，决定最右侧max值，每冒泡一次，则待排序的数组左移一格
      */
