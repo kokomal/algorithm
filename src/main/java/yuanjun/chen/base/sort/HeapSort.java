@@ -1,13 +1,14 @@
 package yuanjun.chen.base.sort;
 
 import java.util.Arrays;
+import yuanjun.chen.base.common.RandomIntArrayGenner;
 
 /**
  * 堆排序demo
  */
 public class HeapSort {
 	public static void main(String[] args) {
-		int[] arr = { 11, 7, 18, 3, 5, 4, 10, 9 };
+		int[] arr = RandomIntArrayGenner.generateRandomIntArray(20, 100);
 		System.out.println("origin---" + Arrays.toString(arr));
 		heapsort(arr);
 		System.out.println("after---" + Arrays.toString(arr));
