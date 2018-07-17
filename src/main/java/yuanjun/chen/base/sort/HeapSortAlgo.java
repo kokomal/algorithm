@@ -4,22 +4,23 @@ import yuanjun.chen.base.common.MyArrayUtils;
 import yuanjun.chen.base.common.SortOrderEnum;
 
 /**
- * 堆排序demo
+ * 堆排序算法类
  */
 public class HeapSortAlgo {
     /*
      * 采用递归max-heapify算法进行堆整理 缺点是在大数据时会导致栈溢出
      */
     public static void inplaceHeapSort(Integer[] arr, SortOrderEnum order, boolean recurFlag) {
-        if (arr.length == 1)
+        if (arr.length <= 1) {
             return;
-
+        }
         // 1.BUILD-MAX-HEAP
         for (int i = arr.length / 2; i >= 0; i--) {
             maxheapify(arr, order, recurFlag, i, arr.length);
         }
-        //System.out.println("after " + order + (recurFlag ? " recursive" : " non-recusive") + " MaxHeapify---"
-        //        + Arrays.toString(arr));
+        // System.out.println("after " + order + (recurFlag ? " recursive" : " non-recusive") + "
+        // MaxHeapify---"
+        // + Arrays.toString(arr));
         // 2.调整堆结构+交换堆顶元素与末尾元素
         for (int j = arr.length - 1; j > 0; j--) {
             MyArrayUtils.swap(arr, 0, j);// 将堆顶元素与末尾元素进行交换

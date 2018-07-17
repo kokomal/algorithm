@@ -1,7 +1,6 @@
 package yuanjun.chen.base.sort;
 
 import java.util.Arrays;
-import java.util.Comparator;
 import org.junit.Test;
 import yuanjun.chen.base.common.DispUtil;
 import yuanjun.chen.base.common.RandomIntArrayGenner;
@@ -26,7 +25,7 @@ public class TestCase002 {
         testHeapSort(arr, size, bound, SortOrderEnum.ASC, false);
         DispUtil.split(50 + size * 4, '=');
         testHeapSort(arr, size, bound, SortOrderEnum.DESC, false);
-        DispUtil.embed(50, '*', "HEAP TEST ENDS");
+        DispUtil.embed(50, '*', "HEAP TEST ENDS..");
     }
 
     @Test
@@ -42,13 +41,15 @@ public class TestCase002 {
         //DispUtil.split(500, '=');
         long time2 = System.currentTimeMillis();
         System.out.println("recursive time = " + (time2 - time1) + "ms");
+        
         arr = RandomIntArrayGenner.generateRandomIntArray(size, bound);
         testHeapSort(arr, size, bound, SortOrderEnum.ASC, false);
         //DispUtil.split(500, '=');
         //testHeapSort(size, bound, SortOrderEnum.DESC, false);
         long time3 = System.currentTimeMillis();
-        System.out.println("recursive time = " + (time3 - time2) + "ms");
         DispUtil.split(500, '=');
+        System.out.println("non-recursive time = " + (time3 - time2) + "ms");
+
         arr = RandomIntArrayGenner.generateRandomIntArray(size, bound);
         testInnerAlgoASC(arr, size, bound);
         long time4 = System.currentTimeMillis();
@@ -58,7 +59,7 @@ public class TestCase002 {
         testInnerAlgoDESC(arr, size, bound);
         long time5 = System.currentTimeMillis();
         System.out.println("inner DESC algo time = " + (time5 - time4) + "ms");
-        DispUtil.embed(50, '*', "HEAP TEST ENDS");
+        DispUtil.embed(50, '*', "HEAP TEST ENDS..");
     }
 
     public void testHeapSort(Integer[] arr, int size, int bound, SortOrderEnum order, boolean recurFlag) {

@@ -23,7 +23,7 @@ public class TestCase001 {
         testInplaceBubbleSort(size2, bound, SortOrderEnum.ASC); // 升序测试
         DispUtil.split(50 + size2 * 4, '='); // 分行
         testInplaceBubbleSort(size2, bound, SortOrderEnum.DESC); // 降序测试
-        DispUtil.embed(50, '*', "BUBBLE TEST ENDS");
+        DispUtil.embed(50, '*', "BUBBLE TEST ENDS..");
     }
     
     public void testInplaceBubbleSort(int size, int bound, SortOrderEnum order) {
