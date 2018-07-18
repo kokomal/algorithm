@@ -1,0 +1,107 @@
+/**  
+ * @Title: TestCase005.java   
+ * @Package: yuanjun.chen.base.sort   
+ * @Description: 优先级队列测试   
+ * @author: 陈元俊     
+ * @date: 2018年7月18日 下午3:56:03   
+ * @version V1.0 
+ * @Copyright: 2018 All rights reserved. 
+ */
+package yuanjun.chen.base.sort;
+
+import org.junit.Test;
+import yuanjun.chen.base.common.DispUtil;
+import yuanjun.chen.base.common.RandomGenner;
+import yuanjun.chen.base.common.SortOrderEnum;
+import yuanjun.chen.base.container.HeapBasedPriorityQueue;
+
+/**   
+ * @ClassName: TestCase005   
+ * @Description: 优先级队列测试  
+ * @author: 陈元俊 
+ * @date: 2018年7月18日 下午3:56:03  
+ */
+public class TestCase005 {
+    @Test
+    public void testHeapBasedPriorityQueue() {
+        Integer[] initArray = RandomGenner.generateRandomIntArray(20, 100);
+        HeapBasedPriorityQueue hbpq = new HeapBasedPriorityQueue(initArray, SortOrderEnum.DESC); // 小根堆
+        displayBoth1Dand2D(hbpq);
+        if (initArray.length > 8) {
+            Integer eighth = hbpq.peekAt(8);
+            Integer newEighth = eighth - 40;
+            boolean x = hbpq.decreaseKey(8, newEighth);
+            System.out
+                    .println("decrease the eighth val== " + eighth + " to new val== " + newEighth + " and res = " + x);
+            displayBoth1Dand2D(hbpq);
+        }
+        int keyToBeInserted = 30;
+        DispUtil.embed(40, '=', "Before Insert== " + keyToBeInserted);
+        displayBoth1Dand2D(hbpq);
+        hbpq.insertKey(keyToBeInserted);
+        DispUtil.embed(40, '=', "inserting...");
+        displayBoth1Dand2D(hbpq);
+        DispUtil.embed(40, '=', "End Insert== " + keyToBeInserted);
+    }
+
+    /**   
+     * @Title: displayBoth1Dand2D   
+     * @Description: 展现1D和2D的堆数据  
+     * @param: @param hbpq      
+     * @return: void      
+     * @throws   
+     */
+    private void displayBoth1Dand2D(HeapBasedPriorityQueue hbpq) {
+        DispUtil.embed(30, '*', "the size = " + hbpq.size());
+        hbpq.peakAll2D();
+        DispUtil.embed(30, '*', "the flat display is below");
+        hbpq.peakAll1D();
+    }
+    
+    @Test
+    public void testPop() {
+        Integer[] initArray = RandomGenner.generateRandomIntArray(18, 100);
+        HeapBasedPriorityQueue hbpq = new HeapBasedPriorityQueue(initArray, SortOrderEnum.DESC); // 小根堆
+        DispUtil.embed(40, '=', "Before pop");
+        displayBoth1Dand2D(hbpq);
+        Integer pop1 = hbpq.pop();
+        DispUtil.embed(30, '*', "after pop val " + pop1);
+        displayBoth1Dand2D(hbpq);
+        pop1 = hbpq.pop();
+        DispUtil.embed(30, '*', "after pop val " + pop1);
+        displayBoth1Dand2D(hbpq);
+        DispUtil.embed(40, '=', "End pop");
+    }
+    
+    @Test
+    public void testPop2() {
+        Integer[] initArray = RandomGenner.generateRandomIntArray(2, 100);
+        HeapBasedPriorityQueue hbpq = new HeapBasedPriorityQueue(initArray, SortOrderEnum.DESC); // 小根堆
+        DispUtil.embed(40, '=', "Before pop");
+        displayBoth1Dand2D(hbpq);
+        Integer pop1 = hbpq.pop();
+        System.out.println("after pop val " + pop1);
+        displayBoth1Dand2D(hbpq);
+        Integer pop2 = hbpq.pop();
+        System.out.println("after pop val " + pop2);
+        displayBoth1Dand2D(hbpq);
+        DispUtil.embed(40, '=', "End pop");
+    }
+    
+    @Test
+    public void testDelete() {
+        Integer[] initArray = RandomGenner.generateRandomIntArray(20, 100);
+        HeapBasedPriorityQueue hbpq = new HeapBasedPriorityQueue(initArray, SortOrderEnum.DESC); // 小根堆
+        DispUtil.embed(40, '=', "Before delete");
+        displayBoth1Dand2D(hbpq);
+        Integer x = hbpq.deleteKey(3); // 删除第3号元素
+        DispUtil.split(80, '-');
+        System.out.println("after delete val " + x);
+        displayBoth1Dand2D(hbpq);
+        x = hbpq.deleteKey(3);
+        DispUtil.split(80, '-');
+        System.out.println("after delete val " + x);
+        displayBoth1Dand2D(hbpq);
+        DispUtil.embed(40, '=', "End delete");
+    }
+}

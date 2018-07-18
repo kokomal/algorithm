@@ -12,7 +12,7 @@ package yuanjun.chen.base.sort;
 import java.util.Arrays;
 import org.junit.Test;
 import yuanjun.chen.base.common.DispUtil;
-import yuanjun.chen.base.common.RandomIntArrayGenner;
+import yuanjun.chen.base.common.RandomGenner;
 import yuanjun.chen.base.common.SortOrderEnum;
 
 /**
@@ -27,7 +27,7 @@ public class TestCase003 {
         int size = 256 * 256;
         int bound = 10000;
 
-        Integer[] arr = RandomIntArrayGenner.generateRandomIntArray(size, bound);
+        Integer[] arr = RandomGenner.generateRandomIntArray(size, bound);
         DispUtil.embed(50, '*', "LINEAR INSERTION TEST STARTS");
         long time1 = System.currentTimeMillis();
         testInsertionSort(arr, size, bound, SortOrderEnum.DESC);
@@ -35,7 +35,7 @@ public class TestCase003 {
         DispUtil.embed(50, '*', "LINEAR INSERTION TEST ENDS..");
         System.out.println("test linear insertion sort used " + (time2 - time1) + "ms");
 
-        arr = RandomIntArrayGenner.generateRandomIntArray(size, bound);
+        arr = RandomGenner.generateRandomIntArray(size, bound);
         DispUtil.embed(50, '*', "BINARY INSERTION TEST STARTS");
         long time3 = System.currentTimeMillis();
         testInsertionSortBinary(arr, size, bound, SortOrderEnum.DESC);
@@ -43,7 +43,7 @@ public class TestCase003 {
         DispUtil.embed(50, '*', "BINARY INSERTION TEST ENDS..");
         System.out.println("test binary insertion sort used " + (time4 - time3) + "ms");
 
-        arr = RandomIntArrayGenner.generateRandomIntArray(size, bound);
+        arr = RandomGenner.generateRandomIntArray(size, bound);
         DispUtil.embed(50, '*', "INNER J.U.A TEST STARTS");
         long time5 = System.currentTimeMillis();
         testInnerAlgoASC(arr, size, bound);

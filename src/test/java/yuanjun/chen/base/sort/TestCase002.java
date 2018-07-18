@@ -3,7 +3,7 @@ package yuanjun.chen.base.sort;
 import java.util.Arrays;
 import org.junit.Test;
 import yuanjun.chen.base.common.DispUtil;
-import yuanjun.chen.base.common.RandomIntArrayGenner;
+import yuanjun.chen.base.common.RandomGenner;
 import yuanjun.chen.base.common.ReverseIntComparator;
 import yuanjun.chen.base.common.SortOrderEnum;
 
@@ -16,7 +16,7 @@ public class TestCase002 {
     public void testHeap() {
         int size = 16;
         int bound = 100;
-        Integer[] arr = RandomIntArrayGenner.generateRandomIntArray(size, bound);
+        Integer[] arr = RandomGenner.generateRandomIntArray(size, bound);
         DispUtil.embed(50, '*', "HEAP TEST STARTS");
         testHeapSort(arr, size, bound, SortOrderEnum.ASC, true);
         DispUtil.split(50 + size * 4, '=');
@@ -33,7 +33,7 @@ public class TestCase002 {
         int size = 16 * 16 * 16 * 16 * 2; // 13万条数据
         int bound = 500000;
         DispUtil.embed(50, '*', "HEAP TEST STARTS");
-        Integer[] arr = RandomIntArrayGenner.generateRandomIntArray(size, bound);
+        Integer[] arr = RandomGenner.generateRandomIntArray(size, bound);
         long time1 = System.currentTimeMillis();
         testHeapSort(arr, size, bound, SortOrderEnum.ASC, true);
         DispUtil.split(500, '=');
@@ -42,7 +42,7 @@ public class TestCase002 {
         long time2 = System.currentTimeMillis();
         System.out.println("recursive time = " + (time2 - time1) + "ms");
         
-        arr = RandomIntArrayGenner.generateRandomIntArray(size, bound);
+        arr = RandomGenner.generateRandomIntArray(size, bound);
         testHeapSort(arr, size, bound, SortOrderEnum.ASC, false);
         //DispUtil.split(500, '=');
         //testHeapSort(size, bound, SortOrderEnum.DESC, false);
@@ -50,12 +50,12 @@ public class TestCase002 {
         DispUtil.split(500, '=');
         System.out.println("non-recursive time = " + (time3 - time2) + "ms");
 
-        arr = RandomIntArrayGenner.generateRandomIntArray(size, bound);
+        arr = RandomGenner.generateRandomIntArray(size, bound);
         testInnerAlgoASC(arr, size, bound);
         long time4 = System.currentTimeMillis();
         System.out.println("inner ASC algo time = " + (time4 - time3) + "ms");
         DispUtil.split(500, '=');
-        arr = RandomIntArrayGenner.generateRandomIntArray(size, bound);
+        arr = RandomGenner.generateRandomIntArray(size, bound);
         testInnerAlgoDESC(arr, size, bound);
         long time5 = System.currentTimeMillis();
         System.out.println("inner DESC algo time = " + (time5 - time4) + "ms");

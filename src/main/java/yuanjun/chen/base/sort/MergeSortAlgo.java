@@ -10,7 +10,7 @@
 package yuanjun.chen.base.sort;
 
 import java.util.Arrays;
-import yuanjun.chen.base.common.RandomIntArrayGenner;
+import yuanjun.chen.base.common.RandomGenner;
 import yuanjun.chen.base.common.SortOrderEnum;
 
 /**
@@ -74,7 +74,7 @@ public class MergeSortAlgo {
     public static void main(String[] args) {
         int size = 30;
         int bound = 100;
-        Integer[] arr = RandomIntArrayGenner.generateRandomIntArray(size, bound);
+        Integer[] arr = RandomGenner.generateRandomIntArray(size, bound);
         System.out.println("before--" + Arrays.toString(arr));
         Integer[] res = extraSpaceMergeSort(arr, 0, arr.length - 1, SortOrderEnum.DESC);
         System.out.println("after--" + Arrays.toString(res));

@@ -12,7 +12,7 @@ package yuanjun.chen.base.sort;
 import java.util.Arrays;
 import org.junit.Test;
 import yuanjun.chen.base.common.DispUtil;
-import yuanjun.chen.base.common.RandomIntArrayGenner;
+import yuanjun.chen.base.common.RandomGenner;
 import yuanjun.chen.base.common.SortOrderEnum;
 
 /**
@@ -27,7 +27,7 @@ public class TestCase004 {
         int size = 256 * 256;
         int bound = 10000;
 
-        Integer[] arr = RandomIntArrayGenner.generateRandomIntArray(size, bound);
+        Integer[] arr = RandomGenner.generateRandomIntArray(size, bound);
         DispUtil.embed(50, '*', "MERGE SORT TEST STARTS");
         long time1 = System.currentTimeMillis();
         testMergeSort(arr, size, bound, SortOrderEnum.DESC);
@@ -35,7 +35,7 @@ public class TestCase004 {
         DispUtil.embed(50, '*', "MERGE SORT TEST ENDS..");
         System.out.println("test meger sort used " + (time2 - time1) + "ms");
 
-        arr = RandomIntArrayGenner.generateRandomIntArray(size, bound);
+        arr = RandomGenner.generateRandomIntArray(size, bound);
         DispUtil.embed(50, '*', "INNER J.U.A TEST STARTS");
         long time5 = System.currentTimeMillis();
         testInnerAlgoASC(arr, size, bound);

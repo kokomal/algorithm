@@ -11,7 +11,7 @@ package yuanjun.chen.base.sort;
 
 import java.util.Arrays;
 import yuanjun.chen.base.common.DispUtil;
-import yuanjun.chen.base.common.RandomIntArrayGenner;
+import yuanjun.chen.base.common.RandomGenner;
 import yuanjun.chen.base.common.SortOrderEnum;
 
 /**
@@ -98,12 +98,12 @@ public class InsertionSortAlgo {
     public static void main(String[] args) {
         int size = 10;
         int bound = 100;
-        Integer[] arr = RandomIntArrayGenner.generateRandomIntArray(size, bound);
+        Integer[] arr = RandomGenner.generateRandomIntArray(size, bound);
         System.out.println(Arrays.toString(arr));
         inplaceInsertionSortBinaryWay(arr, SortOrderEnum.ASC);
         System.out.println(Arrays.toString(arr));
         DispUtil.split(50, '-');
-        arr = RandomIntArrayGenner.generateRandomIntArray(size, bound);
+        arr = RandomGenner.generateRandomIntArray(size, bound);
         System.out.println(Arrays.toString(arr));
         inplaceInsertionSortBinaryWay(arr, SortOrderEnum.DESC);
         System.out.println(Arrays.toString(arr));

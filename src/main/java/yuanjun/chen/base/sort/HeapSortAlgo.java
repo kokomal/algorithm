@@ -14,13 +14,7 @@ public class HeapSortAlgo {
         if (arr.length <= 1) {
             return;
         }
-        // 1.BUILD-MAX-HEAP
-        for (int i = arr.length / 2; i >= 0; i--) {
-            maxheapify(arr, order, recurFlag, i, arr.length);
-        }
-        // System.out.println("after " + order + (recurFlag ? " recursive" : " non-recusive") + "
-        // MaxHeapify---"
-        // + Arrays.toString(arr));
+        buildMaxHeap(arr, order, arr.length);
         // 2.调整堆结构+交换堆顶元素与末尾元素
         for (int j = arr.length - 1; j > 0; j--) {
             MyArrayUtils.swap(arr, 0, j);// 将堆顶元素与末尾元素进行交换
@@ -28,7 +22,31 @@ public class HeapSortAlgo {
         }
     }
 
-    private static void maxheapify(Integer[] arr, SortOrderEnum order, boolean recurFlag, int i, int length) {
+    /**   
+     * @Title: buildMaxHeap   
+     * @Description: 构建最大堆  
+     * @param: @param arr
+     * @param: @param order
+     * @param: @param recurFlag      
+     * @return: void      
+     * @throws   
+     */
+    public static void buildMaxHeap(Integer[] arr, SortOrderEnum order, int lenX) {
+        //int len = arr.length;
+        boolean recurFlag = true;
+        if (lenX > 10000) { // 太大不适合用递归
+            recurFlag = false;
+        }
+        // 1.BUILD-MAX-HEAP
+        //for (int i = arr.length / 2; i >= 0; i--) {
+        //    maxheapify(arr, order, recurFlag, i, arr.length);
+        //}
+        for (int i = lenX / 2; i >= 0; i--) {
+            maxheapify(arr, order, recurFlag, i, lenX);
+        }
+    }
+
+    public static void maxheapify(Integer[] arr, SortOrderEnum order, boolean recurFlag, int i, int length) {
         if (recurFlag) {
             recursiveMaxHeapify(arr, i, length, order);// 重新对堆进行调整
         } else {
