@@ -9,7 +9,7 @@
  */
 package yuanjun.chen.base.other;
 
-import java.util.Arrays;
+import org.apache.log4j.Logger;
 import yuanjun.chen.base.common.DispUtil;
 import yuanjun.chen.base.common.RandomGenner;
 
@@ -20,6 +20,7 @@ import yuanjun.chen.base.common.RandomGenner;
  * @date: 2018年7月17日 下午5:29:16  
  */
 public class StrassenAlgo {
+    private static final Logger logger = Logger.getLogger(StrassenAlgo.class);
     /*
      * O[n^3]的通用矩阵乘法
      * */
@@ -47,13 +48,13 @@ public class StrassenAlgo {
         Integer[][] matrixA = RandomGenner.generateRandomIntMatrix(16, 16, 100);
         Integer[][] matrixB = RandomGenner.generateRandomIntMatrix(16, 16, 100);
 
-        System.out.println("matrix A:");
+        logger.info("matrix A:");
         DispUtil.showMatrix(matrixA);
         DispUtil.split(60, '-');
-        System.out.println("matrix B:");
+        logger.info("matrix B:");
         DispUtil.showMatrix(matrixB);
         DispUtil.split(60, '-');
-        System.out.println("matrix A * B:");
+        logger.info("matrix A * B:");
         Integer[][] res = on3calcMatrix(matrixA, matrixB);
         DispUtil.showMatrix(res);
     }

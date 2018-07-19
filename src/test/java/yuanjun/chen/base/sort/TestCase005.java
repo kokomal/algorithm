@@ -9,6 +9,7 @@
  */
 package yuanjun.chen.base.sort;
 
+import org.apache.log4j.Logger;
 import org.junit.Test;
 import yuanjun.chen.base.common.DispUtil;
 import yuanjun.chen.base.common.RandomGenner;
@@ -22,6 +23,7 @@ import yuanjun.chen.base.container.HeapBasedPriorityQueue;
  * @date: 2018年7月18日 下午3:56:03  
  */
 public class TestCase005 {
+    private static final Logger logger = Logger.getLogger(TestCase005.class);
     @Test
     public void testHeapBasedPriorityQueue() {
         Integer[] initArray = RandomGenner.generateRandomIntArray(20, 100);
@@ -31,8 +33,7 @@ public class TestCase005 {
             Integer eighth = hbpq.peekAt(8);
             Integer newEighth = eighth - 40;
             boolean x = hbpq.decreaseKey(8, newEighth);
-            System.out
-                    .println("decrease the eighth val== " + eighth + " to new val== " + newEighth + " and res = " + x);
+            logger.info("decrease the eighth val== " + eighth + " to new val== " + newEighth + " and res = " + x);
             displayBoth1Dand2D(hbpq);
         }
         int keyToBeInserted = 30;
@@ -80,10 +81,10 @@ public class TestCase005 {
         DispUtil.embed(40, '=', "Before pop");
         displayBoth1Dand2D(hbpq);
         Integer pop1 = hbpq.pop();
-        System.out.println("after pop val " + pop1);
+        logger.info("after pop val " + pop1);
         displayBoth1Dand2D(hbpq);
         Integer pop2 = hbpq.pop();
-        System.out.println("after pop val " + pop2);
+        logger.info("after pop val " + pop2);
         displayBoth1Dand2D(hbpq);
         DispUtil.embed(40, '=', "End pop");
     }
@@ -96,11 +97,11 @@ public class TestCase005 {
         displayBoth1Dand2D(hbpq);
         Integer x = hbpq.deleteKey(3); // 删除第3号元素
         DispUtil.split(80, '-');
-        System.out.println("after delete val " + x);
+        logger.info("after delete val " + x);
         displayBoth1Dand2D(hbpq);
         x = hbpq.deleteKey(3);
         DispUtil.split(80, '-');
-        System.out.println("after delete val " + x);
+        logger.info("after delete val " + x);
         displayBoth1Dand2D(hbpq);
         DispUtil.embed(40, '=', "End delete");
     }

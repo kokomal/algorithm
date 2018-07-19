@@ -9,9 +9,6 @@
  */
 package yuanjun.chen.base.sort;
 
-import java.util.Arrays;
-import yuanjun.chen.base.common.DispUtil;
-import yuanjun.chen.base.common.RandomGenner;
 import yuanjun.chen.base.common.SortOrderEnum;
 
 /**
@@ -85,7 +82,7 @@ public class InsertionSortAlgo {
             }
             return end;
         } else { // 多个元素，此时校验中值mid进行二分查找
-            int mid = (start + end) / 2;
+            int mid = (start + end) >>> 1;
             if ((arr[mid] > tmp && order.equals(SortOrderEnum.ASC))
                     || (arr[mid] < tmp && order.equals(SortOrderEnum.DESC))) {
                 return binarySearch(arr, tmp, start, mid, order);
@@ -95,17 +92,4 @@ public class InsertionSortAlgo {
         }
     }
 
-    public static void main(String[] args) {
-        int size = 10;
-        int bound = 100;
-        Integer[] arr = RandomGenner.generateRandomIntArray(size, bound);
-        System.out.println(Arrays.toString(arr));
-        inplaceInsertionSortBinaryWay(arr, SortOrderEnum.ASC);
-        System.out.println(Arrays.toString(arr));
-        DispUtil.split(50, '-');
-        arr = RandomGenner.generateRandomIntArray(size, bound);
-        System.out.println(Arrays.toString(arr));
-        inplaceInsertionSortBinaryWay(arr, SortOrderEnum.DESC);
-        System.out.println(Arrays.toString(arr));
-    }
 }

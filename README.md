@@ -20,3 +20,9 @@
 ## HeapBasedPriorityQueue.java
 基于堆的优先级队列实现，TestCase005.java实现相应测试  
 优先级队列参考了HeapSortAlgo类的堆整理和插入、删除及升级/降级操作   
+
+## QuickSortAlgo.java
+快速排序实现，TestCase007.java实现相应测试  
+
+## SelectionSortAlgo.java
+选择排序实现，TestCas006.java实现相应测试  

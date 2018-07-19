@@ -10,8 +10,8 @@
 package yuanjun.chen.base.container;
 
 import java.io.Serializable;
+import org.apache.log4j.Logger;
 import yuanjun.chen.base.common.DispUtil;
-import yuanjun.chen.base.common.RandomGenner;
 import yuanjun.chen.base.common.SortOrderEnum;
 import yuanjun.chen.base.sort.HeapSortAlgo;
 
@@ -22,6 +22,8 @@ import yuanjun.chen.base.sort.HeapSortAlgo;
  * @date: 2018年7月18日 上午10:05:25
  */
 public class HeapBasedPriorityQueue implements Serializable {
+    private static final Logger logger = Logger.getLogger(HeapBasedPriorityQueue.class);
+    
     private static final long serialVersionUID = 1L;
     private Integer[] arr;
     private SortOrderEnum order;
@@ -46,15 +48,16 @@ public class HeapBasedPriorityQueue implements Serializable {
      **/
     public void peakAll1D() {
         if (this.cursor < 0) {
-            System.out.println("===THERE IS NOTHING===");
+            logger.warn("===THERE IS NOTHING===");
             return;
         }
         int len = this.cursor + 1;
-        System.out.print(arr[0]);
+        StringBuilder sb = new StringBuilder();
+        sb.append(arr[0]);
         for (int n = 1; n < len; n++) {
-            System.out.print("," + arr[n]);
+            sb.append("," + arr[n]);
         }
-        System.out.println();
+        logger.info(sb.toString());
     }
     
     /**
@@ -63,7 +66,7 @@ public class HeapBasedPriorityQueue implements Serializable {
      **/
     public void peakAll2D() {
         if (this.cursor < 0) {
-            System.out.println("===THERE IS NOTHING===");
+            logger.warn("===THERE IS NOTHING===");
             return;
         }
         int perPad = 8;
@@ -77,13 +80,13 @@ public class HeapBasedPriorityQueue implements Serializable {
             int rightCur = (int) Math.pow(2, n+1) - 2;
             int nGaps = rightCur - leftCur + 2;
             int per = padding / nGaps;
+            StringBuilder sb = new StringBuilder();
             for (int i = leftCur; i <= rightCur && idx < len; i++) {
                 idx++;
-                DispUtil.splitOne(per, ' ');
-                System.out.print(arr[i]);
+                sb.append(DispUtil.splitOne(per, ' '));
+                sb.append(arr[i]);
             }
-            System.out.println();
-            System.out.println();
+            logger.info(sb.toString() + "\n");
         }
         
     }

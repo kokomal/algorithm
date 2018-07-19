@@ -29,7 +29,7 @@ public class MergeSortAlgo {
     }
 
     private static Integer[] extraSpaceMergeSort(Integer[] arr, int low, int high, SortOrderEnum order) {
-        int mid = (low + high) / 2; // 劈成2半
+        int mid = (low + high) >>> 1; // 劈成2半
         if (low < high) {
             extraSpaceMergeSort(arr, low, mid, order);
             extraSpaceMergeSort(arr, mid + 1, high, order);
@@ -71,12 +71,4 @@ public class MergeSortAlgo {
         System.arraycopy(temp, 0, arr, low, temp.length);
     }
 
-    public static void main(String[] args) {
-        int size = 30;
-        int bound = 100;
-        Integer[] arr = RandomGenner.generateRandomIntArray(size, bound);
-        System.out.println("before--" + Arrays.toString(arr));
-        Integer[] res = extraSpaceMergeSort(arr, 0, arr.length - 1, SortOrderEnum.DESC);
-        System.out.println("after--" + Arrays.toString(res));
-    }
 }

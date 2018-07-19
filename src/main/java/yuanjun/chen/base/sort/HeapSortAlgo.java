@@ -38,10 +38,7 @@ public class HeapSortAlgo {
             recurFlag = false;
         }
         // 1.BUILD-MAX-HEAP
-        //for (int i = arr.length / 2; i >= 0; i--) {
-        //    maxheapify(arr, order, recurFlag, i, arr.length);
-        //}
-        for (int i = lenX / 2; i >= 0; i--) {
+        for (int i = lenX >>> 1; i >= 0; i--) {
             maxheapify(arr, order, recurFlag, i, lenX);
         }
     }

@@ -1,6 +1,7 @@
 package yuanjun.chen.base.sort;
 
 import java.util.Arrays;
+import org.apache.log4j.Logger;
 import org.junit.Test;
 import yuanjun.chen.base.common.DispUtil;
 import yuanjun.chen.base.common.RandomGenner;
@@ -11,7 +12,7 @@ import yuanjun.chen.base.common.SortOrderEnum;
  * 堆排序测试
  */
 public class TestCase002 {
-
+    private static final Logger logger = Logger.getLogger(TestCase002.class);
     @Test
     public void testHeap() {
         int size = 16;
@@ -40,7 +41,7 @@ public class TestCase002 {
         //testHeapSort(size, bound, SortOrderEnum.DESC, true);
         //DispUtil.split(500, '=');
         long time2 = System.currentTimeMillis();
-        System.out.println("recursive time = " + (time2 - time1) + "ms");
+        logger.info("recursive time = " + (time2 - time1) + "ms");
         
         arr = RandomGenner.generateRandomIntArray(size, bound);
         testHeapSort(arr, size, bound, SortOrderEnum.ASC, false);
@@ -48,43 +49,43 @@ public class TestCase002 {
         //testHeapSort(size, bound, SortOrderEnum.DESC, false);
         long time3 = System.currentTimeMillis();
         DispUtil.split(500, '=');
-        System.out.println("non-recursive time = " + (time3 - time2) + "ms");
+        logger.info("non-recursive time = " + (time3 - time2) + "ms");
 
         arr = RandomGenner.generateRandomIntArray(size, bound);
-        testInnerAlgoASC(arr, size, bound);
+        testInnerAlgoASC(arr);
         long time4 = System.currentTimeMillis();
-        System.out.println("inner ASC algo time = " + (time4 - time3) + "ms");
+        logger.info("inner ASC algo time = " + (time4 - time3) + "ms");
         DispUtil.split(500, '=');
         arr = RandomGenner.generateRandomIntArray(size, bound);
-        testInnerAlgoDESC(arr, size, bound);
+        testInnerAlgoDESC(arr);
         long time5 = System.currentTimeMillis();
-        System.out.println("inner DESC algo time = " + (time5 - time4) + "ms");
+        logger.info("inner DESC algo time = " + (time5 - time4) + "ms");
         DispUtil.embed(50, '*', "HEAP TEST ENDS..");
     }
 
     public void testHeapSort(Integer[] arr, int size, int bound, SortOrderEnum order, boolean recurFlag) {
-        System.out.println("before " + order + (recurFlag ? " recursive" : " non-recusive") + " inplace heap sort---"
+        logger.info("before " + order + (recurFlag ? " recursive" : " non-recusive") + " inplace heap sort---"
                 + Arrays.toString(arr));
         HeapSortAlgo.inplaceHeapSort(arr, order, recurFlag);
-        System.out.println("after " + order + (recurFlag ? " recursive" : " non-recusive") + " inplace heap sort---"
+        logger.info("after " + order + (recurFlag ? " recursive" : " non-recusive") + " inplace heap sort---"
                 + Arrays.toString(arr));
     }
 
     /*
      * 用j.u.a的内置collections的顺序排序算法
      * */
-    public void testInnerAlgoASC(Integer[] arr, int size, int bound) {
-        System.out.println("before " + "inner sort---" + Arrays.toString(arr));
+    public void testInnerAlgoASC(Integer[] arr) {
+        logger.info("before " + "inner sort---" + Arrays.toString(arr));
         Arrays.sort(arr);
-        System.out.println("after " + "inner sort---" + Arrays.toString(arr));
+        logger.info("after " + "inner sort---" + Arrays.toString(arr));
     }
 
     /*
      * 用j.u.a的内置collections的逆序排序算法
      * */
-    public void testInnerAlgoDESC(Integer[] arr, int size, int bound) {
-        System.out.println("before " + "inner sort---" + Arrays.toString(arr));
+    public void testInnerAlgoDESC(Integer[] arr) {
+        logger.info("before " + "inner sort---" + Arrays.toString(arr));
         Arrays.sort(arr, new ReverseIntComparator());
-        System.out.println("after " + "inner sort---" + Arrays.toString(arr));
+        logger.info("after " + "inner sort---" + Arrays.toString(arr));
     }
 }

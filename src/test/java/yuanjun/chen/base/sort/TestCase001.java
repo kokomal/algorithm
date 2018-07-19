@@ -1,6 +1,7 @@
 package yuanjun.chen.base.sort;
 
 import java.util.Arrays;
+import org.apache.log4j.Logger;
 import org.junit.Test;
 import yuanjun.chen.base.common.DispUtil;
 import yuanjun.chen.base.common.RandomGenner;
@@ -10,6 +11,7 @@ import yuanjun.chen.base.common.SortOrderEnum;
  * 冒泡排序测试
  * */
 public class TestCase001 {
+    private static final Logger logger = Logger.getLogger(TestCase001.class);
     @Test
     public void testBubble() {
         int size1 = 20;
@@ -28,8 +30,8 @@ public class TestCase001 {
     
     public void testInplaceBubbleSort(int size, int bound, SortOrderEnum order) {
         Integer[] arr = RandomGenner.generateRandomIntArray(size, bound);
-        System.out.println("the unsorted data---" + Arrays.toString(arr));
+        logger.info("the unsorted data---" + Arrays.toString(arr));
         BubbleSortAlgo.inplaceBubbleSort(arr, order);
-        System.out.println("after " + order + " inplace bubble sort, the sorted data---" + Arrays.toString(arr));
+        logger.info("after " + order + " inplace bubble sort, the sorted data---" + Arrays.toString(arr));
     }
 }
