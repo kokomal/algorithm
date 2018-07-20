@@ -11,6 +11,9 @@ package yuanjun.chen.base.sort;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import yuanjun.chen.base.common.DispUtil;
@@ -39,7 +42,7 @@ public class TestCase007 {
         DispUtil.embed(50, '*', "QUICK SORT STARTS");
         //logger.info("before " + Arrays.toString(arr));
         long t1 = System.currentTimeMillis();
-        QuickSortAlgo.quickSort(arr);
+        QuickSortAlgo.quickSort_v1(arr);
         long t2 = System.currentTimeMillis();
         //logger.info("after " + Arrays.toString(arr));
         DispUtil.embed(50, '*', "QUICK SORT ENDS..");
@@ -56,11 +59,12 @@ public class TestCase007 {
     }
     
     /**
-     * 大趋势为逆序，quick sort性能糟糕 
+     * 大趋势为逆序，quick sort性能糟糕O[n^2]
+     * random quick sort 测试随机选pivot，性能有极大提升 O[nlgn]
      **/
     @Test
     public void testQuickSort2() {
-        int size = 256 * 256 * 40; // 260万条数据
+        int size = 65536 * 3; 
         int bound = 4000;
         Integer[] arr = RandomGenner.generateRandomIntArray(size, bound);
         Arrays.sort(arr, Collections.reverseOrder());
@@ -70,26 +74,63 @@ public class TestCase007 {
         arr[size/2] = 899;
         Integer[] arr2 = new Integer[size];
         System.arraycopy(arr, 0, arr2, 0, size);
-
+        Integer[] arr3 = new Integer[size];
+        System.arraycopy(arr, 0, arr3, 0, size);
+        Integer[] arr4 = new Integer[size];
+        System.arraycopy(arr, 0, arr4, 0, size);
+        
         DispUtil.embed(50, '*', "QUICK SORT STARTS");
-        //logger.info("before " + Arrays.toString(arr));
+        logger.info("before " + Arrays.toString(arr));
         long t1 = System.currentTimeMillis();
-        QuickSortAlgo.quickSort(arr);
+        QuickSortAlgo.quickSort_v1(arr);
         long t2 = System.currentTimeMillis();
-        //logger.info("after " + Arrays.toString(arr));
+        logger.info("after " + Arrays.toString(arr));
         DispUtil.embed(50, '*', "QUICK SORT ENDS..");
         logger.info("QUICK SORT time used " + (t2 - t1) + "ms");
 
-        DispUtil.embed(50, '*', "J.U.A INNER SORT STARTS");
-        //logger.info("before " + Arrays.toString(arr2));
+        DispUtil.embed(50, '*', "QUICK-RANDOM SORT STARTS");
+        logger.info("before " + Arrays.toString(arr2));
         long t3 = System.currentTimeMillis();
-        testInnerAlgoASC(arr2);
+        QuickSortAlgo.quickSort_v2(arr2);
         long t4 = System.currentTimeMillis();
-        //logger.info("after " + Arrays.toString(arr2));
+        logger.info("after " + Arrays.toString(arr2));
+        DispUtil.embed(50, '*', "QUICK-RANDOM SORT ENDS..");
+        logger.info("QUICK-RANDOM SORT time used " + (t4 - t3) + "ms");
+        
+        DispUtil.embed(50, '*', "QUICK-RANDOM-LOOP SORT STARTS");
+        logger.info("before " + Arrays.toString(arr3));
+        long t5 = System.currentTimeMillis();
+        QuickSortAlgo.quickSort_v2(arr3);
+        long t6 = System.currentTimeMillis();
+        logger.info("after " + Arrays.toString(arr3));
+        DispUtil.embed(50, '*', "QUICK-RANDOM-LOOP SORT ENDS..");
+        logger.info("QUICK-RANDOM SORT time used " + (t6 - t5) + "ms");
+        
+        DispUtil.embed(50, '*', "J.U.A INNER SORT STARTS");
+        logger.info("before " + Arrays.toString(arr4));
+        long t7 = System.currentTimeMillis();
+        testInnerAlgoASC(arr4);
+        long t8 = System.currentTimeMillis();
+        logger.info("after " + Arrays.toString(arr4));
         DispUtil.embed(50, '*', "J.U.A INNER SORT ENDS..");
-        logger.info("j.u.a INNER SORT time used " + (t4 - t3) + "ms");
+        logger.info("j.u.a INNER SORT time used " + (t8 - t7) + "ms");
     }
     
+   @Deprecated
+   private Map<Integer, Integer> record(Integer[] arr) {
+       Map<Integer, Integer> record = new HashMap<>();
+       for (Integer a : arr) {
+           if (record.containsKey(a)) {
+               record.put(a, record.get(a) + 1);
+           } else {
+               record.put(a, 1);
+           }
+       }
+       System.out.println(record);
+       return record;
+   }
+   
+   
     /*
      * 用j.u.a的内置collections的顺序排序算法
      */

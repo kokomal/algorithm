@@ -9,7 +9,10 @@
  */
 package yuanjun.chen.base.sort;
 
+import java.util.Arrays;
+import java.util.Random;
 import yuanjun.chen.base.common.MyArrayUtils;
+import yuanjun.chen.base.common.RandomGenner;
 
 /**
  * @ClassName: QuickSortAlgo
@@ -19,21 +22,80 @@ import yuanjun.chen.base.common.MyArrayUtils;
  */
 public class QuickSortAlgo {
 
-    public static void quickSort(Integer[] arr) {
-        quickSort(arr, 0, arr.length - 1);
+    /**
+     * 原始快速排序版本，pivot的选取每次均选择arr[r]
+     **/
+    public static void quickSort_v1(Integer[] arr) {
+        quickSortRaw(arr, 0, arr.length - 1);
     }
+
+    /**
+     * 原始快速排序版本，pivot的选取每次均选择[r,p]直接的随机值
+     **/
+    public static void quickSort_v2(Integer[] arr) {
+        quickSortRandom(arr, 0, arr.length - 1);
+    }
+    
+    /**
+     * 原始快速排序版本，pivot的选取每次均选择[r,p]直接的随机值
+     * 采用while循环避免了一半的递归深度
+     **/
+    public static void quickSort_v3(Integer[] arr) {
+        quickSortRandomWithLoop(arr, 0, arr.length - 1);
+    }
+    
+    /*
+     * Random快速排序内部实现2
+     * 带有while循环，免了一个递归
+     */
+    private static void quickSortRandomWithLoop(Integer[] arr, int p, int r) {
+        while (p <= r) {
+            int pivot = randomizedPartition(arr, p, r);
+            quickSortRandom(arr, p, pivot - 1);
+            p = pivot + 1;
+        }
+    }
+    
+    /*
+     * Random快速排序内部实现
+     */
+    private static void quickSortRandom(Integer[] arr, int p, int r) {
+        if (p > r) return;
+        int pivot = randomizedPartition(arr, p, r);
+        quickSortRandom(arr, p, pivot - 1);
+        quickSortRandom(arr, pivot + 1, r);
+    }
+    
+    
+    /**   
+     * @Title: findRandomPivot   
+     * @Description: 在p到r之间选择随机值替换r  
+     * @param: @param arr
+     * @param: @param p
+     * @param: @param r
+     * @return: int      
+     * @throws   
+     */
+    private static int randomizedPartition(Integer[] arr, int p, int r) {
+        if (r == p) return p;
+        Random rd = new Random();
+        int randomPivot = rd.nextInt(r - p + 1) + p;
+        MyArrayUtils.swap(arr, randomPivot, r);
+        return partition(arr, p, r);
+    }
+
 
     /*
      * 经典快速排序内部实现
      */
-    private static void quickSort(Integer[] arr, int p, int r) {
+    private static void quickSortRaw(Integer[] arr, int p, int r) {
         int len = arr.length;
         if (len <= 1 || p >= r) {
             return;
         }
-        int pivot = findPivot(arr, p, r);
-        quickSort(arr, p, pivot - 1);
-        quickSort(arr, pivot + 1, r);
+        int pivot = partition(arr, p, r);
+        quickSortRaw(arr, p, pivot - 1);
+        quickSortRaw(arr, pivot + 1, r);
     }
 
     /**
@@ -44,7 +106,8 @@ public class QuickSortAlgo {
      * @param: r
      * @return: int
      */
-    private static int findPivot(Integer[] arr, int p, int r) {
+    private static int partition(Integer[] arr, int p, int r) {
+        if (p == r) return p;
         int i = p - 1;
         int pivotVal = arr[r];
         for (int j = p; j < r; j++) {
@@ -54,6 +117,17 @@ public class QuickSortAlgo {
         }
         MyArrayUtils.swap(arr, i + 1, r); // 回填arr[r]到pivot点
         return i + 1;
+    }
+    
+    public static void main(String[] args) {
+        int size = 200; // 26万条数据
+        int bound = 4000;
+        Integer[] arr = RandomGenner.generateRandomIntArray(size, bound);
+        Integer[] arr2 = new Integer[size];
+        System.arraycopy(arr, 0, arr2, 0, size);
+        System.out.println("before " + Arrays.toString(arr));
+        quickSort_v2(arr);
+        System.out.println("after " + Arrays.toString(arr));
     }
 
 }

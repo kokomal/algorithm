@@ -4,12 +4,14 @@ public class MyArrayUtils {
     /**
      * 交换int[]的元素
      * @param int[] arr 原始数组
-     * @param int a 待交换的index
-     * @param int b 另一个待交换的index
+     * @param int idxA 待交换的index
+     * @param int idxB 另一个待交换的index
      */
-    public static <T> void swap(T[] arr, int a, int b) {
-        T temp = arr[a];
-        arr[a] = arr[b];
-        arr[b] = temp;
+    public static <T> void swap(T[] arr, int idxA, int idxB) {
+        if (idxA != idxB) { // 相等就不要操心了
+            T temp = arr[idxA];
+            arr[idxA] = arr[idxB];
+            arr[idxB] = temp;
+        }
     }
 }

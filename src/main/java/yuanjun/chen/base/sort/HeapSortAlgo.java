@@ -4,7 +4,10 @@ import yuanjun.chen.base.common.MyArrayUtils;
 import yuanjun.chen.base.common.SortOrderEnum;
 
 /**
- * 堆排序算法类
+ * @ClassName: HeapSortAlgo
+ * @Description: 堆排序算法类
+ * @author: 陈元俊
+ * @date: 2018年7月20日 上午11:29:57
  */
 public class HeapSortAlgo {
     /*
@@ -23,14 +26,14 @@ public class HeapSortAlgo {
     }
 
     /**   
-     * @Title: buildMaxHeap   
-     * @Description: 构建最大堆  
-     * @param: @param arr
-     * @param: @param order
-     * @param: @param recurFlag      
-     * @return: void      
-     * @throws   
-     */
+     *@Title: buildMaxHeap   
+     *@Description: 构建最大堆  
+     *@param: Integer[] arr
+     *@param: SortOrderEnum order
+     *@param: int lenX      
+     *@return: void      
+     *@throws   
+     **/
     public static void buildMaxHeap(Integer[] arr, SortOrderEnum order, int lenX) {
         //int len = arr.length;
         boolean recurFlag = true;
