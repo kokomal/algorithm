@@ -13,12 +13,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import yuanjun.chen.base.common.DispUtil;
 import yuanjun.chen.base.common.RandomGenner;
-import yuanjun.chen.base.common.SortOrderEnum;
 
 /**   
  * @ClassName: TestCase007   
@@ -115,21 +113,6 @@ public class TestCase007 {
         DispUtil.embed(50, '*', "J.U.A INNER SORT ENDS..");
         logger.info("j.u.a INNER SORT time used " + (t8 - t7) + "ms");
     }
-    
-   @Deprecated
-   private Map<Integer, Integer> record(Integer[] arr) {
-       Map<Integer, Integer> record = new HashMap<>();
-       for (Integer a : arr) {
-           if (record.containsKey(a)) {
-               record.put(a, record.get(a) + 1);
-           } else {
-               record.put(a, 1);
-           }
-       }
-       System.out.println(record);
-       return record;
-   }
-   
    
     /*
      * 用j.u.a的内置collections的顺序排序算法
