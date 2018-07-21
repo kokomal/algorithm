@@ -11,8 +11,6 @@ package yuanjun.chen.base.sort;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import yuanjun.chen.base.common.DispUtil;
