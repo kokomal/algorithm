@@ -34,19 +34,20 @@ public class RadixSortAlgo {
 		for (int i = 1; i <= totalDigits; i++) {
 			// 针对每一位进行基数排序
 			sortOnDigit(arr, i);
-			System.out.println("after--" + i + "th, " + Arrays.toString(arr));
+			// System.out.println("after--" + i + "th, " + Arrays.toString(arr));
 		}
 	}
 
 	/**
 	 * 按位进行排序，这里可以考虑计数排序，申请额外的空间O[n+m]
+	 * TODO 顺序和逆序支持
 	 * @param arr
 	 * @param i
 	 */
 	private static void sortOnDigit(Integer[] arr, int idx) {
 		int len = arr.length;
 		Integer[] B = new Integer[len];
-		int[] C = new int[10];
+		int[] C = new int[10]; // 10个位置
 		for (int a : arr) {
 			int valAtI = getValAtI(a, idx);
 			C[valAtI]++;
