@@ -1,5 +1,5 @@
 /**  
- * @Title: TestCase008.java   
+ * @Title: CountingSortTest.java   
  * @Package: yuanjun.chen.base.sort   
  * @Description: 测试对比计数排序  
  * @author: 陈元俊     
@@ -18,13 +18,13 @@ import yuanjun.chen.base.common.RandomGenner;
 import yuanjun.chen.base.common.SortOrderEnum;
 
 /**   
- * @ClassName: TestCase008   
+ * @ClassName: CountingSortTest   
  * @Description: 测试对比计数排序   
  * @author: 陈元俊 
  * @date: 2018年7月20日 下午2:43:12  
  */
-public class TestCase008 {
-    private static final Logger logger = Logger.getLogger(TestCase008.class);
+public class CountingSortTest {
+    private static final Logger logger = Logger.getLogger(CountingSortTest.class);
     
     /**
      * 20万条数据，元素位于[0,3999]区间的话，计数排序性能极好
@@ -97,6 +97,4 @@ public class TestCase008 {
         DispUtil.embed(50, '*', "J.U.A INNER DESC SORT ENDS..");
         logger.info("j.u.a INNER DESC SORT time used " + (t8 - t7) + "ms");
     }
-    
-    
 }

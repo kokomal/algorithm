@@ -1,5 +1,5 @@
 /**  
- * @Title: TestCase005.java   
+ * @Title: HeapBasedPriorityQueue.java   
  * @Package: yuanjun.chen.base.sort   
  * @Description: 优先级队列测试   
  * @author: 陈元俊     
@@ -17,13 +17,13 @@ import yuanjun.chen.base.common.SortOrderEnum;
 import yuanjun.chen.base.container.HeapBasedPriorityQueue;
 
 /**   
- * @ClassName: TestCase005   
+ * @ClassName: HeapBasedPriorityQueueTest   
  * @Description: 优先级队列测试  
  * @author: 陈元俊 
  * @date: 2018年7月18日 下午3:56:03  
  */
-public class TestCase005 {
-    private static final Logger logger = Logger.getLogger(TestCase005.class);
+public class HeapBasedPriorityQueueTest {
+    private static final Logger logger = Logger.getLogger(HeapBasedPriorityQueueTest.class);
     @Test
     public void testHeapBasedPriorityQueue() {
         Integer[] initArray = RandomGenner.generateRandomIntArray(20, 100);

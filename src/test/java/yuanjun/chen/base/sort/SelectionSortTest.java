@@ -1,7 +1,7 @@
 /**
- * @Title: TestCase006.java
+ * @Title: SelectionSortTest.java
  * @Package: yuanjun.chen.base.sort
- * @Description: TODO(用一句话描述该文件做什么)
+ * @Description: 选择排序
  * @author: 陈元俊
  * @date: 2018年7月18日 下午5:40:11
  * @version V1.0
@@ -17,13 +17,13 @@ import yuanjun.chen.base.common.RandomGenner;
 import yuanjun.chen.base.common.SortOrderEnum;
 
 /**
- * @ClassName: TestCase006
+ * @ClassName: SelectionSortTest
  * @Description: 选择排序，每次必O[n^2],性能非常差
  * @author: 陈元俊
  * @date: 2018年7月18日 下午5:40:11
  */
-public class TestCase006 {
-    private static final Logger logger = Logger.getLogger(TestCase006.class);
+public class SelectionSortTest {
+    private static final Logger logger = Logger.getLogger(SelectionSortTest.class);
     @Test
     public void testSelectionSort() {
         int size = 128 * 256;

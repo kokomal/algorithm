@@ -1,5 +1,5 @@
 /**
- * @Title: TestCase003.java
+ * @Title: MergeSortTest.java
  * @Package yuanjun.chen.base.sort
  * @Description: 测试归并排序
  * @author: 陈元俊
@@ -17,13 +17,13 @@ import yuanjun.chen.base.common.RandomGenner;
 import yuanjun.chen.base.common.SortOrderEnum;
 
 /**
- * @ClassName: TestCase003
+ * @ClassName: MergeSortTest
  * @Description:测试归并排序
  * @author: 陈元俊
  * @date: 2018年7月17日 上午8:45:03
  */
-public class TestCase004 {
-    private static final Logger logger = Logger.getLogger(TestCase004.class);
+public class MergeSortTest {
+    private static final Logger logger = Logger.getLogger(MergeSortTest.class);
     @Test
     public void testMergeSort1() {
         int size = 256 * 256 * 4;

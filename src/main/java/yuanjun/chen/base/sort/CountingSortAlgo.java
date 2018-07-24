@@ -10,6 +10,9 @@
 package yuanjun.chen.base.sort;
 
 import java.util.Arrays;
+import org.apache.log4j.Logger;
+import yuanjun.chen.base.common.MyArrayUtils;
+import yuanjun.chen.base.common.MyPair;
 import yuanjun.chen.base.common.RandomGenner;
 import yuanjun.chen.base.common.SortOrderEnum;
 
@@ -20,18 +23,13 @@ import yuanjun.chen.base.common.SortOrderEnum;
  * @date: 2018年7月20日 上午11:29:57
  */
 public class CountingSortAlgo {
-    
+    private static final Logger logger = Logger.getLogger(CountingSortAlgo.class);
     /**
      * 通用正数的排序
      **/
     public static Integer[] genericCountingSort(final Integer[] A, SortOrderEnum order) {
-        int range = 0;
-        for (int x : A) { // 比较丑陋的选择最大值,O[n]
-            if (x > range) {
-                range = x;
-            }
-        }
-        return countingSort(A, range, order);
+        MyPair<Integer> maxAndMin = MyArrayUtils.fetchMinAndMax(A);
+        return countingSort(A, maxAndMin.getMax(), order);
     }
     
     /**
@@ -49,11 +47,12 @@ public class CountingSortAlgo {
         for (int ele : A) {
             C[ele]++;
         }
+        logger.info("after record each occurrence, C=" + Arrays.toString(C));
         // 第二步递增C，记录小于等于i的元素个数
         for (int i = 1; i <= k_range; i++) {
             C[i] = C[i] + C[i - 1];
         }
-        // System.out.println(Arrays.toString(C));
+        logger.info("after superposition occurrences, C=" + Arrays.toString(C));
         // 第三步开始组装结果数据
         if (SortOrderEnum.DESC.equals(order)) {
             for (int j = 0; j <= len - 1; j++) { // 保持逆序的稳定性，需要在循环体和置位的地方都修改
@@ -73,10 +72,10 @@ public class CountingSortAlgo {
         int size = 65536 * 3; 
         int bound = 4000;
         Integer[] arr = RandomGenner.generateRandomIntArray(size, bound);
-        System.out.println("before--" + Arrays.toString(arr));
+        logger.info("before--" + Arrays.toString(arr));
         Integer[] res1 = countingSort(arr, bound - 1, SortOrderEnum.DESC);
-        System.out.println("after desc--" + Arrays.toString(res1));
+        logger.info("after desc--" + Arrays.toString(res1));
         Integer[] res2 = countingSort(arr, bound - 1, SortOrderEnum.ASC);
-        System.out.println("after asc--" + Arrays.toString(res2));
+        logger.info("after asc--" + Arrays.toString(res2));
     }
 }

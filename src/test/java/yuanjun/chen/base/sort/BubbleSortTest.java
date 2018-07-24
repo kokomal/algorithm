@@ -10,8 +10,8 @@ import yuanjun.chen.base.common.SortOrderEnum;
 /*
  * 冒泡排序测试
  * */
-public class TestCase001 {
-    private static final Logger logger = Logger.getLogger(TestCase001.class);
+public class BubbleSortTest {
+    private static final Logger logger = Logger.getLogger(BubbleSortTest.class);
     @Test
     public void testBubble() {
         int size1 = 20;

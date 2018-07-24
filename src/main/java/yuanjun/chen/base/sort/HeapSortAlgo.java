@@ -35,7 +35,6 @@ public class HeapSortAlgo {
      *@throws   
      **/
     public static void buildMaxHeap(Integer[] arr, SortOrderEnum order, int lenX) {
-        //int len = arr.length;
         boolean recurFlag = true;
         if (lenX > 10000) { // 太大不适合用递归
             recurFlag = false;

@@ -11,8 +11,8 @@ import yuanjun.chen.base.common.SortOrderEnum;
 /*
  * 堆排序测试
  */
-public class TestCase002 {
-    private static final Logger logger = Logger.getLogger(TestCase002.class);
+public class HeapSortTest {
+    private static final Logger logger = Logger.getLogger(HeapSortTest.class);
     @Test
     public void testHeap() {
         int size = 16;
@@ -38,15 +38,11 @@ public class TestCase002 {
         long time1 = System.currentTimeMillis();
         testHeapSort(arr, size, bound, SortOrderEnum.ASC, true);
         DispUtil.split(500, '=');
-        //testHeapSort(size, bound, SortOrderEnum.DESC, true);
-        //DispUtil.split(500, '=');
         long time2 = System.currentTimeMillis();
         logger.info("recursive time = " + (time2 - time1) + "ms");
         
         arr = RandomGenner.generateRandomIntArray(size, bound);
         testHeapSort(arr, size, bound, SortOrderEnum.ASC, false);
-        //DispUtil.split(500, '=');
-        //testHeapSort(size, bound, SortOrderEnum.DESC, false);
         long time3 = System.currentTimeMillis();
         DispUtil.split(500, '=');
         logger.info("non-recursive time = " + (time3 - time2) + "ms");

@@ -1,5 +1,5 @@
 /**
- * @Title: TestCase003.java
+ * @Title: InsertionSortTest.java
  * @Package yuanjun.chen.base.sort
  * @Description: 测试插入排序
  * @author: 陈元俊
@@ -17,13 +17,13 @@ import yuanjun.chen.base.common.RandomGenner;
 import yuanjun.chen.base.common.SortOrderEnum;
 
 /**
- * @ClassName: TestCase003
+ * @ClassName: InsertionSortTest
  * @Description:测试插入排序
  * @author: 陈元俊
  * @date: 2018年7月17日 上午8:45:03
  */
-public class TestCase003 {
-    private static final Logger logger = Logger.getLogger(TestCase003.class);
+public class InsertionSortTest {
+    private static final Logger logger = Logger.getLogger(InsertionSortTest.class);
     @Test
     public void testInsertionSort1() {
         int size = 256 * 256;

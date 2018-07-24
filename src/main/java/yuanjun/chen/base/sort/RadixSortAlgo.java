@@ -5,7 +5,10 @@ import java.util.Arrays;
 import yuanjun.chen.base.common.RandomGenner;
 
 /**
- * 基数排序
+ * @ClassName: RadixSortAlgo
+ * @Description: 基数排序算法
+ * @author: 陈元俊
+ * @date: 2018年7月22日 下午22:46:11
  **/
 public class RadixSortAlgo {
 	
@@ -16,7 +19,7 @@ public class RadixSortAlgo {
                 max = x;
             }
         }
-        if (max == 0) return;
+        if (max == 0) return; // 目前暂时支持正数排序，不考虑负数
         int idx = 0;
         while (max > 0) {
         	idx++;
@@ -34,7 +37,6 @@ public class RadixSortAlgo {
 		for (int i = 1; i <= totalDigits; i++) {
 			// 针对每一位进行基数排序
 			sortOnDigit(arr, i);
-			// System.out.println("after--" + i + "th, " + Arrays.toString(arr));
 		}
 	}
 
@@ -64,6 +66,7 @@ public class RadixSortAlgo {
 	}
 
 	/**
+	 * 获得某数a在第i（i>=1）位的值，例如34，第1位为4，第2位为3，以此类推
 	 * @param a
 	 * @param i
 	 * @return

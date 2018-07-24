@@ -1,5 +1,5 @@
 /**  
- * @Title: TestCase007.java   
+ * @Title: QuickSortTest.java   
  * @Package: yuanjun.chen.base.sort   
  * @Description: 快速排序测试   
  * @author: 陈元俊     
@@ -17,13 +17,13 @@ import yuanjun.chen.base.common.DispUtil;
 import yuanjun.chen.base.common.RandomGenner;
 
 /**   
- * @ClassName: TestCase007   
+ * @ClassName: QuickSortTest   
  * @Description: 快速排序测试  
  * @author: 陈元俊 
  * @date: 2018年7月19日 上午11:20:23  
  */
-public class TestCase007 {
-    private static final Logger logger = Logger.getLogger(TestCase007.class);
+public class QuickSortTest {
+    private static final Logger logger = Logger.getLogger(QuickSortTest.class);
     /**
      * 纯乱序测试，quick sort性能优异 
      **/

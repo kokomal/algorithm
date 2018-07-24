@@ -14,4 +14,21 @@ public class MyArrayUtils {
             arr[idxB] = temp;
         }
     }
+    
+    public static MyPair<Integer> fetchMinAndMax(Integer[] arr) {
+        int min = Integer.MAX_VALUE;
+        int max = Integer.MIN_VALUE;
+        for (int x : arr) { // 比较丑陋的选择最大值,O[n]
+            if (x < min) {
+                min = x;
+            }
+            if (x > max) {
+                max = x;
+            }
+        }
+        MyPair<Integer> res = new MyPair<>();
+        res.setMax(max);
+        res.setMin(min);
+        return res;
+    }
 }
