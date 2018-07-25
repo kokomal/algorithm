@@ -25,10 +25,10 @@ import yuanjun.chen.base.common.SortOrderEnum;
 public class InsertionSortTest {
     private static final Logger logger = Logger.getLogger(InsertionSortTest.class);
     @Test
-    public void testInsertionSort1() {
+    public void testInsertionSort1() throws Exception {
         int size = 256 * 256;
         int bound = 10000;
-        Integer[] arr = RandomGenner.generateRandomIntArray(size, bound);
+        Integer[] arr = RandomGenner.generateRandomTArray(size, bound, Integer.class);
         DispUtil.embed(50, '*', "LINEAR INSERTION TEST STARTS");
         long time1 = System.currentTimeMillis();
         testInsertionSort(arr, size, bound, SortOrderEnum.DESC);
@@ -36,7 +36,7 @@ public class InsertionSortTest {
         DispUtil.embed(50, '*', "LINEAR INSERTION TEST ENDS..");
         logger.info("test linear insertion sort used " + (time2 - time1) + "ms");
 
-        arr = RandomGenner.generateRandomIntArray(size, bound);
+        arr = RandomGenner.generateRandomTArray(size, bound, Integer.class);
         DispUtil.embed(50, '*', "BINARY INSERTION TEST STARTS");
         long time3 = System.currentTimeMillis();
         testInsertionSortBinary(arr, size, bound, SortOrderEnum.DESC);
@@ -44,7 +44,7 @@ public class InsertionSortTest {
         DispUtil.embed(50, '*', "BINARY INSERTION TEST ENDS..");
         logger.info("test binary insertion sort used " + (time4 - time3) + "ms");
 
-        arr = RandomGenner.generateRandomIntArray(size, bound);
+        arr = RandomGenner.generateRandomTArray(size, bound, Integer.class);
         DispUtil.embed(50, '*', "INNER J.U.A TEST STARTS");
         long time5 = System.currentTimeMillis();
         testInnerAlgoASC(arr);
@@ -53,13 +53,15 @@ public class InsertionSortTest {
         logger.info("test inner j.u.a sort used " + (time6 - time5) + "ms");
     }
 
-    public void testInsertionSort(Integer[] arr, int size, int bound, SortOrderEnum order) {
+    @SuppressWarnings("rawtypes")
+    public void testInsertionSort(Comparable[] arr, int size, int bound, SortOrderEnum order) {
         logger.info("before " + order + " inplace insertion sort---" + Arrays.toString(arr));
         InsertionSortAlgo.inplaceInsertionSort(arr, order);
         logger.info("after " + order + " inplace insertion sort---" + Arrays.toString(arr));
     }
 
-    public void testInsertionSortBinary(Integer[] arr, int size, int bound, SortOrderEnum order) {
+    @SuppressWarnings("rawtypes")
+    public void testInsertionSortBinary(Comparable[] arr, int size, int bound, SortOrderEnum order) {
         logger.info("before " + order + " inplace binary insertion sort---" + Arrays.toString(arr));
         InsertionSortAlgo.inplaceInsertionSortBinaryWay(arr, order);
         logger.info("after " + order + " inplace binary insertion sort---" + Arrays.toString(arr));
@@ -68,7 +70,8 @@ public class InsertionSortTest {
     /*
      * 用j.u.a的内置collections的顺序排序算法
      * */
-    public void testInnerAlgoASC(Integer[] arr) {
+    @SuppressWarnings("rawtypes")
+    public void testInnerAlgoASC(Comparable[] arr) {
         logger.info("before " + "inner sort---" + Arrays.toString(arr));
         Arrays.sort(arr);
         logger.info("after " + "inner sort---" + Arrays.toString(arr));

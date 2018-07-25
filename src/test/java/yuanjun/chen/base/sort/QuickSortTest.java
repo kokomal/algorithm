@@ -26,12 +26,13 @@ public class QuickSortTest {
     private static final Logger logger = Logger.getLogger(QuickSortTest.class);
     /**
      * 纯乱序测试，quick sort性能优异 
+     * @throws Exception 
      **/
     @Test
-    public void testQuickSort() {
+    public void testQuickSort() throws Exception {
         int size = 256 * 256 * 40; // 260万条数据
         int bound = 4000;
-        Integer[] arr = RandomGenner.generateRandomIntArray(size, bound);
+        Integer[] arr = RandomGenner.generateRandomTArray(size, bound, Integer.class);
         Integer[] arr2 = new Integer[size];
         System.arraycopy(arr, 0, arr2, 0, size);
 
@@ -57,12 +58,13 @@ public class QuickSortTest {
     /**
      * 大趋势为逆序，quick sort性能糟糕O[n^2]
      * random quick sort 测试随机选pivot，性能有极大提升 O[nlgn]
+     * @throws Exception 
      **/
     @Test
-    public void testQuickSort2() {
+    public void testQuickSort2() throws Exception {
         int size = 65536 * 3; 
         int bound = 4000;
-        Integer[] arr = RandomGenner.generateRandomIntArray(size, bound);
+        Integer[] arr = RandomGenner.generateRandomTArray(size, bound, Integer.class);
         Arrays.sort(arr, Collections.reverseOrder());
         arr[size/16] = 99;
         arr[size/4] = 2332;
@@ -115,7 +117,8 @@ public class QuickSortTest {
     /*
      * 用j.u.a的内置collections的顺序排序算法
      */
-    public void testInnerAlgoASC(Integer[] arr) {
+    @SuppressWarnings("rawtypes")
+    public void testInnerAlgoASC(Comparable[] arr) {
         Arrays.sort(arr);
     }
 }

@@ -1,5 +1,6 @@
 package yuanjun.chen.base.sort;
 
+import static yuanjun.chen.base.common.CommonUtils.*;
 import yuanjun.chen.base.common.MyArrayUtils;
 import yuanjun.chen.base.common.SortOrderEnum;
 
@@ -13,7 +14,8 @@ public class HeapSortAlgo {
     /*
      * 采用递归max-heapify算法进行堆整理 缺点是在大数据时会导致栈溢出
      */
-    public static void inplaceHeapSort(Integer[] arr, SortOrderEnum order, boolean recurFlag) {
+    @SuppressWarnings("rawtypes")
+    public static void inplaceHeapSort(Comparable[] arr, SortOrderEnum order, boolean recurFlag) {
         if (arr.length <= 1) {
             return;
         }
@@ -34,7 +36,8 @@ public class HeapSortAlgo {
      *@return: void      
      *@throws   
      **/
-    public static void buildMaxHeap(Integer[] arr, SortOrderEnum order, int lenX) {
+    @SuppressWarnings("rawtypes")
+    public static void buildMaxHeap(Comparable[] arr, SortOrderEnum order, int lenX) {
         boolean recurFlag = true;
         if (lenX > 10000) { // 太大不适合用递归
             recurFlag = false;
@@ -45,7 +48,8 @@ public class HeapSortAlgo {
         }
     }
 
-    public static void maxheapify(Integer[] arr, SortOrderEnum order, boolean recurFlag, int i, int length) {
+    @SuppressWarnings("rawtypes")
+    public static void maxheapify(Comparable[] arr, SortOrderEnum order, boolean recurFlag, int i, int length) {
         if (recurFlag) {
             recursiveMaxHeapify(arr, i, length, order);// 重新对堆进行调整
         } else {
@@ -59,17 +63,18 @@ public class HeapSortAlgo {
      * @param int length 数组影响范围
      * @param SortOrderEnum order 排序方向
      */
-    private static void recursiveMaxHeapify(Integer[] arr, int i, int length, SortOrderEnum order) {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    private static void recursiveMaxHeapify(Comparable[] arr, int i, int length, SortOrderEnum order) {
         int maxPos = i;
         int left = 2 * i + 1;
         int right = left + 1;
-        boolean leftMoveAsc = (left < length) && (arr[left] > arr[i] && order.equals(SortOrderEnum.ASC));
-        boolean leftMoveDesc = (left < length) && (arr[left] < arr[i] && order.equals(SortOrderEnum.DESC));
+        boolean leftMoveAsc = (left < length) && (more(arr[left], arr[i]) && order.equals(SortOrderEnum.ASC));
+        boolean leftMoveDesc = (left < length) && (less(arr[left], arr[i]) && order.equals(SortOrderEnum.DESC));
         if (leftMoveAsc || leftMoveDesc) { // 左大
             maxPos = left;
         }
-        boolean rightMoveAsc = (right < length) && (arr[right] > arr[maxPos] && order.equals(SortOrderEnum.ASC));
-        boolean rightMoveDesc = (right < length) && (arr[right] < arr[maxPos] && order.equals(SortOrderEnum.DESC));
+        boolean rightMoveAsc = (right < length) && (more(arr[right], arr[maxPos]) && order.equals(SortOrderEnum.ASC));
+        boolean rightMoveDesc = (right < length) && (less(arr[right], arr[maxPos]) && order.equals(SortOrderEnum.DESC));
         if (rightMoveAsc || rightMoveDesc) { // 右大
             maxPos = right;
         }
@@ -86,16 +91,17 @@ public class HeapSortAlgo {
      * @param int i maxheapify操作数组的开始序号
      * @param int length 数组影响范围
      */
-    public static void nonRecursiveMaxHeapify(Integer[] arr, int i, int length, SortOrderEnum order) {
-        int temp = arr[i]; // 先取出当前元素i
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    public static void nonRecursiveMaxHeapify(Comparable[] arr, int i, int length, SortOrderEnum order) {
+        Comparable temp = arr[i]; // 先取出当前元素i
         for (int k = i * 2 + 1; k < length; k = k * 2 + 1) { // 从i结点的左子结点开始，也就是2i+1处开始
-            boolean nextKAsc = k + 1 < length && (arr[k] < arr[k + 1] && order.equals(SortOrderEnum.ASC));
-            boolean nextKDesc = k + 1 < length && (arr[k] > arr[k + 1] && order.equals(SortOrderEnum.DESC));
+            boolean nextKAsc = k + 1 < length && (less(arr[k], arr[k + 1]) && order.equals(SortOrderEnum.ASC));
+            boolean nextKDesc = k + 1 < length && (more(arr[k], arr[k + 1]) && order.equals(SortOrderEnum.DESC));
             if (nextKAsc || nextKDesc) { // 如果左子结点小于右子结点，k指向右子结点
                 k++;
             }
-            if ((arr[k] > temp && order.equals(SortOrderEnum.ASC))
-                    || (arr[k] < temp && order.equals(SortOrderEnum.DESC))) { // 如果子节点大于父节点，将子节点值赋给父节点（不用进行交换）
+            if ((more(arr[k], temp) && order.equals(SortOrderEnum.ASC))
+                    || (less(arr[k], temp) && order.equals(SortOrderEnum.DESC))) { // 如果子节点大于父节点，将子节点值赋给父节点（不用进行交换）
                 arr[i] = arr[k];
                 i = k;
             } else {

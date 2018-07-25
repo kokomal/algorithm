@@ -19,11 +19,15 @@ import yuanjun.chen.base.common.SortOrderEnum;
 /**
  * @ClassName: CountingSortAlgo
  * @Description: 计数排序，特点是空间换时间，非原地排序
+ * 因为其不是比较排序，因此对数据的类型将比较picky
+ * [重要]计数排序的C不宜太大，否则占用太多空间，因此对于float或者double类型的数据，
+ * 此时k_range的计算将毫无意义，因此，将仅支持正Integer类型的排序
  * @author: 陈元俊
  * @date: 2018年7月20日 上午11:29:57
  */
 public class CountingSortAlgo {
     private static final Logger logger = Logger.getLogger(CountingSortAlgo.class);
+
     /**
      * 通用正数的排序
      **/
@@ -31,9 +35,10 @@ public class CountingSortAlgo {
         MyPair<Integer> maxAndMin = MyArrayUtils.fetchMinAndMax(A);
         return countingSort(A, maxAndMin.getMax(), order);
     }
-    
+
     /**
      * 计数排序，A为原始输入数组，B为返回排好序的数组， k_range表示数据的上限，即所有输入均在[0, k_range]之间
+     * 
      * @param Integer[] A
      * @param Integer k_range
      * @param SortOrderEnum order
@@ -68,10 +73,10 @@ public class CountingSortAlgo {
         return B;
     }
 
-    public static void main(String[] args) {
-        int size = 65536 * 3; 
+    public static void main(String[] args) throws Exception {
+        int size = 65536 * 3;
         int bound = 4000;
-        Integer[] arr = RandomGenner.generateRandomIntArray(size, bound);
+        Integer[] arr = RandomGenner.generateRandomTArray(size, bound, Integer.class);
         logger.info("before--" + Arrays.toString(arr));
         Integer[] res1 = countingSort(arr, bound - 1, SortOrderEnum.DESC);
         logger.info("after desc--" + Arrays.toString(res1));

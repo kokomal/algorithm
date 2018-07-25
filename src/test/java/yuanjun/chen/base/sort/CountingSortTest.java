@@ -28,32 +28,35 @@ public class CountingSortTest {
     
     /**
      * 20万条数据，元素位于[0,3999]区间的话，计数排序性能极好
+     * @throws Exception 
      **/
     @Test
-    public void countingSortTest1() {
+    public void countingSortTest1() throws Exception {
         countingSortTest(200000, 4000);
     }
     
     /**
      * 400000条数据，元素位于[0,300000)区间的话，计数排序性能仍然优秀
      * 但空间占用比较高，需要额外的O[n+m]空间
+     * @throws Exception 
      **/
     @Test
-    public void countingSortTest2() {
+    public void countingSortTest2() throws Exception {
         countingSortTest(400000, 300000);
     }
     
     /**
      * 400000条数据，元素位于[0,3)区间的话，计数排序性能仍然优秀
      * m越窄，性能越优秀
+     * @throws Exception 
      **/
     @Test
-    public void countingSortTest3() {
+    public void countingSortTest3() throws Exception {
         countingSortTest(400000, 3);
     }
     
-    public void countingSortTest(int size, int bound) {
-        Integer[] arr = RandomGenner.generateRandomIntArray(size, bound);
+    public void countingSortTest(int size, int bound) throws Exception {
+        Integer[] arr = RandomGenner.generateRandomTArray(size, bound, Integer.class);
         Integer[] arr2 = new Integer[size];
         System.arraycopy(arr, 0, arr2, 0, size);
         Integer[] arr3 = new Integer[size];

@@ -1,5 +1,7 @@
 # algorithm
-本工程涵盖基本算法基础 ，部分算法来源于算法导论相关章节
+本工程涵盖基本算法基础 ，部分算法来源于CLRS算法导论相关章节  
+根据算法的特性，可以分为比较排序（例如冒泡、堆排序、插入排序、归并排序、快速排序、选择排序、希尔排序等）和非比较排序（例如计数排序、基数排序和桶排序）  
+不同的排序，对数据类型和幅值的要求不一，因此应用场合也各有不同  
 
 ## yuanjun.chen.base.sort.BubbleSortAlgo.java
 冒泡排序实现类，yuanjun.chen.base.sort.BubbleSortTest.java实现相应测试
@@ -27,11 +29,20 @@
 ## yuanjun.chen.base.sort.SelectionSortAlgo.java
 选择排序实现，yuanjun.chen.base.sort.SelectionSortTest.java实现相应测试    
 
+## yuanjun.chen.base.sort.ShellSortAlgo.java
+希尔排序实现，yuanjun.chen.base.sort.ShellSortTest.java实现相应测试(TODO)  
+希尔排序思想是按照h对数据进行分类插入排序后，然后逐次削减h，最终h退化为1，从而将大致有序的数组进行最后一次插入排序  
+Knuth对希尔排序的h选择和削减提出了行之有效的优化（3倍递减法）    
+
 ## yuanjun.chen.base.sort.CountingSortAlgo.java
 计数排序实现，yuanjun.chen.base.sort.CountingSortTest.java实现相应测试  
 计数排序适用于元素区间远远小于元素个数的场景，采用了额外的线性空间，换取时间复杂度为O[n]，空间复杂度为O[n+m]其中n为数组size，m为数组的幅值    
 如果元素的幅值比较大，那么此算法将耗费比较大的额外空间  
 相对于桶排序，计数排序似乎更"喜欢"重复的key，其对键冲突不敏感
+
+## yuanjun.chen.base.sort.RadixSortAlgo.java
+基数排序实现，yuanjun.chen.base.sort.RadixSortTest.java实现相应测试(TODO)  
+基数排序的原理，为从低到高逐次比较各个元素的各个位，进行计数排序。基数排序从低位到高位进行，使得最后一次计数排序完成后，数组有序。但是如果先排序高位，会导致稳定性的破坏。
 
 ## yuanjun.chen.base.sort.BucketSortAlgo.java
 桶排序实现，  yuanjun.chen.base.sort.BucketSortTest.java实现相应测试  

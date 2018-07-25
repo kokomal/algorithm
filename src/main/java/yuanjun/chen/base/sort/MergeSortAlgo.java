@@ -10,7 +10,7 @@
 package yuanjun.chen.base.sort;
 
 import yuanjun.chen.base.common.SortOrderEnum;
-
+import static yuanjun.chen.base.common.CommonUtils.*;
 /**
  * @ClassName: MergeSortAlgo
  * @Description:归并排序
@@ -22,11 +22,13 @@ public class MergeSortAlgo {
     /*
      * 对外包装方法
      */
-    public static Integer[] mergeSort(Integer[] arr, SortOrderEnum order) {
+    @SuppressWarnings("rawtypes")
+    public static Comparable[] mergeSort(Comparable[] arr, SortOrderEnum order) {
         return extraSpaceMergeSort(arr, 0, arr.length - 1, order);
     }
 
-    private static Integer[] extraSpaceMergeSort(Integer[] arr, int low, int high, SortOrderEnum order) {
+    @SuppressWarnings("rawtypes")
+    private static Comparable[] extraSpaceMergeSort(Comparable[] arr, int low, int high, SortOrderEnum order) {
         int mid = (low + high) >>> 1; // 劈成2半
         if (low < high) {
             extraSpaceMergeSort(arr, low, mid, order);
@@ -43,15 +45,16 @@ public class MergeSortAlgo {
      * @param: @param right
      * @return: Integer []
      */
-    private static void merge(Integer[] arr, int low, int mid, int high, SortOrderEnum order) {
-        Integer[] temp = new Integer[high - low + 1];
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    private static void merge(Comparable[] arr, int low, int mid, int high, SortOrderEnum order) {
+        Comparable[] temp = new Comparable[high - low + 1];
         int i = low;
         int j = mid + 1;
         int idx = 0;
         // 把较小（升序）|较大（降序）的数先移到新数组中
         while (i <= mid && j <= high) {
-            if ((arr[i] < arr[j] && order.equals(SortOrderEnum.ASC))
-                    || (arr[i] > arr[j] && order.equals(SortOrderEnum.DESC))) {
+            if ((less(arr[i], arr[j]) && order.equals(SortOrderEnum.ASC))
+                    || (more(arr[i], arr[j]) && order.equals(SortOrderEnum.DESC))) {
                 temp[idx++] = arr[i++];
             } else {
                 temp[idx++] = arr[j++];

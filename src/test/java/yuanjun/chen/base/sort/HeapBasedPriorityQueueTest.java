@@ -25,8 +25,8 @@ import yuanjun.chen.base.container.HeapBasedPriorityQueue;
 public class HeapBasedPriorityQueueTest {
     private static final Logger logger = Logger.getLogger(HeapBasedPriorityQueueTest.class);
     @Test
-    public void testHeapBasedPriorityQueue() {
-        Integer[] initArray = RandomGenner.generateRandomIntArray(20, 100);
+    public void testHeapBasedPriorityQueue() throws Exception {
+        Integer[] initArray = RandomGenner.generateRandomTArray(20, 100, Integer.class);
         HeapBasedPriorityQueue hbpq = new HeapBasedPriorityQueue(initArray, SortOrderEnum.DESC); // 小根堆
         displayBoth1Dand2D(hbpq);
         if (initArray.length > 8) {
@@ -60,8 +60,8 @@ public class HeapBasedPriorityQueueTest {
     }
     
     @Test
-    public void testPop() {
-        Integer[] initArray = RandomGenner.generateRandomIntArray(18, 100);
+    public void testPop() throws Exception {
+        Integer[] initArray = RandomGenner.generateRandomTArray(18, 100, Integer.class);
         HeapBasedPriorityQueue hbpq = new HeapBasedPriorityQueue(initArray, SortOrderEnum.DESC); // 小根堆
         DispUtil.embed(40, '=', "Before pop");
         displayBoth1Dand2D(hbpq);
@@ -75,8 +75,8 @@ public class HeapBasedPriorityQueueTest {
     }
     
     @Test
-    public void testPop2() {
-        Integer[] initArray = RandomGenner.generateRandomIntArray(2, 100);
+    public void testPop2() throws Exception {
+        Integer[] initArray = RandomGenner.generateRandomTArray(2, 100, Integer.class);
         HeapBasedPriorityQueue hbpq = new HeapBasedPriorityQueue(initArray, SortOrderEnum.DESC); // 小根堆
         DispUtil.embed(40, '=', "Before pop");
         displayBoth1Dand2D(hbpq);
@@ -90,8 +90,8 @@ public class HeapBasedPriorityQueueTest {
     }
     
     @Test
-    public void testDelete() {
-        Integer[] initArray = RandomGenner.generateRandomIntArray(20, 100);
+    public void testDelete() throws Exception {
+        Integer[] initArray = RandomGenner.generateRandomTArray(20, 100, Integer.class);
         HeapBasedPriorityQueue hbpq = new HeapBasedPriorityQueue(initArray, SortOrderEnum.DESC); // 小根堆
         DispUtil.embed(40, '=', "Before delete");
         displayBoth1Dand2D(hbpq);

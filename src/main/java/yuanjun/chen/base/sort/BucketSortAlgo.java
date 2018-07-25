@@ -10,93 +10,120 @@
 package yuanjun.chen.base.sort;
 
 import java.util.Arrays;
+import java.util.Collections;
 import org.apache.log4j.Logger;
 import yuanjun.chen.base.common.DispUtil;
 import yuanjun.chen.base.common.MyArrayUtils;
 import yuanjun.chen.base.common.MyPair;
 import yuanjun.chen.base.common.RandomGenner;
 import yuanjun.chen.base.common.SortOrderEnum;
+import yuanjun.chen.base.sort.BucketSortAlgo.Node;
+import static yuanjun.chen.base.common.CommonUtils.*;
 
 /**
  * @ClassName: BucketSortAlgo
- * @Description: 桶排序实现
+ * @Description: 桶排序实现 TODO：存在较大错误，要大改！
  * @author: 陈元俊
  * @date: 2018年7月24日 上午9:29:57
  */
 public class BucketSortAlgo {
     private static final Logger logger = Logger.getLogger(BucketSortAlgo.class);
-    
+
     private static boolean showDebug = false;
-    
-	public static class Node {
-		public Integer val;
-		private Node next;
-		/**
-		 * @param val
-		 * @param next
-		 */
-		public Node(Integer val, Node next) {
-			super();
-			this.val = val;
-			this.next = next;
-		}
-	}
-	
-	/**
-	 * 桶排序的重要参数
-	 * 
-	 **/
-	public static class BucketConfig {
-	    /**
-         * @param margin
-         */
-        public BucketConfig(int margin) {
-            this.margin = margin;
-        }
-        int margin;
+
+    public static class Node<T extends Comparable<?>> {
+        public T val;
+        private Node<T> next;
 
         /**
-         * 根据步长和margin获得相应的步长
-         * 如果输入<=0则采用sqrt模式
-         * 否则不进行修改
-         **/
-        public int getGapBySlotStep(int slotStep) {
-            return slotStep <= 0 ? (int) Math.sqrt(margin) : slotStep;
+         * @param val
+         * @param next
+         */
+        public Node(T val, Node<T> next) {
+            super();
+            this.val = val;
+            this.next = next;
         }
+    }
 
-        public int getNBucketsBySlotStep(int slotStep) {
-            return margin / getGapBySlotStep(slotStep) + 1;
-        }
-	}
-
-	public static void inplaceBucketSort(Integer[] arr, int slotStep, SortOrderEnum order) {
-        MyPair<Integer> maxAndMin = MyArrayUtils.fetchMinAndMax(arr);
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    public static <T extends Comparable<?>> void inplaceBucketSort(T[] arr, SortOrderEnum order) {
+        MyPair<T> maxAndMin = MyArrayUtils.fetchMinAndMax(arr);
         // 获得最大的值
-        if (maxAndMin.getMax() <= maxAndMin.getMin()) {
+        if (maxAndMin == null || lesseq(maxAndMin.getMax(), maxAndMin.getMin())) {
             return; // 全一样，不用排了
         }
-        int margin = maxAndMin.getMax() - maxAndMin.getMin(); // margin = 最大-最小
-        BucketConfig bucketConfig = new BucketConfig(margin);
-        
-        int gap = bucketConfig.getGapBySlotStep(slotStep);
-        int nbuckets = bucketConfig.getNBucketsBySlotStep(slotStep);
+        Number maxIdx = (Number) maxAndMin.getMax();
+        Number minIdx = (Number) maxAndMin.getMin();
+        Node[] nodeEntrySet = new Node[maxIdx.intValue() - minIdx.intValue() + 1]; // 按照位数划分桶
+        for (Comparable val : arr) {
+            insertBucket(nodeEntrySet, minIdx.intValue(), val); // 根据bucket的索引进行插入操作
+        }
+        sortEachEntry(nodeEntrySet, order);
+        concatenateInplace(nodeEntrySet, arr, order);
+    }
 
-        logger.info("gap = " + gap + ", and nbuckets = " + nbuckets);
-		Node[] nodeEntrySet = new Node[nbuckets]; // 按照位数划分桶
-		for (Integer val : arr) {
-			insertBucket(nodeEntrySet, (val - maxAndMin.getMin()) / gap, val, order); // 根据bucket的索引进行插入操作
-		}
-		concatenateInplace(nodeEntrySet, arr, order);
-	}
+    public static <T extends Comparable<?>> void reviewMe(Node<T> node) {
+        if (node != null) {
+            Node<T> cur = node;
+            while(cur != null) {
+                System.out.print(cur.val + "-->");
+                cur = cur.next;
+            }
+            System.out.println("null");
+        }
+    }
+    
+    /**
+     * 遍历每一个entry，进行排序
+     * 
+     * @param nodeEntrySet
+     * @param order
+     */
+    private static <T extends Comparable<?>> void sortEachEntry(Node<T>[] nodeEntrySet, SortOrderEnum order) {
+        int len = nodeEntrySet.length;
+        for (int i = 0; i < len; i++) {
+            Node<T> head = nodeEntrySet[i];
+            if (head != null && head.next != null) { // 逐一对每一个entry进行插入排序,前提是此entry有大于1个的元素
+                // 创造一个新的链表头部
+                Node<T> pre = new Node<T>(null, null);
+                // 用一个临时变量保存头节点
+                Node<T> ans = pre;
+                // cur是原链表上的指针
+                Node<T> cur = head;
+                while (cur != null) {
+                    // 每次循环前重置pre为头结点，这样保证每次都从头往后遍历
+                    pre = ans;
+                    // 当pre.next.val大于cur.val时停止循环
+                    while (pre.next != null && ((less(pre.next.val, cur.val) && SortOrderEnum.ASC.equals(order))
+                            || (more(pre.next.val, cur.val)) && SortOrderEnum.DESC.equals(order))) {
+                        pre = pre.next;
+                    }
+                    // pre.next.val 大于 cur.val，此时应该把cur插入到pre后
+                    // 保存原链表当前节点的下一节点
+                    Node<T> tmp = cur.next;
+                    // 把cur插入到pre之后
+                    cur.next = pre.next;
+                    pre.next = cur;
+                    // cur指针后移一位
+                    cur = tmp;
+                }
+                nodeEntrySet[i] = ans.next;
+            }
+        }
+    }
 
-	/**
-	 * 遍历每一个槽，取出数据拼装成完整的数组并原地拷贝
-	 * @param nodeEntrySet
-	 * @param arr
-	 * @param order 
-	 */
-	private static void concatenateInplace(Node[] nodeEntrySet, Integer[] arr, SortOrderEnum order) {
-        Integer[] tmp = new Integer[arr.length];
+    /**
+     * 遍历每一个槽，取出数据拼装成完整的数组并原地拷贝
+     * 
+     * @param nodeEntrySet
+     * @param arr
+     * @param order
+     */
+    @SuppressWarnings({"unchecked"})
+    private static <T extends Comparable<?>> void concatenateInplace(Node<T>[] nodeEntrySet, T[] arr,
+            SortOrderEnum order) {
+        T[] tmp = (T[]) new Comparable[arr.length];
         int idx = 0;
         int buckNo = 0;
         int len = nodeEntrySet.length;
@@ -105,88 +132,73 @@ public class BucketSortAlgo {
             if (SortOrderEnum.DESC.equals(order)) {
                 ido = len - 1 - ido;
             }
-            idx = concatEachNode(tmp, idx, buckNo, nodeEntrySet[ido]);
+            idx = concatEachNode(tmp, idx, buckNo++, nodeEntrySet[ido]);
         }
         System.arraycopy(tmp, 0, arr, 0, arr.length);
     }
 
-    /**   
-     * @Title: concatEachNode   
-     * @Description: 处理每一个entry的所有node 
-     * @param: @param tmp
-     * @param: @param idx
-     * @param: @param buckNo
-     * @param: @param node
-     * @param: @return      
-     * @return: int      
-     * @throws   
-     */
-    private static int concatEachNode(Integer[] tmp, int idx, int buckNo, Node node) {
-        buckNo++;
+    private static <T extends Comparable<?>> int concatEachNode(T[] tmp, int idx, int buckNo, Node<T> node) {
         if (node != null) {
-        	Node tmpNode = node;
-        	int inner = 0;
-        	while (tmpNode != null) {
-        		tmp[idx] = tmpNode.val;
-        		tmpNode = tmpNode.next;
-        		idx++;
-        		inner++;
-        	}
-        	if (showDebug) {
-        	    logger.debug("for bucket No." + buckNo + " size=" + inner);
-        	}
+            Node<T> tmpNode = node;
+            int inner = 0;
+            while (tmpNode != null) {
+                tmp[idx] = tmpNode.val;
+                tmpNode = tmpNode.next;
+                idx++;
+                inner++;
+            }
+            if (showDebug) {
+                logger.debug("for bucket No." + buckNo + " size=" + inner);
+            }
         }
         return idx;
     }
 
-	/**
-	 * 因为是链表，考虑采用插入排序，避免大规模内存拷贝复制
-	 * @param nodeEntrySet
-	 * @param bucketIdx
-	 * @param val
-	 */
-	private static void insertBucket(Node[] nodeEntrySet, int bucketIdx, Integer val, SortOrderEnum order) {
-		if (nodeEntrySet[bucketIdx] == null) {
-			nodeEntrySet[bucketIdx] = new Node(val, null);
-		} else {
-			Node cur = nodeEntrySet[bucketIdx];
-			boolean shouldHeadInsertAsc = cur.val > val && SortOrderEnum.ASC.equals(order);
-			boolean shouldHeadInsertDesc = cur.val < val && SortOrderEnum.DESC.equals(order);
-			if (shouldHeadInsertAsc || shouldHeadInsertDesc) {
-				nodeEntrySet[bucketIdx] = new Node(val, cur);
-			} else {
-				Node next = cur.next;
-                while (next != null && ((next.val <= val && SortOrderEnum.ASC.equals(order))
-                        || (next.val >= val && SortOrderEnum.DESC.equals(order)))) {
-                    cur = next;
-                    next = next.next;
-                }
-				Node insert = new Node(val, next);
-				cur.next = insert;
-			}
-		}
-	}
-    
+    /**
+     * 因为是链表，考虑采用插入排序，避免大规模内存拷贝复制
+     * 
+     * @param nodeEntrySet
+     * @param val
+     */
+    private static <T extends Comparable<?>> void insertBucket(Node<T>[] nodeEntrySet, int min, T val) {
+        Number valIdx = (Number) val;
+        int idx = valIdx.intValue() - min; // 强制置为int，意味着所有类型的Comparable都要进行类型转换
+        if (nodeEntrySet[idx] == null) { // 如果没有值则新建Node
+            nodeEntrySet[idx] = new Node<T>(val, null);
+        } else { // 头插法
+            Node<T> oldNode = nodeEntrySet[idx];
+            Node<T> newNode = new Node<T>(val, oldNode);
+            nodeEntrySet[idx] = newNode;
+        }
+    }
+
     public static void showDebug() {
         showDebug = true;
     }
-    
+
     public static void hideDebug() {
         showDebug = false;
     }
-    
-	public static void main(String[] args) {
-		int size = 160;
-		int bound = 400;
-		Integer[] arr2 = RandomGenner.generateRandomIntArray(size, bound);
+
+    public static void main(String[] args) throws Exception {
+        // showDebug();
+        int size = 30000;
+        int bound = 7000;
+        Float[] arr2 = RandomGenner.generateRandomTArray(size, bound, Float.class);
+        Float[] arr3 = new Float[size];
+        System.arraycopy(arr2, 0, arr3, 0, size);
+        
         DispUtil.embed(50, '*', "BUCKET ASC SORT STARTS");
         logger.info("before--" + Arrays.toString(arr2));
         long t1 = System.currentTimeMillis();
-		inplaceBucketSort(arr2, 2, SortOrderEnum.DESC);
+        inplaceBucketSort(arr2, SortOrderEnum.DESC);
         long t2 = System.currentTimeMillis();
         logger.info("after--" + Arrays.toString(arr2));
         DispUtil.embed(50, '*', "COUNTING SORT ENDS..");
         logger.info("BUCKET ASC SORT time used " + (t2 - t1) + "ms");
-   
-	}
+        
+        logger.info("before--" + Arrays.toString(arr3));
+        Arrays.sort(arr3, Collections.reverseOrder());
+        logger.info("after--" + Arrays.toString(arr3));
+    }
 }

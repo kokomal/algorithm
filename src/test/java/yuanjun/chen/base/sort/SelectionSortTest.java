@@ -25,10 +25,10 @@ import yuanjun.chen.base.common.SortOrderEnum;
 public class SelectionSortTest {
     private static final Logger logger = Logger.getLogger(SelectionSortTest.class);
     @Test
-    public void testSelectionSort() {
+    public void testSelectionSort() throws Exception {
         int size = 128 * 256;
         int bound = 4000;
-        Integer[] arr = RandomGenner.generateRandomIntArray(size, bound);
+        Integer[] arr = RandomGenner.generateRandomTArray(size, bound, Integer.class);
         Integer[] arr2 = new Integer[size];
         System.arraycopy(arr, 0, arr2, 0, size);
 
@@ -54,7 +54,8 @@ public class SelectionSortTest {
     /*
      * 用j.u.a的内置collections的顺序排序算法
      */
-    public void testInnerAlgoASC(Integer[] arr) {
+    @SuppressWarnings("rawtypes")
+    public void testInnerAlgoASC(Comparable[] arr) {
         Arrays.sort(arr);
     }
 }

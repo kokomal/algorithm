@@ -1,5 +1,5 @@
 package yuanjun.chen.base.common;
-
+import static yuanjun.chen.base.common.CommonUtils.*;
 public class MyArrayUtils {
     /**
      * 交换int[]的元素
@@ -15,18 +15,23 @@ public class MyArrayUtils {
         }
     }
     
-    public static MyPair<Integer> fetchMinAndMax(Integer[] arr) {
-        int min = Integer.MAX_VALUE;
-        int max = Integer.MIN_VALUE;
-        for (int x : arr) { // 比较丑陋的选择最大值,O[n]
-            if (x < min) {
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    public static <T extends Comparable> MyPair<T> fetchMinAndMax(T[] arr) {
+        if (arr.length == 0) {
+            return null;
+        }
+        
+        T min = arr[0];
+        T max = arr[0];
+        for (T x : arr) { // 比较丑陋的选择最大值,O[n]
+            if (less(x, min)) {
                 min = x;
             }
-            if (x > max) {
+            if (more(x, max)) {
                 max = x;
             }
         }
-        MyPair<Integer> res = new MyPair<>();
+        MyPair<T> res = new MyPair<>();
         res.setMax(max);
         res.setMin(min);
         return res;

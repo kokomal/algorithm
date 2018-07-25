@@ -9,6 +9,7 @@
  */
 package yuanjun.chen.base.sort;
 
+import static yuanjun.chen.base.common.CommonUtils.*;
 import yuanjun.chen.base.common.SortOrderEnum;
 
 /**
@@ -21,7 +22,8 @@ public class InsertionSortAlgo {
     /*
      * 简单平移法,逐一遍历后退
      */
-    public static void inplaceInsertionSort(Integer[] arr, SortOrderEnum order) {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    public static void inplaceInsertionSort(Comparable[] arr, SortOrderEnum order) {
         int len = arr.length;
         if (len <= 1) {
             return;
@@ -29,9 +31,9 @@ public class InsertionSortAlgo {
         for (int i = 1; i < len; i++) {
             // 对于第i个数而言，需要在前[0~i-1]的有序序列中，找到一个安身之地，然后将余下数组逐一移位
             int pre = i - 1;
-            int tmp = arr[i];
-            while (pre >= 0 && ((arr[pre] > tmp && order.equals(SortOrderEnum.ASC))
-                    || (arr[pre] < tmp && order.equals(SortOrderEnum.DESC)))) {
+            Comparable tmp = arr[i];
+            while (pre >= 0 && ((more(arr[pre], tmp) && order.equals(SortOrderEnum.ASC))
+                    || (more(arr[pre], tmp) && order.equals(SortOrderEnum.DESC)))) {
                 arr[pre + 1] = arr[pre]; // 逐一后退，注意此处pre要前置在短路与中
                 pre--;
             }
@@ -42,7 +44,8 @@ public class InsertionSortAlgo {
     /*
      * 插入排序二分查找优化
      */
-    public static void inplaceInsertionSortBinaryWay(Integer[] arr, SortOrderEnum order) {
+    @SuppressWarnings("rawtypes")
+    public static void inplaceInsertionSortBinaryWay(Comparable[] arr, SortOrderEnum order) {
         int len = arr.length;
         if (len <= 1) {
             return;
@@ -50,7 +53,7 @@ public class InsertionSortAlgo {
         for (int i = 1; i < len; i++) {
             // 对于第i个数而言，需要在前[0~i-1]的有序序列中，找到一个安身之地，然后将余下数组逐一移位
             int pre = i - 1;
-            int tmp = arr[i];
+            Comparable tmp = arr[i];
             // 在arr的索引0 - pre里面找tmp，返回idx
             int idx = binarySearch(arr, tmp, 0, pre, order);
             if (idx == -1) // 找不到，说明是顺序，i不用移动
@@ -63,28 +66,29 @@ public class InsertionSortAlgo {
     /*
      * 二分查找，查找指定区域内不大于（小于）指定tmp的值的位置，如果查不到则返回-1
      * */
-    private static int binarySearch(Integer[] arr, Integer tmp, int start, int end, SortOrderEnum order) {
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    private static int binarySearch(Comparable[] arr, Comparable tmp, int start, int end, SortOrderEnum order) {
         if (start == end) { // 只有1个元素，则看此元素是否符合要求
-            if ((arr[end] >= tmp && order.equals(SortOrderEnum.ASC))
-                    || (arr[end] <= tmp && order.equals(SortOrderEnum.DESC))) {
+            if ((moreeq(arr[end], tmp) && order.equals(SortOrderEnum.ASC))
+                    || (lesseq(arr[end], tmp) && order.equals(SortOrderEnum.DESC))) {
                 return end;
             } else {
                 return -1;
             }
         } else if (start + 1 == end) { // 2个元素，则夹逼
-            if ((arr[end] < tmp && order.equals(SortOrderEnum.ASC))
-                    || (arr[end] > tmp && order.equals(SortOrderEnum.DESC))) {
+            if ((less(arr[end], tmp) && order.equals(SortOrderEnum.ASC))
+                    || (more(arr[end], tmp) && order.equals(SortOrderEnum.DESC))) {
                 return -1;
             }
-            if ((arr[start] >= tmp && order.equals(SortOrderEnum.ASC))
-                    || (arr[start] <= tmp && order.equals(SortOrderEnum.DESC))) {
+            if ((moreeq(arr[start], tmp) && order.equals(SortOrderEnum.ASC))
+                    || (lesseq(arr[start], tmp) && order.equals(SortOrderEnum.DESC))) {
                 return start;
             }
             return end;
         } else { // 多个元素，此时校验中值mid进行二分查找
             int mid = (start + end) >>> 1;
-            if ((arr[mid] > tmp && order.equals(SortOrderEnum.ASC))
-                    || (arr[mid] < tmp && order.equals(SortOrderEnum.DESC))) {
+            if ((more(arr[mid], tmp) && order.equals(SortOrderEnum.ASC))
+                    || (less(arr[mid], tmp) && order.equals(SortOrderEnum.DESC))) {
                 return binarySearch(arr, tmp, start, mid, order);
             } else {
                 return binarySearch(arr, tmp, mid, end, order);

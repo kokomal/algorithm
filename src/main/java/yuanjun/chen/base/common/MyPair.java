@@ -15,7 +15,7 @@ package yuanjun.chen.base.common;
  * @author: 陈元俊 
  * @date: 2018年7月24日 下午12:24:24  
  */
-public class MyPair<T> {
+public class MyPair<T extends Comparable<?>> {
     T max;
     T min;
     public T getMax() {

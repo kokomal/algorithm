@@ -78,14 +78,14 @@ public class RadixSortAlgo {
 		return a % (int) Math.pow(10, i) / (int) Math.pow(10, i - 1);
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		Integer[] arr = new Integer[] { 329, 457, 657, 839, 436, 720, 355 };
 		radixSort(arr);
 		System.out.println("finally--" + Arrays.toString(arr));
 		
         int size = 65536 * 3; 
         int bound = 4000;
-        Integer[] arr2 = RandomGenner.generateRandomIntArray(size, bound);
+        Integer[] arr2 = RandomGenner.generateRandomTArray(size, bound, Integer.class);
 		radixSort(arr2);
 		System.out.println("finally--" + Arrays.toString(arr2));
 	}

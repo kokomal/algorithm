@@ -11,7 +11,7 @@ package yuanjun.chen.base.sort;
 
 import yuanjun.chen.base.common.MyArrayUtils;
 import yuanjun.chen.base.common.SortOrderEnum;
-
+import static yuanjun.chen.base.common.CommonUtils.*;
 /**
  * @ClassName: SelectionSortAlgo
  * @Description: 选择排序
@@ -22,17 +22,18 @@ public class SelectionSortAlgo {
     /*
      * 原地选择排序
      */
-    public static void inplaceSelectionSort(Integer[] arr, SortOrderEnum order) {
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    public static void inplaceSelectionSort(Comparable[] arr, SortOrderEnum order) {
         int len = arr.length;
         if (len <= 1) {
             return;
         }
         for (int i = 0; i < len - 1; i++) {
-            int max = arr[i]; // 最值默认为第i个
+            Comparable max = arr[i]; // 最值默认为第i个
             int rec = i;
             for (int j = i + 1; j < len; j++) { // 从i+1后的所有值里面选出最值，如果比i位置的大，则进行交换，然后步进
-                boolean shouldUpdate = SortOrderEnum.ASC.equals(order) && arr[j] < max;
-                shouldUpdate = shouldUpdate || (SortOrderEnum.DESC.equals(order) && arr[j] > max);
+                boolean shouldUpdate = SortOrderEnum.ASC.equals(order) && less(arr[j], max);
+                shouldUpdate = shouldUpdate || (SortOrderEnum.DESC.equals(order) && more(arr[j], max));
                 if (shouldUpdate) { // 如果遇到比当前值更大，置标志位，并且更新max值
                     max = arr[j];
                     rec = j;
