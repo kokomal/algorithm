@@ -33,7 +33,7 @@ public class CountingSortAlgo {
      **/
     public static Integer[] genericCountingSort(final Integer[] A, SortOrderEnum order) {
         MyPair<Integer> maxAndMin = MyArrayUtils.fetchMinAndMax(A);
-        return countingSort(A, maxAndMin.getMax(), order);
+        return countingSort(A, maxAndMin.getMax() + 1, order);
     }
 
     /**

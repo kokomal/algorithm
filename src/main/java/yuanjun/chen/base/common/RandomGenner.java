@@ -56,17 +56,17 @@ public class RandomGenner {
             }
             return (T[]) dbarr;
         } else if (clazz.equals(BigDecimal.class)) {
-            BigDecimal intarr[] = new BigDecimal[size];
+            BigDecimal bdArr[] = new BigDecimal[size];
             for (int i = 0; i < size; i++) {
-                intarr[i] = new BigDecimal(seed.nextDouble() * bound);
+                bdArr[i] = new BigDecimal(seed.nextDouble() * bound);
             }
-            return (T[]) intarr;
+            return (T[]) bdArr;
         } else if (clazz.equals(Float.class)) {
-            Float intarr[] = new Float[size];
+            Float flArr[] = new Float[size];
             for (int i = 0; i < size; i++) {
-                intarr[i] = seed.nextFloat() * bound;
+                flArr[i] = seed.nextFloat() * bound;
             }
-            return (T[]) intarr;
+            return (T[]) flArr;
         } else {
             throw new UnsupportedTypeException("class name " + clazz.getName() + " not supported!");
         }

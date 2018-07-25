@@ -9,11 +9,13 @@
  **/
 package yuanjun.chen.base.sort;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import org.apache.log4j.Logger;
 import yuanjun.chen.base.common.CommonUtils;
 import yuanjun.chen.base.common.MyArrayUtils;
 import yuanjun.chen.base.common.RandomGenner;
+import yuanjun.chen.base.common.SortOrderEnum;
 
 /**
  * @ClassName: ShellSortAlgo
@@ -28,7 +30,7 @@ public class ShellSortAlgo {
      * Knuth法优化的shell排序
      * 
      **/
-    public static <T> void inplaceShellSortKnuthWay(Comparable<T>[] arr) {
+    public static <T> void inplaceShellSortKnuthWay(Comparable<T>[] arr, SortOrderEnum order) {
         int len = arr.length;
         if (len <= 1) {
             return;
@@ -42,7 +44,8 @@ public class ShellSortAlgo {
          **/
         while (h >= 1) {
             for (int i = h; i < len; i++) {
-                for (int j = i; j >= h && CommonUtils.less(arr[j], arr[j - h]); j -= h) { // j-h要有意义，则j>=h
+                for (int j = i; j >= h && ((CommonUtils.less(arr[j], arr[j - h]) && SortOrderEnum.ASC.equals(order))
+                        || (CommonUtils.more(arr[j], arr[j - h]) && SortOrderEnum.DESC.equals(order))); j -= h) { // j-h要有意义，则j>=h
                     MyArrayUtils.swap(arr, j, j - h); // h=1则退化成插入排序
                 }
             }
@@ -65,12 +68,12 @@ public class ShellSortAlgo {
     
     public static void main(String[] args) throws Exception {
         Integer[] arr = new Integer[] {33, 23, 12, 3, 22, 12};
-        inplaceShellSortKnuthWay(arr);
+        inplaceShellSortKnuthWay(arr, SortOrderEnum.ASC);
         System.out.println(Arrays.toString(arr));
-        int size = 160;
-        int bound = 400;
+        int size = 16000;
+        int bound = 4000;
         Integer[] arr2 = RandomGenner.generateRandomTArray(size, bound, Integer.class);
-        inplaceShellSortKnuthWay(arr2);
+        inplaceShellSortKnuthWay(arr2, SortOrderEnum.DESC);
         System.out.println(Arrays.toString(arr2));
     }
 }

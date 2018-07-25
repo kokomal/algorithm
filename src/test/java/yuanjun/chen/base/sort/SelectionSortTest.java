@@ -9,11 +9,8 @@
  */
 package yuanjun.chen.base.sort;
 
-import java.util.Arrays;
-import org.apache.log4j.Logger;
 import org.junit.Test;
-import yuanjun.chen.base.common.DispUtil;
-import yuanjun.chen.base.common.RandomGenner;
+import yuanjun.chen.base.common.GenericAlgoTester;
 import yuanjun.chen.base.common.SortOrderEnum;
 
 /**
@@ -23,39 +20,64 @@ import yuanjun.chen.base.common.SortOrderEnum;
  * @date: 2018年7月18日 下午5:40:11
  */
 public class SelectionSortTest {
-    private static final Logger logger = Logger.getLogger(SelectionSortTest.class);
     @Test
-    public void testSelectionSort() throws Exception {
-        int size = 128 * 256;
-        int bound = 4000;
-        Integer[] arr = RandomGenner.generateRandomTArray(size, bound, Integer.class);
-        Integer[] arr2 = new Integer[size];
-        System.arraycopy(arr, 0, arr2, 0, size);
-
-        DispUtil.embed(50, '*', "SELECTION SORT STARTS");
-        logger.info("before " + Arrays.toString(arr));
-        long t1 = System.currentTimeMillis();
-        SelectionSortAlgo.inplaceSelectionSort(arr, SortOrderEnum.ASC);
-        long t2 = System.currentTimeMillis();
-        logger.info("after " + Arrays.toString(arr));
-        DispUtil.embed(50, '*', "SELECTION SORT ENDS..");
-        logger.info("SELECT SORT time used " + (t2 - t1) + "ms");
-
-        DispUtil.embed(50, '*', "J.U.A INNER SORT STARTS");
-        logger.info("before " + Arrays.toString(arr2));
-        long t3 = System.currentTimeMillis();
-        testInnerAlgoASC(arr2);
-        long t4 = System.currentTimeMillis();
-        logger.info("after " + Arrays.toString(arr2));
-        DispUtil.embed(50, '*', "J.U.A INNER SORT ENDS..");
-        logger.info("j.u.a INNER SORT time used " + (t4 - t3) + "ms");
+    public void testSelectionSort001() throws Exception {
+        int size = 65536;
+        int bound = 1000;
+        testSelectionSortProto(size, bound, SortOrderEnum.DESC, Integer.class);
     }
 
-    /*
-     * 用j.u.a的内置collections的顺序排序算法
+    @Test
+    public void testSelectionSort002() throws Exception {
+        int size = 65536;
+        int bound = 10000;
+        testSelectionSortProto(size, bound, SortOrderEnum.DESC, Integer.class);
+    }
+
+    @Test
+    public void testSelectionSort003() throws Exception {
+        int size = 65536;
+        int bound = 100000;
+        testSelectionSortProto(size, bound, SortOrderEnum.DESC, Integer.class);
+    }
+
+    @Test
+    public void testSelectionSort004() throws Exception {
+        int size = 65536;
+        int bound = 1000;
+        testSelectionSortProto(size, bound, SortOrderEnum.DESC, Double.class);
+    }
+
+    @Test
+    public void testSelectionSort005() throws Exception {
+        int size = 65536;
+        int bound = 10000;
+        testSelectionSortProto(size, bound, SortOrderEnum.DESC, Double.class);
+    }
+
+    @Test
+    public void testSelectionSort006() throws Exception {
+        int size = 65536;
+        int bound = 100000;
+        testSelectionSortProto(size, bound, SortOrderEnum.DESC, Double.class);
+    }
+
+    /**
+     * @Title testBucketSortProto
+     * @Description 原始测试类
+     * @param size
+     * @param bound
+     * @param order
+     * @throws Exception
+     * @return void
      */
-    @SuppressWarnings("rawtypes")
-    public void testInnerAlgoASC(Comparable[] arr) {
-        Arrays.sort(arr);
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    private static void testSelectionSortProto(int size, int bound, SortOrderEnum order, Class clazz) throws Exception {
+        new GenericAlgoTester("SELECTION") {
+            @Override
+            public void showTime(Comparable[] arr, SortOrderEnum order) {
+                SelectionSortAlgo.inplaceSelectionSort(arr, order);
+            }
+        }.genericTest(size, bound, order, clazz);
     }
 }

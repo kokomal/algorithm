@@ -9,11 +9,8 @@
  */
 package yuanjun.chen.base.sort;
 
-import java.util.Arrays;
-import org.apache.log4j.Logger;
 import org.junit.Test;
-import yuanjun.chen.base.common.DispUtil;
-import yuanjun.chen.base.common.RandomGenner;
+import yuanjun.chen.base.common.GenericAlgoTester;
 import yuanjun.chen.base.common.SortOrderEnum;
 
 /**
@@ -23,57 +20,52 @@ import yuanjun.chen.base.common.SortOrderEnum;
  * @date: 2018年7月17日 上午8:45:03
  */
 public class InsertionSortTest {
-    private static final Logger logger = Logger.getLogger(InsertionSortTest.class);
     @Test
     public void testInsertionSort1() throws Exception {
-        int size = 256 * 256;
-        int bound = 10000;
-        Integer[] arr = RandomGenner.generateRandomTArray(size, bound, Integer.class);
-        DispUtil.embed(50, '*', "LINEAR INSERTION TEST STARTS");
-        long time1 = System.currentTimeMillis();
-        testInsertionSort(arr, size, bound, SortOrderEnum.DESC);
-        long time2 = System.currentTimeMillis();
-        DispUtil.embed(50, '*', "LINEAR INSERTION TEST ENDS..");
-        logger.info("test linear insertion sort used " + (time2 - time1) + "ms");
-
-        arr = RandomGenner.generateRandomTArray(size, bound, Integer.class);
-        DispUtil.embed(50, '*', "BINARY INSERTION TEST STARTS");
-        long time3 = System.currentTimeMillis();
-        testInsertionSortBinary(arr, size, bound, SortOrderEnum.DESC);
-        long time4 = System.currentTimeMillis();
-        DispUtil.embed(50, '*', "BINARY INSERTION TEST ENDS..");
-        logger.info("test binary insertion sort used " + (time4 - time3) + "ms");
-
-        arr = RandomGenner.generateRandomTArray(size, bound, Integer.class);
-        DispUtil.embed(50, '*', "INNER J.U.A TEST STARTS");
-        long time5 = System.currentTimeMillis();
-        testInnerAlgoASC(arr);
-        long time6 = System.currentTimeMillis();
-        DispUtil.embed(50, '*', "INNER J.U.A TEST ENDS..");
-        logger.info("test inner j.u.a sort used " + (time6 - time5) + "ms");
-    }
-
-    @SuppressWarnings("rawtypes")
-    public void testInsertionSort(Comparable[] arr, int size, int bound, SortOrderEnum order) {
-        logger.info("before " + order + " inplace insertion sort---" + Arrays.toString(arr));
-        InsertionSortAlgo.inplaceInsertionSort(arr, order);
-        logger.info("after " + order + " inplace insertion sort---" + Arrays.toString(arr));
-    }
-
-    @SuppressWarnings("rawtypes")
-    public void testInsertionSortBinary(Comparable[] arr, int size, int bound, SortOrderEnum order) {
-        logger.info("before " + order + " inplace binary insertion sort---" + Arrays.toString(arr));
-        InsertionSortAlgo.inplaceInsertionSortBinaryWay(arr, order);
-        logger.info("after " + order + " inplace binary insertion sort---" + Arrays.toString(arr));
+        testInsertionSortProto(10000, 3000, SortOrderEnum.ASC, Integer.class);
     }
     
-    /*
-     * 用j.u.a的内置collections的顺序排序算法
-     * */
-    @SuppressWarnings("rawtypes")
-    public void testInnerAlgoASC(Comparable[] arr) {
-        logger.info("before " + "inner sort---" + Arrays.toString(arr));
-        Arrays.sort(arr);
-        logger.info("after " + "inner sort---" + Arrays.toString(arr));
+    @Test
+    public void testInsertionSort2() throws Exception {
+        testInsertionSortProto(10000, 3000, SortOrderEnum.DESC, Double.class);
+    }
+    
+    @Test
+    public void testInsertionSort3() throws Exception {
+        testInsertionBinarySortProto(10000, 3000, SortOrderEnum.ASC, Integer.class);
+    }
+    
+    @Test
+    public void testInsertionSort4() throws Exception {
+        testInsertionBinarySortProto(10000, 3000, SortOrderEnum.DESC, Double.class);
+    }
+    
+    /**
+     * @Title testBucketSortProto
+     * @Description 原始测试类
+     * @param size
+     * @param bound
+     * @param order
+     * @throws Exception
+     * @return void
+     */
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    private static void testInsertionSortProto(int size, int bound, SortOrderEnum order, Class clazz) throws Exception {
+        new GenericAlgoTester("INSERTION") {
+            @Override
+            public void showTime(Comparable[] arr, SortOrderEnum order) {
+                InsertionSortAlgo.inplaceInsertionSort(arr, order);
+            }
+        }.genericTest(size, bound, order, clazz);
+    }
+    
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    private static void testInsertionBinarySortProto(int size, int bound, SortOrderEnum order, Class clazz) throws Exception {
+        new GenericAlgoTester("INSERTION-BINARY") {
+            @Override
+            public void showTime(Comparable[] arr, SortOrderEnum order) {
+                InsertionSortAlgo.inplaceInsertionSortBinaryWay(arr, order);
+            }
+        }.genericTest(size, bound, order, clazz);
     }
 }

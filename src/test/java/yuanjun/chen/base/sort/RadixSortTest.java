@@ -14,6 +14,7 @@ import java.util.Collections;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import yuanjun.chen.base.common.DispUtil;
+import yuanjun.chen.base.common.GenericAlgoTester;
 import yuanjun.chen.base.common.RandomGenner;
 import yuanjun.chen.base.common.SortOrderEnum;
 
@@ -24,45 +25,32 @@ import yuanjun.chen.base.common.SortOrderEnum;
  * @date: 2018年7月25日 下午3:31:47  
  */
 public class RadixSortTest {
-    private static final Logger logger = Logger.getLogger(RadixSortTest.class);
-    
     @Test
     public void testRadix001() throws Exception {
-        testBucketInteger(100000, 8000, SortOrderEnum.ASC);
+        testRadixSortProto(100000, 8000, SortOrderEnum.ASC, Integer.class);
     }
     
     @Test
     public void testRadix002() throws Exception {
-        testBucketInteger(100000, 8000, SortOrderEnum.DESC);
+        testRadixSortProto(100000, 8000, SortOrderEnum.DESC, Integer.class);
     }
     
     /**
-     * 测试Integer类型
-     **/
-    public static void testBucketInteger(int size, int bound, SortOrderEnum order) throws Exception {
-        Integer[] arr1 = RandomGenner.generateRandomTArray(size, bound, Integer.class);
-        Integer[] arr2 = new Integer[size];
-        System.arraycopy(arr1, 0, arr2, 0, size);
-        DispUtil.embed(50, '*', "RADIX SORT " + order + " STARTS");
-        logger.info("before " + Arrays.toString(arr1));
-        long t1 = System.currentTimeMillis();
-        RadixSortAlgo.radixSort(arr1, order);
-        long t2 = System.currentTimeMillis();
-        logger.info("after " + Arrays.toString(arr1));
-        DispUtil.embed(50, '*', "RADIX SORT " + order + " ENDS..");
-        logger.info("RADIX SORT time used " + (t2 - t1) + "ms");
-
-        DispUtil.embed(50, '*', "J.U.A INNER SORT " + order + " STARTS");
-        logger.info("before " + Arrays.toString(arr2));
-        long t3 = System.currentTimeMillis();
-        if (SortOrderEnum.DESC.equals(order)) {
-            Arrays.sort(arr2, Collections.reverseOrder());
-        } else {
-            Arrays.sort(arr2);
-        }
-        long t4 = System.currentTimeMillis();
-        logger.info("after " + Arrays.toString(arr2));
-        DispUtil.embed(50, '*', "J.U.A INNER SORT " + order + " ENDS..");
-        logger.info("j.u.a INNER SORT time used " + (t4 - t3) + "ms");
+     * @Title testBucketSortProto
+     * @Description 原始测试类
+     * @param size
+     * @param bound
+     * @param order
+     * @throws Exception
+     * @return void
+     */
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    private static void testRadixSortProto(int size, int bound, SortOrderEnum order, Class clazz) throws Exception {
+        new GenericAlgoTester("RADIX") {
+            @Override
+            public void showTime(Comparable[] arr, SortOrderEnum order) {
+                RadixSortAlgo.radixSort((Integer[]) arr, order);
+            }
+        }.genericTest(size, bound, order, clazz);
     }
 }
