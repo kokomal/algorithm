@@ -17,12 +17,11 @@ import yuanjun.chen.base.common.MyArrayUtils;
 import yuanjun.chen.base.common.MyPair;
 import yuanjun.chen.base.common.RandomGenner;
 import yuanjun.chen.base.common.SortOrderEnum;
-import yuanjun.chen.base.sort.BucketSortAlgo.Node;
 import static yuanjun.chen.base.common.CommonUtils.*;
 
 /**
  * @ClassName: BucketSortAlgo
- * @Description: 桶排序实现 TODO：存在较大错误，要大改！
+ * @Description: 桶排序实现
  * @author: 陈元俊
  * @date: 2018年7月24日 上午9:29:57
  */

@@ -13,7 +13,7 @@ import yuanjun.chen.base.common.SortOrderEnum;
 public class BubbleSortTest {
     private static final Logger logger = Logger.getLogger(BubbleSortTest.class);
     @Test
-    public void testBubble() {
+    public void testBubble() throws Exception {
         int size1 = 20;
         int bound = 100;
         int size2 = 4;
@@ -28,8 +28,8 @@ public class BubbleSortTest {
         DispUtil.embed(50, '*', "BUBBLE TEST ENDS..");
     }
     
-    public void testInplaceBubbleSort(int size, int bound, SortOrderEnum order) {
-        Integer[] arr = RandomGenner.generateRandomIntArray(size, bound);
+    public void testInplaceBubbleSort(int size, int bound, SortOrderEnum order) throws Exception {
+        Integer[] arr = RandomGenner.generateRandomTArray(size, bound, Integer.class);
         logger.info("the unsorted data---" + Arrays.toString(arr));
         BubbleSortAlgo.inplaceSort(arr, order);
         logger.info("after " + order + " inplace bubble sort, the sorted data---" + Arrays.toString(arr));
