@@ -3,6 +3,10 @@
 根据算法的特性，可以分为比较排序（例如冒泡、堆排序、插入排序、归并排序、快速排序、选择排序、希尔排序等）和非比较排序（例如计数排序、基数排序和桶排序）  
 不同的排序，对数据类型和幅值的要求不一，因此应用场合也各有不同  
 
+## GenericAlgoTester.java
+通用测试类，支持多种数据类型，支持2份相同数组的排序比较（与JDK自带J.U.A的Arrays.sort算法进行对比）  
+子类需要重载showtime方法来实现具体的排序
+
 ## yuanjun.chen.base.sort.BubbleSortAlgo.java
 冒泡排序实现类，yuanjun.chen.base.sort.BubbleSortTest.java实现相应测试
 

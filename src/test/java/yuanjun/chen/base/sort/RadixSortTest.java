@@ -9,13 +9,8 @@
  */
 package yuanjun.chen.base.sort;
 
-import java.util.Arrays;
-import java.util.Collections;
-import org.apache.log4j.Logger;
 import org.junit.Test;
-import yuanjun.chen.base.common.DispUtil;
 import yuanjun.chen.base.common.GenericAlgoTester;
-import yuanjun.chen.base.common.RandomGenner;
 import yuanjun.chen.base.common.SortOrderEnum;
 
 /**   

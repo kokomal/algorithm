@@ -21,14 +21,14 @@ import org.apache.log4j.Logger;
  */
 public abstract class GenericAlgoTester <T extends Comparable<?>> {
     private static final Logger logger = Logger.getLogger(GenericAlgoTester.class);
-    private String algo = "";
+    private String algoName = "";
     
     /**
      * @param algo
      */
-    public GenericAlgoTester(String algo) {
+    public GenericAlgoTester(String algoName) {
         super();
-        this.algo = algo;
+        this.algoName = algoName;
     }
 
     /**
@@ -41,14 +41,14 @@ public abstract class GenericAlgoTester <T extends Comparable<?>> {
         T[] arr1 = RandomGenner.generateRandomTArray(size, bound, clazz);
         T[] arr2 = (T[]) new Comparable[size];
         System.arraycopy(arr1, 0, arr2, 0, size);
-        DispUtil.embed(50, '*', this.algo + " SORT " + order + " STARTS");
+        DispUtil.embed(50, '*', this.algoName + " SORT " + order + " STARTS");
         logger.info("before " + Arrays.toString(arr1));
         long t1 = System.currentTimeMillis();
         showTime(arr1, order);
         long t2 = System.currentTimeMillis();
         logger.info("after " + Arrays.toString(arr1));
-        DispUtil.embed(50, '*', this.algo + " SORT " + order + " ENDS..");
-        logger.info(this.algo + " SORT time used " + (t2 - t1) + "ms");
+        DispUtil.embed(50, '*', this.algoName + " SORT " + order + " ENDS..");
+        logger.info(this.algoName + " SORT time used " + (t2 - t1) + "ms");
 
         DispUtil.embed(50, '*', "J.U.A INNER SORT " + order + " STARTS");
         logger.info("before " + Arrays.toString(arr2));
