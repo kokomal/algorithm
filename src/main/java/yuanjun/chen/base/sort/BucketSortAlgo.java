@@ -181,7 +181,7 @@ public class BucketSortAlgo {
 
     public static void main(String[] args) throws Exception {
         // showDebug();
-        int size = 30000;
+        int size = 30;
         int bound = 7000;
         Float[] arr2 = RandomGenner.generateRandomTArray(size, bound, Float.class);
         Float[] arr3 = new Float[size];

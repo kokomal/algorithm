@@ -84,7 +84,7 @@ public class QuickSortAlgo {
      * @throws   
      */
     @SuppressWarnings("rawtypes")
-    private static int randomizedPartition(Comparable[] arr, int p, int r) {
+    public static int randomizedPartition(Comparable[] arr, int p, int r) {
         if (r == p) return p;
         Random rd = new Random();
         int randomPivot = rd.nextInt(r - p + 1) + p;

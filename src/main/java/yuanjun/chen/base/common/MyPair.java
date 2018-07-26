@@ -8,7 +8,7 @@
  * @Copyright: 2018 All rights reserved. 
  */
 package yuanjun.chen.base.common;
-
+import static yuanjun.chen.base.common.CommonUtils.*;
 /**   
  * @ClassName: MyPair   
  * @Description: 获取最大最小的结构体  
@@ -18,6 +18,21 @@ package yuanjun.chen.base.common;
 public class MyPair<T extends Comparable<?>> {
     T max;
     T min;
+    
+    public T challengeMax(T other) {
+        if (more(other, max)) {
+            this.max = other;
+        }
+        return this.max;
+    }
+    
+    public T challengeMin(T other) {
+        if (less(other, this.min)) {
+            this.min = other;
+        }
+        return this.min;
+    }
+    
     public T getMax() {
         return max;
     }

@@ -24,7 +24,7 @@ public abstract class GenericAlgoTester <T extends Comparable<?>> {
     private String algoName = "";
     
     /**
-     * @param algo
+     * @param algoName
      */
     public GenericAlgoTester(String algoName) {
         super();
@@ -44,6 +44,7 @@ public abstract class GenericAlgoTester <T extends Comparable<?>> {
         DispUtil.embed(50, '*', this.algoName + " SORT " + order + " STARTS");
         logger.info("before " + Arrays.toString(arr1));
         long t1 = System.currentTimeMillis();
+        // 必须重写,执行具体算法
         showTime(arr1, order);
         long t2 = System.currentTimeMillis();
         logger.info("after " + Arrays.toString(arr1));
