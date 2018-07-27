@@ -9,11 +9,12 @@
  */
 package yuanjun.chen.base.sort;
 
+import static yuanjun.chen.base.common.CommonUtils.less;
+
 import java.util.Arrays;
 import java.util.Random;
+
 import yuanjun.chen.base.common.MyArrayUtils;
-import yuanjun.chen.base.common.RandomGenner;
-import static yuanjun.chen.base.common.CommonUtils.*;
 
 /**
  * @ClassName: QuickSortAlgo
@@ -150,20 +151,9 @@ public class QuickSortAlgo {
     }
     
     public static void main(String[] args) throws Exception {
-        // int size = 200; // 26万条数据
-        // int bound = 4000;
-        // Integer[] arr = RandomGenner.generateRandomTArray(size, bound, Integer.class);
-        // Integer[] arr2 = new Integer[size];
-        // System.arraycopy(arr, 0, arr2, 0, size);
-        // System.out.println("before " + Arrays.toString(arr));
-        // quickSort_v2(arr);
-        // System.out.println("after " + Arrays.toString(arr));
-        //Double[] arr = new Double[] {3.0852497, 2.6160626, 7.0837603, 5.4795985, 0.4190886, 7.048164, 3.7710757, 8.230713, 5.7241273, 2.468667, 1.2888908, 2.8295736, 8.8464575, 2.5334203, 7.6190014, 9.401195, 0.8820677, 7.3404603, 8.859517, 7.6092377};
         Double[] arr = new Double[] {5.689676, 7.6249104, 3.7767596, 3.926818, 0.21661937, 0.44705093, 1.2294692, 9.2513485, 3.5963755, 4.140664, 5.117749, 6.624312, 1.7996395, 9.451531, 5.047748, 7.8997207, 7.413413, 7.368796, 7.1566544, 0.36539853};
-
         System.out.println("before--" + Arrays.toString(arr));
         System.out.println(partitionWithFixedPivot(arr, 0, arr.length - 1, 3.926818));
         System.out.println("after--" + Arrays.toString(arr));
     }
-
 }
