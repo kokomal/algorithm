@@ -11,7 +11,8 @@ package yuanjun.chen.base.common;
 
 import java.util.Arrays;
 import java.util.Collections;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**   
  * @ClassName: GenericAlgoTester   
@@ -20,7 +21,7 @@ import org.apache.log4j.Logger;
  * @date: 2018年7月25日 下午4:24:07  
  */
 public abstract class GenericAlgoTester <T extends Comparable<?>> {
-    private static final Logger logger = Logger.getLogger(GenericAlgoTester.class);
+    private static final Logger logger = LogManager.getLogger(GenericAlgoTester.class);
     private String algoName = "";
     
     /**

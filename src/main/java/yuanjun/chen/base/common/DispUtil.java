@@ -1,9 +1,10 @@
 package yuanjun.chen.base.common;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class DispUtil {
-    private static final Logger logger = Logger.getLogger(DispUtil.class);
+    private static final Logger logger = LogManager.getLogger(DispUtil.class);
     
     public static void split(int len, char x) {
         StringBuilder sb = new StringBuilder();

@@ -10,7 +10,8 @@
 package yuanjun.chen.base.find;
 
 import java.math.BigDecimal;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 import yuanjun.chen.base.common.MyPair;
 import yuanjun.chen.base.common.RandomGenner;
@@ -22,7 +23,7 @@ import yuanjun.chen.base.common.RandomGenner;
  * @date: 2018年7月26日 上午10:29:17  
  */
 public class FindTest {
-    private static final Logger logger = Logger.getLogger(FindTest.class);
+    private static final Logger logger = LogManager.getLogger(FindTest.class);
     @Test
     public void testFindAlgo001() throws Exception {
         BigDecimal[] arr1 = RandomGenner.generateRandomTArray(10000, 20000, BigDecimal.class);

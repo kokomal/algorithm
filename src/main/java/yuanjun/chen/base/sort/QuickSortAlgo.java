@@ -116,7 +116,7 @@ public class QuickSortAlgo {
      * @return: int
      */
     @SuppressWarnings({"rawtypes", "unchecked"})
-    private static int partition(Comparable[] arr, int p, int r) {
+    public static int partition(Comparable[] arr, int p, int r) {
         if (p == r) return p;
         int i = p - 1;
         Comparable pivotVal = arr[r];
@@ -129,15 +129,37 @@ public class QuickSortAlgo {
         return i + 1;
     }
     
+    /**
+     * 固定pivot的partition算法
+     * 前提是pivot必然存在arr的[p,r]区间内，否则没有任何意义
+     */
+    public static <T extends Comparable<?>> int partitionWithFixedPivot(T[] arr, int p, int r, final T pivot) {
+        if (p == r) return p;
+        int i = p - 1;
+        for (int j = p; j < r; j++) {
+            if (less(arr[j], pivot)) {
+                //System.out.println( "i+1=" + (i+1) + " j= " + j + " prepare swap " + arr[i + 1] + " and " + arr[j]);
+                MyArrayUtils.swap(arr, i + 1, j);
+                i = i + 1;
+                //System.out.println(Arrays.toString(arr));
+            }
+        }
+        return i + 1;
+    }
+    
     public static void main(String[] args) throws Exception {
-        int size = 200; // 26万条数据
-        int bound = 4000;
-        Integer[] arr = RandomGenner.generateRandomTArray(size, bound, Integer.class);
-        Integer[] arr2 = new Integer[size];
-        System.arraycopy(arr, 0, arr2, 0, size);
-        System.out.println("before " + Arrays.toString(arr));
-        quickSort_v2(arr);
-        System.out.println("after " + Arrays.toString(arr));
+        // int size = 200; // 26万条数据
+        // int bound = 4000;
+        // Integer[] arr = RandomGenner.generateRandomTArray(size, bound, Integer.class);
+        // Integer[] arr2 = new Integer[size];
+        // System.arraycopy(arr, 0, arr2, 0, size);
+        // System.out.println("before " + Arrays.toString(arr));
+        // quickSort_v2(arr);
+        // System.out.println("after " + Arrays.toString(arr));
+        Double[] arr = new Double[] {3.0852497, 2.6160626, 7.0837603, 5.4795985, 0.4190886, 7.048164, 3.7710757, 8.230713, 5.7241273, 2.468667, 1.2888908, 2.8295736, 8.8464575, 2.5334203, 7.6190014, 9.401195, 0.8820677, 7.3404603, 8.859517, 7.6092377};
+        System.out.println("before--" + Arrays.toString(arr));
+        System.out.println(partitionWithFixedPivot(arr, 0, arr.length - 1, 3.0852497));
+        System.out.println("after--" + Arrays.toString(arr));
     }
 
 }

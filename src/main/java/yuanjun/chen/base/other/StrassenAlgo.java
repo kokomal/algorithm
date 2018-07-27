@@ -9,7 +9,8 @@
  */
 package yuanjun.chen.base.other;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import yuanjun.chen.base.common.DispUtil;
 import yuanjun.chen.base.common.RandomGenner;
 
@@ -20,7 +21,7 @@ import yuanjun.chen.base.common.RandomGenner;
  * @date: 2018年7月17日 下午5:29:16  
  */
 public class StrassenAlgo {
-    private static final Logger logger = Logger.getLogger(StrassenAlgo.class);
+    private static final Logger logger = LogManager.getLogger(StrassenAlgo.class);
     /*
      * O[n^3]的通用矩阵乘法
      * */

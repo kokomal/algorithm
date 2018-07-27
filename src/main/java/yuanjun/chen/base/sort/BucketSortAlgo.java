@@ -11,7 +11,8 @@ package yuanjun.chen.base.sort;
 
 import java.util.Arrays;
 import java.util.Collections;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import yuanjun.chen.base.common.DispUtil;
 import yuanjun.chen.base.common.MyArrayUtils;
 import yuanjun.chen.base.common.MyPair;
@@ -26,7 +27,7 @@ import static yuanjun.chen.base.common.CommonUtils.*;
  * @date: 2018年7月24日 上午9:29:57
  */
 public class BucketSortAlgo {
-    private static final Logger logger = Logger.getLogger(BucketSortAlgo.class);
+    private static final Logger logger = LogManager.getLogger(BucketSortAlgo.class);
 
     private static boolean showDebug = false;
 

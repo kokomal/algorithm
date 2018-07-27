@@ -10,7 +10,8 @@
 package yuanjun.chen.base.container;
 
 import java.io.Serializable;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import yuanjun.chen.base.common.DispUtil;
 import yuanjun.chen.base.common.SortOrderEnum;
 import yuanjun.chen.base.sort.HeapSortAlgo;
@@ -22,7 +23,7 @@ import yuanjun.chen.base.sort.HeapSortAlgo;
  * @date: 2018年7月18日 上午10:05:25
  */
 public class HeapBasedPriorityQueue implements Serializable {
-    private static final Logger logger = Logger.getLogger(HeapBasedPriorityQueue.class);
+    private static final Logger logger = LogManager.getLogger(HeapBasedPriorityQueue.class);
     
     private static final long serialVersionUID = 1L;
     private Integer[] arr;

@@ -13,10 +13,13 @@ import static yuanjun.chen.base.common.CommonUtils.less;
 import static yuanjun.chen.base.common.CommonUtils.more;
 import java.math.BigDecimal;
 import java.util.Arrays;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import yuanjun.chen.base.common.ExtremeEnum;
 import yuanjun.chen.base.common.MyPair;
 import yuanjun.chen.base.common.RandomGenner;
+import yuanjun.chen.base.common.SortOrderEnum;
+import yuanjun.chen.base.sort.InsertionSortAlgo;
 import yuanjun.chen.base.sort.QuickSortAlgo;
 
 /**
@@ -26,7 +29,8 @@ import yuanjun.chen.base.sort.QuickSortAlgo;
  * @date: 2018年7月26日 上午8:30:39
  */
 public class FindAlgo {
-    private static final Logger logger = Logger.getLogger(FindAlgo.class);
+    private static final Logger logger = LogManager.getLogger(FindAlgo.class);
+
     /**
      * 只寻找最小值，n-1次比较
      */
@@ -53,7 +57,87 @@ public class FindAlgo {
         return randomizedSelectIthMax(tmp, 0, tmp.length - 1, i);
     }
 
+    /**
+     * 查找第i大的数据，不应该把原始数据的内容打乱 因此需要保护性拷贝一份 五分中位数查找，O[n]
+     */
+    @SuppressWarnings("unchecked")
+    public static <T extends Comparable<?>> T fiveFoldedMidSelectIthMaxWrapper(final T[] arr, int i) {
+        if (i > arr.length)
+            return null;
+        T[] tmp = (T[]) new Comparable[arr.length];
+        System.arraycopy(arr, 0, tmp, 0, arr.length);
+        return fiveFoldedMidSelectIthMax(tmp, 0, tmp.length - 1, i);
+    }
+
     // i从1开始，[1,len]
+    private static <T extends Comparable<?>> T fiveFoldedMidSelectIthMax(T[] tmp, int p, int r, int i) {
+        if (tmp.length == 0)
+            return null;
+        System.out.println("entering into p = " + p + " and r = " + r + " for ith = " + i);
+        int q = fiveFoldedMidPartition(tmp, p, r);
+        // System.out.println("q=" + q);
+        int k = q - p + 1;
+        if (i == k) {
+            System.out.println("current " + Arrays.toString(tmp));
+            return tmp[q];
+        } else if (i < q - p + 1) {
+            return fiveFoldedMidSelectIthMax(tmp, p, q - 1, i);
+        } else {
+            return fiveFoldedMidSelectIthMax(tmp, q + 1, r, i - k);
+        }
+    }
+
+    /**
+     * @Title: fiveFoldedMidPartition
+     * @Description: 五分中位数partition法
+     * @param: arr
+     * @return: int
+     */
+    private static <T extends Comparable<?>> int fiveFoldedMidPartition(T[] arr, int p, int r) {
+        // step 1 找到中位数x
+        T mid = findMedian(arr, p, r, 5);
+        System.out.println("between [" + p + " and " + r + "]" + "the mid = " + mid);
+        // step 2 根据x进行partition，得到x位于的位置
+        System.out.println("--- bf --- " + Arrays.toString(arr));
+        int pos = QuickSortAlgo.partitionWithFixedPivot(arr, p, r, mid);
+        System.out.println("--- af --- " + Arrays.toString(arr));
+        System.out.println("pos=" + pos);
+        return pos;
+    }
+
+    /**
+     * @Title: findMedian
+     * @Description: 五分组查找中位数
+     * @param arr
+     * @return: T
+     */
+    @SuppressWarnings("unchecked")
+    public static <T extends Comparable<?>> T findMedian(T[] arro, int p, int r, int interval) {
+        T[] arr = (T[]) new Comparable[arro.length];
+        System.arraycopy(arro, 0, arr, 0, arro.length);
+        if (r - p + 1 <= interval) { // 如果小于5，则直接排序返回即可
+            System.out.println("arr.length = " + arr.length + " and interval = " + interval);
+            InsertionSortAlgo.inplaceInsertionSort(arr, SortOrderEnum.ASC); // 插入排序
+            return arr[(arr.length - 1) >>> 1]; // 取排好的中位数即可， 偶数需要取下限
+        }
+        int size = (r - p + 1) / interval;
+        int newLen = (r - p + 1) % interval == 0 ? size : size + 1;
+        System.out.println("newLen=" + newLen);
+        T[] nextArr = (T[]) new Comparable[newLen];
+        int idx = 0;
+        for (int i = p; i <= r; i += interval) {
+            int j = i + interval - 1;
+            if (j > r) {
+                j = r;
+            }
+            InsertionSortAlgo.inplaceInsertionSort(arr, i, j, SortOrderEnum.ASC);
+            nextArr[idx++] = arr[(i + j) >>> 1];
+        }
+        System.out.println("nextArr=" + Arrays.toString(nextArr));
+        return findMedian(nextArr, 0, newLen - 1, interval);
+    }
+
+    // i从1开始，[1, len]
     private static <T extends Comparable<?>> T randomizedSelectIthMax(final T[] arr, int p, int r, int i) {
         if (p == r)
             return arr[p];
@@ -72,6 +156,7 @@ public class FindAlgo {
      * 单个遍历，三次比较获得最小值和最大值 耗时O[3/2n]
      */
     public static <T extends Comparable<?>> MyPair<T> fineBothMinAndMax(final T[] arr) {
+        logger.info("starting finding both min and max");
         int len = arr.length;
         if (len == 0)
             return null;
@@ -127,19 +212,13 @@ public class FindAlgo {
     }
 
     public static void main(String[] args) throws Exception {
-        BigDecimal[] arr1 = RandomGenner.generateRandomTArray(10000, 20000, BigDecimal.class);
-        System.out.println("min = " + findMinOnly(arr1));
-        System.out.println("max = " + findMaxOnly(arr1));
-        MyPair<BigDecimal> pair = fineBothMinAndMax(arr1);
-        System.out.println("max = " + pair.getMax() + ", and min = " + pair.getMin());
-
-        Integer[] arr2 = RandomGenner.generateRandomTArray(100, 400, Integer.class);
-        System.out.println("before---" + Arrays.toString(arr2));
-        int ith = 12;
-        Integer ithVal = randomizedSelectIthMaxWrapper(arr2, ith);
-        System.out.println("for ith: " + ith + " max, the val = " + ithVal);
-        System.out.println("after---" + Arrays.toString(arr2));
-        Arrays.sort(arr2);
-        System.out.println("sorted array = " + Arrays.toString(arr2));
+        //Float[] arr1 = RandomGenner.generateRandomTArray(20, 10, Float.class);
+        Double[] arr1 = new Double[] {3.0852497, 2.6160626, 7.0837603, 5.4795985, 0.4190886, 7.048164, 3.7710757, 8.230713, 5.7241273, 2.468667, 1.2888908, 2.8295736, 8.8464575, 2.5334203, 7.6190014, 9.401195, 0.8820677, 7.3404603, 8.859517, 7.6092377};
+        System.out.println("before--" + Arrays.toString(arr1));
+        int firstN = 6;
+        System.out.println(fiveFoldedMidSelectIthMaxWrapper(arr1, firstN));
+        Arrays.sort(arr1);
+        System.out.println("after--" + Arrays.toString(arr1));
+        System.out.println(arr1[firstN - 1]);
     }
 }

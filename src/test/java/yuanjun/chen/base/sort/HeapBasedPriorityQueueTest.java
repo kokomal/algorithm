@@ -9,7 +9,8 @@
  */
 package yuanjun.chen.base.sort;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 import yuanjun.chen.base.common.DispUtil;
 import yuanjun.chen.base.common.RandomGenner;
@@ -23,7 +24,7 @@ import yuanjun.chen.base.container.HeapBasedPriorityQueue;
  * @date: 2018年7月18日 下午3:56:03  
  */
 public class HeapBasedPriorityQueueTest {
-    private static final Logger logger = Logger.getLogger(HeapBasedPriorityQueueTest.class);
+    private static final Logger logger = LogManager.getLogger(HeapBasedPriorityQueueTest.class);
     @Test
     public void testHeapBasedPriorityQueue() throws Exception {
         Integer[] initArray = RandomGenner.generateRandomTArray(20, 100, Integer.class);

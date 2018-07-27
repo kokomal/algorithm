@@ -22,25 +22,30 @@ public class InsertionSortAlgo {
     /*
      * 简单平移法,逐一遍历后退
      */
-    @SuppressWarnings({"unchecked", "rawtypes"})
+    @SuppressWarnings({"rawtypes"})
     public static void inplaceInsertionSort(Comparable[] arr, SortOrderEnum order) {
+        inplaceInsertionSort(arr, 0, arr.length - 1, order);
+    }
+
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    public static void inplaceInsertionSort(Comparable[] arr, int p, int r, SortOrderEnum order) {
         int len = arr.length;
-        if (len <= 1) {
+        if (len <= 1 || p >= r) {
             return;
         }
-        for (int i = 1; i < len; i++) {
+        for (int i = p + 1; i <= r; i++) {
             // 对于第i个数而言，需要在前[0~i-1]的有序序列中，找到一个安身之地，然后将余下数组逐一移位
             int pre = i - 1;
             Comparable tmp = arr[i];
-            while (pre >= 0 && ((more(arr[pre], tmp) && order.equals(SortOrderEnum.ASC))
-                    || (more(arr[pre], tmp) && order.equals(SortOrderEnum.DESC)))) {
+            while (pre >= p && ((more(arr[pre], tmp) && order.equals(SortOrderEnum.ASC))
+                    || (less(arr[pre], tmp) && order.equals(SortOrderEnum.DESC)))) {
                 arr[pre + 1] = arr[pre]; // 逐一后退，注意此处pre要前置在短路与中
                 pre--;
             }
             arr[pre + 1] = tmp; // 终于找到,将tmp塞入
         }
     }
-
+    
     /*
      * 插入排序二分查找优化
      */

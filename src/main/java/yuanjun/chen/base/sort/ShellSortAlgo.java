@@ -10,7 +10,8 @@
 package yuanjun.chen.base.sort;
 
 import java.util.Arrays;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import yuanjun.chen.base.common.CommonUtils;
 import yuanjun.chen.base.common.MyArrayUtils;
 import yuanjun.chen.base.common.RandomGenner;
@@ -24,7 +25,7 @@ import yuanjun.chen.base.common.SortOrderEnum;
  **/
 public class ShellSortAlgo {
     
-    private static final Logger logger = Logger.getLogger(ShellSortAlgo.class);
+    private static final Logger logger = LogManager.getLogger(ShellSortAlgo.class);
     /**
      * Knuth法优化的shell排序
      * 
