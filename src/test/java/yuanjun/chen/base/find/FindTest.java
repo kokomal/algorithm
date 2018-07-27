@@ -10,8 +10,11 @@
 package yuanjun.chen.base.find;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.junit.Assert;
 import org.junit.Test;
 import yuanjun.chen.base.common.MyPair;
 import yuanjun.chen.base.common.RandomGenner;
@@ -31,5 +34,20 @@ public class FindTest {
         logger.info("max = " + FindAlgo.findMaxOnly(arr1));
         MyPair<BigDecimal> pair = FindAlgo.fineBothMinAndMax(arr1);
         logger.info("max = " + pair.getMax() + ", and min = " + pair.getMin());
+    }
+    
+    @Test
+    public void testQuickSelect() throws Exception {
+    	int size = 10000;
+    	int bound = 20000;
+        BigDecimal[] arr1 = RandomGenner.generateRandomTArray(size, bound, BigDecimal.class);
+        int firstN = size / 16;
+        logger.info("to find first " + firstN + "th number in array...");
+        BigDecimal f1 = FindAlgo.fiveFoldedMidSelectIthMaxWrapper(arr1, firstN);
+        logger.info("The quick select algo found " + f1);
+        Arrays.sort(arr1);
+        //System.out.println("after--" + Arrays.toString(arr1));
+        logger.info("After sort the real one is: " + arr1[firstN - 1]);
+        Assert.assertEquals(arr1[firstN-1], f1);
     }
 }

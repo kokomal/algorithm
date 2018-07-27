@@ -29,6 +29,11 @@ public class CommonUtils {
     public static <T> boolean less(Comparable<T> A, Comparable<T> B) {
         return A.compareTo((T) B) < 0;
     }
+    
+    @SuppressWarnings("unchecked")
+    public static <T> boolean eq(Comparable<T> A, Comparable<T> B) {
+        return A.compareTo((T) B) == 0;
+    }
 
     @SuppressWarnings("unchecked")
     public static <T> boolean lesseq(Comparable<T> A, Comparable<T> B) {

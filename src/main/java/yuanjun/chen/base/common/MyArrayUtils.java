@@ -15,6 +15,16 @@ public class MyArrayUtils {
         }
     }
     
+    public static <T extends Comparable<?>> int findIndex(T[] arr, T val) {
+        if (arr.length == 0) return -1;
+        for (int i = 0; i < arr.length; i++) {
+        	if (eq(arr[i], val)) {
+        		return i;
+        	}
+        }
+        return -1;
+    }
+    
     @SuppressWarnings({"rawtypes", "unchecked"})
     public static <T extends Comparable> MyPair<T> fetchMinAndMax(T[] arr) {
         if (arr.length == 0) {

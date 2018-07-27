@@ -73,12 +73,12 @@ public class FindAlgo {
     private static <T extends Comparable<?>> T fiveFoldedMidSelectIthMax(T[] tmp, int p, int r, int i) {
         if (tmp.length == 0)
             return null;
-        System.out.println("entering into p = " + p + " and r = " + r + " for ith = " + i);
+        // System.out.println("entering into p = " + p + " and r = " + r + " for ith = " + i);
         int q = fiveFoldedMidPartition(tmp, p, r);
         // System.out.println("q=" + q);
         int k = q - p + 1;
         if (i == k) {
-            System.out.println("current " + Arrays.toString(tmp));
+            //System.out.println("current " + Arrays.toString(tmp));
             return tmp[q];
         } else if (i < q - p + 1) {
             return fiveFoldedMidSelectIthMax(tmp, p, q - 1, i);
@@ -96,12 +96,12 @@ public class FindAlgo {
     private static <T extends Comparable<?>> int fiveFoldedMidPartition(T[] arr, int p, int r) {
         // step 1 找到中位数x
         T mid = findMedian(arr, p, r, 5);
-        System.out.println("between [" + p + " and " + r + "]" + "the mid = " + mid);
+        //System.out.println("between [" + p + " and " + r + "]" + "the mid = " + mid);
         // step 2 根据x进行partition，得到x位于的位置
-        System.out.println("--- bf --- " + Arrays.toString(arr));
+        //System.out.println("--- bf --- " + Arrays.toString(arr));
         int pos = QuickSortAlgo.partitionWithFixedPivot(arr, p, r, mid);
-        System.out.println("--- af --- " + Arrays.toString(arr));
-        System.out.println("pos=" + pos);
+        //System.out.println("--- af --- " + Arrays.toString(arr));
+        //System.out.println("pos=" + pos);
         return pos;
     }
 
@@ -116,13 +116,13 @@ public class FindAlgo {
         T[] arr = (T[]) new Comparable[arro.length];
         System.arraycopy(arro, 0, arr, 0, arro.length);
         if (r - p + 1 <= interval) { // 如果小于5，则直接排序返回即可
-            System.out.println("arr.length = " + arr.length + " and interval = " + interval);
-            InsertionSortAlgo.inplaceInsertionSort(arr, SortOrderEnum.ASC); // 插入排序
-            return arr[(arr.length - 1) >>> 1]; // 取排好的中位数即可， 偶数需要取下限
+            //System.out.println("arr.length = " + arr.length + " and interval = " + interval);
+            InsertionSortAlgo.inplaceInsertionSort(arr, p, r, SortOrderEnum.ASC); // 插入排序
+            return arr[(p + r) >>> 1]; // 取排好的中位数即可， 偶数需要取下限
         }
         int size = (r - p + 1) / interval;
         int newLen = (r - p + 1) % interval == 0 ? size : size + 1;
-        System.out.println("newLen=" + newLen);
+        //System.out.println("newLen=" + newLen);
         T[] nextArr = (T[]) new Comparable[newLen];
         int idx = 0;
         for (int i = p; i <= r; i += interval) {
@@ -133,7 +133,7 @@ public class FindAlgo {
             InsertionSortAlgo.inplaceInsertionSort(arr, i, j, SortOrderEnum.ASC);
             nextArr[idx++] = arr[(i + j) >>> 1];
         }
-        System.out.println("nextArr=" + Arrays.toString(nextArr));
+        //System.out.println("nextArr=" + Arrays.toString(nextArr));
         return findMedian(nextArr, 0, newLen - 1, interval);
     }
 
@@ -212,13 +212,10 @@ public class FindAlgo {
     }
 
     public static void main(String[] args) throws Exception {
-        //Float[] arr1 = RandomGenner.generateRandomTArray(20, 10, Float.class);
-        Double[] arr1 = new Double[] {3.0852497, 2.6160626, 7.0837603, 5.4795985, 0.4190886, 7.048164, 3.7710757, 8.230713, 5.7241273, 2.468667, 1.2888908, 2.8295736, 8.8464575, 2.5334203, 7.6190014, 9.401195, 0.8820677, 7.3404603, 8.859517, 7.6092377};
-        System.out.println("before--" + Arrays.toString(arr1));
-        int firstN = 6;
+        Float[] arr1 = RandomGenner.generateRandomTArray(200, 1000, Float.class);
+        int firstN = 100;
         System.out.println(fiveFoldedMidSelectIthMaxWrapper(arr1, firstN));
         Arrays.sort(arr1);
-        System.out.println("after--" + Arrays.toString(arr1));
         System.out.println(arr1[firstN - 1]);
     }
 }

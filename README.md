@@ -58,7 +58,8 @@ Knuth对希尔排序的h选择和削减提出了行之有效的优化（3倍递�
 
 ---
 
-## yuanjun.chen.base.find。FindAlgo。java
+## yuanjun.chen.base.find。FindAlgo.java
 此类实现在序列中单独查找min和max的方法，时间为O[n-1]，也展现了一次遍历同时查找min和max的方法，时间为O[3/2n],即二二步进，每次3次比较  
-
-
+查找topK方面有两个具体的方法，即随机选择前I号元素的randomizedSelectIthMaxWrapper方法，和采用5分组的中位数快速选择算法的fiveFoldedMidSelectIthMaxWrapper方法，这是目前为止看来比较优雅，但最繁琐的查找排序算法，涵盖了插入排序、递归寻找中位数、改进的快速排序下的partition算法，含金量比较高
+randomizedSelectIthMaxWrapper采用了CLRS chapter 9 里面提出的随机快速partition算法，此算法能够快速定位待排的数是在pivot前还是pivot之后，然后可以进行快速的剪枝；
+fiveFoldedMidSelectIthMaxWrapper采用了CLRS chapter 9 里面提到的五分组快速选择算法，CLRS并未完整给出其算法细节，只是提示快速排序的partition算法需要锁定pivot实现，此外，CLRS还给出5分组中位数算法，以快速求得某数组的中位数。此算法有诸多小细节需要额外注意，例如改进的partition算法将不得不将尾元素考虑到排序移位上来，并且，需要手动把原pivot与新pivot值交换，否则topK的K将无法精确定位。  
