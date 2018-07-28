@@ -37,7 +37,7 @@ public class RandomGenner {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T extends Comparable<?>> T[] generateRandomTArray(int size, int bound, Class<T> clazz)
+    public static <T extends Object> T[] generateRandomTArray(int size, int bound, Class<T> clazz)
             throws Exception {
         if (!supportedTypes.contains(clazz)) {
             throw new UnsupportedTypeException("class name " + clazz.getName() + " not supported!");

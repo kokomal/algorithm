@@ -1,6 +1,7 @@
 # algorithm
-本工程涵盖基本算法基础 ，部分算法来源于CLRS算法导论相关章节  
-根据算法的特性，可以分为比较排序（例如冒泡、堆排序、插入排序、归并排序、快速排序、选择排序、希尔排序等）和非比较排序（例如计数排序、基数排序和桶排序）  
+本工程涵盖基本算法和容器操作基础 ，部分算法来源于CLRS算法导论相关章节，在此向CLRS等诸位先驱致敬！  
+sort包相关:  
+根据排序算法的特性，可以分为比较排序（例如冒泡、堆排序、插入排序、归并排序、快速排序、选择排序、希尔排序等）和非比较排序（例如计数排序、基数排序和桶排序）  
 不同的排序，对数据类型和幅值的要求不一，因此应用场合也各有不同  
 
 ## GenericAlgoTester.java
@@ -57,9 +58,16 @@ Knuth对希尔排序的h选择和削减提出了行之有效的优化（3倍递�
 桶排序的难点是对链表进行插入排序，参见leetcode#147，需要构造伪头节点进行遍历和插入   
 
 ---
-
+find包相关:  
+此包实现基本的顺序序列查找算法  
 ## yuanjun.chen.base.find.FindAlgo.java
 此类实现在序列中单独查找min和max的方法，时间为O[n-1]，也展现了一次遍历同时查找min和max的方法，时间为O[3/2n],即二二步进，每次3次比较  
 查找topK方面有两个具体的方法，即随机选择前I号元素的randomizedSelectIthMaxWrapper方法，和采用5分组的中位数快速选择算法的fiveFoldedMidSelectIthMaxWrapper方法，这是目前为止看来比较优雅，但最繁琐的查找排序算法，涵盖了插入排序、递归寻找中位数、改进的快速排序下的partition算法，含金量比较高  
 randomizedSelectIthMaxWrapper采用了CLRS chapter 9 里面提出的随机快速partition算法，此算法能够快速定位待排的数是在pivot前还是pivot之后，然后可以进行快速的剪枝；
 fiveFoldedMidSelectIthMaxWrapper采用了CLRS chapter 9 里面提到的五分组快速选择算法，CLRS并未完整给出其算法细节，只是提示快速排序的partition算法需要锁定pivot实现，此外，CLRS还给出5分组中位数算法，以快速求得某数组的中位数。此算法有诸多小细节需要额外注意，例如改进的partition算法将不得不将尾元素考虑到排序移位上来，并且，需要手动把原pivot与新pivot值交换，否则topK的K将无法精确定位。  
+
+---
+container包相关:  
+此包涵盖基础的容器类的实现及相应算法  
+## yuanjun.chen.base.container.MyStack.java
+此类为简易的栈，支持简易的入栈出栈操作，并且支持自动shrink操作，yuanjun.chen.base.container.MyStackTest.java实现了对MyStack的测试
