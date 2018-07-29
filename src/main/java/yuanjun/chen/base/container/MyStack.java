@@ -28,6 +28,9 @@ public class MyStack<T extends Object> {
 	@SuppressWarnings("unchecked")
 	public MyStack(int initSize) {
 		super();
+		if (initSize < 0) {
+			initSize = INIT_SIZE;
+		}
 		this.vals = (T[]) new Object[initSize];
 		this.elements = 0;
 	}
