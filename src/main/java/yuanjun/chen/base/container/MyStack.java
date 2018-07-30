@@ -35,23 +35,27 @@ public class MyStack<T extends Object> {
 		this.elements = 0;
 	}
 
-	public boolean empty() {
+	public boolean isEmpty() {
 		return this.elements == 0;
 	}
 
+	public boolean isFull() {
+	    return this.elements == this.vals.length;
+	}
+	
 	public T push(T item) {
 		ensureCapacity(this.elements + 1);
 		return this.vals[this.elements++] = item;
 	}
 
 	public T peek() throws StackUnderflowException {
-		if (this.empty())
+		if (this.isEmpty())
 			throw new StackUnderflowException("underflow");
 		return this.vals[this.elements - 1];
 	}
 
 	public T pop() throws StackUnderflowException {
-		if (this.empty())
+		if (this.isEmpty())
 			throw new StackUnderflowException("underflow");
 		this.elements--;
 		return this.vals[this.elements];
@@ -59,7 +63,7 @@ public class MyStack<T extends Object> {
 
 	@SuppressWarnings("unchecked")
 	public void shrinkToFit() {
-		if (this.empty()) return;
+		if (this.isEmpty()) return;
 		T[] newVals = (T[]) new Object[this.elements];
 		System.arraycopy(this.vals, 0, newVals, 0, this.elements);
 		this.vals = newVals;
@@ -95,7 +99,7 @@ public class MyStack<T extends Object> {
 		int b = mystack.pop(); // 14
 		System.out.println("a = " + a + ", b=" + b); // a=15,b=14
 		System.out.println(mystack.peek()); // 13
-		System.out.println("is it empty ? " + mystack.empty()); // false
+		System.out.println("is it empty ? " + mystack.isEmpty()); // false
 		for (int i = 20; i < 30; i++) {
 			mystack.push(i); // expanding from 8 to 16
 		}
@@ -105,10 +109,10 @@ public class MyStack<T extends Object> {
 		
 		System.out.println("peek " + mystack.peek()); // 29
 		mystack.push(99); // resize again
-		while (!mystack.empty()) {
+		while (!mystack.isEmpty()) {
 			System.out.print("==>" + mystack.pop());
 		}
-		System.out.println("\nis it empty ? " + mystack.empty()); // true
+		System.out.println("\nis it empty ? " + mystack.isEmpty()); // true
 		try {
 			mystack.pop();
 		} catch (StackUnderflowException e) {
