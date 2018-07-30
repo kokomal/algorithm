@@ -33,7 +33,7 @@ public class MyStackTest {
 		MyStack<T> mystack = genMyStack(size, bound, clazz);
 		logger.info("finally the capacity is: " + mystack.capacity());
 		StringBuilder sb = new StringBuilder("[");
-		while (!mystack.empty()) {
+		while (!mystack.isEmpty()) {
 			sb.append(mystack.pop() + ", ");
 		}
 		String str = sb.substring(0, sb.length() - 2);
@@ -46,7 +46,7 @@ public class MyStackTest {
 		for (int i = 0; i < size; i++) { //pop size次直至empty
 			mystack.pop();
 		}
-		logger.info("should it be empty? " + mystack.empty());
+		logger.info("should it be empty? " + mystack.isEmpty());
 		try {
 			mystack.peek(); // try to peek an empty stack
 		} catch (StackUnderflowException e) {
