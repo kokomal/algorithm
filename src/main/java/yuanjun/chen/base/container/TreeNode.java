@@ -36,4 +36,12 @@ public class TreeNode<T extends Object> {
         this.right = right;
     }
 
+	public T getVal() {
+		return val;
+	}
+
+	public void setVal(T val) {
+		this.val = val;
+	}
+
 }
