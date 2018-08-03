@@ -54,6 +54,10 @@ public class MyStack<T extends Object> {
 		return this.vals[this.elements - 1];
 	}
 
+	public int size() {
+	    return this.elements;
+	}
+	
 	public T pop() throws StackUnderflowException {
 		if (this.isEmpty())
 			throw new StackUnderflowException("underflow");

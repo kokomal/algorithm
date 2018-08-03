@@ -151,45 +151,45 @@ public class HeapBasedPriorityQueue implements Serializable {
     }
     
     /**
-     * @comment 对于最大Queue的pos位增加权重到key（注意key是最终值，不是递增量） 
-     * @comment 如果是最小Queue，或者key比原值小，此方法返回false 
+     * @comment 对于最大Queue的pos位增加权重到newVal（注意newVal是最终值，不是递增量） 
+     * @comment 如果是最小Queue，或者newVal比原值小，此方法返回false 
      * @comment 如果pos越界，也返回false
      **/
-    public boolean increaseKey(int pos, int key) {
-        if (SortOrderEnum.DESC.equals(this.order) || this.cursor < pos || this.arr[pos] > key) {
+    public boolean increaseKey(int pos, int newVal) {
+        if (SortOrderEnum.DESC.equals(this.order) || this.cursor < pos || this.arr[pos] > newVal) {
             return false;
         }
-        protoIncDecKey(pos, key);
+        protoIncDecKey(pos, newVal);
         return true;
     }
     
     /**
-     * @comment 对于最小Queue的pos位减少权重到key（注意key是最终值，不是递增量） 
-     * @comment 如果是最大Queue，或者key比原值大，此方法返回false 
+     * @comment 对于最小Queue的pos位减少权重到newVal（注意newVal是最终值，不是递增量） 
+     * @comment 如果是最大Queue，或者newVal比原值大，此方法返回false 
      * @comment 如果pos越界，也返回false
      **/
-    public boolean decreaseKey(int pos, int key) {
-        if (SortOrderEnum.ASC.equals(this.order) || this.cursor < pos || this.arr[pos] < key) {
+    public boolean decreaseKey(int pos, int newVal) {
+        if (SortOrderEnum.ASC.equals(this.order) || this.cursor < pos || this.arr[pos] < newVal) {
             return false;
         }
-        protoIncDecKey(pos, key);
+        protoIncDecKey(pos, newVal);
         return true;
     }
 
     /**   
      * @Title: protoIncDecKey   
-     * @Description: 递增或递减Key的元方法 
+     * @Description: 递增或递减newVal的元方法 
      * @param: @param pos
      * @param: @param key
      * @return: boolean      
      * @throws   
      */
-    private void protoIncDecKey(int pos, int key) {
-        this.arr[pos] = key;
+    private void protoIncDecKey(int pos, int newVal) {
+        this.arr[pos] = newVal;
         while (pos != 0) { // pos为0则跳出，否则死循环
             int parent = (pos - 1) >>> 1;
-            boolean shouldGoUp = arr[parent] < key && SortOrderEnum.ASC.equals(this.order);
-            shouldGoUp = shouldGoUp || (arr[parent] > key && SortOrderEnum.DESC.equals(this.order));
+            boolean shouldGoUp = arr[parent] < newVal && SortOrderEnum.ASC.equals(this.order);
+            shouldGoUp = shouldGoUp || (arr[parent] > newVal && SortOrderEnum.DESC.equals(this.order));
             if (shouldGoUp) {
                 arr[pos] = arr[parent];
                 pos = parent;
@@ -197,7 +197,7 @@ public class HeapBasedPriorityQueue implements Serializable {
                 break;
             }
         }
-        this.arr[pos] = key;
+        this.arr[pos] = newVal;
     }
     
 }

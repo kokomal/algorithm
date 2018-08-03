@@ -37,6 +37,9 @@ public class MyQueue<T extends Object> {
         this.tail = 0;
     }
 
+    public int size() {
+        return (tail - head + vals.length) % vals.length;
+    }
     // enqueue影响tail，并且tail永远保持一个虚的占位
     public void enqueue(T item) throws QueueOverflowException {
         if (isFull())
@@ -82,10 +85,12 @@ public class MyQueue<T extends Object> {
         myqueue.enqueue(13);
         myqueue.enqueue(14);
         myqueue.enqueue(15);
+        System.out.println("size=" + myqueue.size()); // 4
         System.out.println(myqueue.dequeue()); // 12
         System.out.println(myqueue.dequeue()); // 13
         System.out.println(myqueue.dequeue()); // 14
         System.out.println(myqueue.dequeue()); // 15
+        System.out.println("size=" + myqueue.size()); // 0
         try {
             myqueue.dequeue();
         } catch (QueueUnderflowException e) {

@@ -90,9 +90,7 @@ public class MySinglyLinkedList<T extends Object> {
 	    if (isEmpty() || head == tail) return;
 	    Node<T> cur = head;
 	    Node<T> newtail = null;
-	    // System.out.println("tail=" + tail.val);
 	    while (cur != tail) {
-	        // System.out.println("cur=" + cur.val);
 	        Node<T> tmp = cur.next;
 	        cur.next = newtail;
 	        newtail = cur;
