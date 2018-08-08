@@ -1,40 +1,23 @@
-/**
- * 
- */
 package yuanjun.chen.base.container;
 
 /**
  * @author 陈元俊
- *
  */
 public class Node<T extends Object> {
 	protected T val;
 	protected Node<T> next;
 	protected Node<T> pre;
 
-	/**
-	 * @param val
-	 * @param next
-	 * @param pre
-	 */
 	public Node(T val, Node<T> next, Node<T> pre) {
-		super();
 		this.val = val;
 		this.next = next;
 		this.pre = pre;
 	}
-	
-	/**
-	 * @param val
-	 * @param next
-	 */
-	public Node(T val, Node<T> next) {
-		super();
+		public Node(T val, Node<T> next) {
 		this.val = val;
 		this.next = next;
 	}
-	
-	public T getVal() {
+		public T getVal() {
 		return val;
 	}
 
@@ -57,5 +40,4 @@ public class Node<T extends Object> {
 	public void setPre(Node<T> pre) {
 		this.pre = pre;
 	}
-
 }

@@ -24,29 +24,27 @@ import yuanjun.chen.base.sort.HeapSortAlgo;
  */
 public class HeapBasedPriorityQueue implements Serializable {
     private static final Logger logger = LogManager.getLogger(HeapBasedPriorityQueue.class);
-    
     private static final long serialVersionUID = 1L;
     private Integer[] arr;
     private SortOrderEnum order;
-    private int cursor = 0;
-    
+    private int cursor;
+
     /**
      * @param Integer[] initArray
      * @param SortOrderEnum order
      */
     public HeapBasedPriorityQueue(final Integer[] initArray, SortOrderEnum order) {
-        super();
         this.order = order;
         this.arr = new Integer[initArray.length * 2];
         this.cursor = initArray.length - 1;
         System.arraycopy(initArray, 0, this.arr, 0, initArray.length);
         HeapSortAlgo.buildMaxHeap(this.arr, this.order, initArray.length); // 构建最大堆即可初始化即完成
     }
-    
+
     /**
      * @comment 打印全部
      * @comment 打印1d二叉树的实例
-     **/
+     */
     public void peakAll1D() {
         if (this.cursor < 0) {
             logger.warn("===THERE IS NOTHING===");
@@ -56,15 +54,15 @@ public class HeapBasedPriorityQueue implements Serializable {
         StringBuilder sb = new StringBuilder();
         sb.append(arr[0]);
         for (int n = 1; n < len; n++) {
-            sb.append("," + arr[n]);
+            sb.append(",").append(arr[n]);
         }
         logger.info(sb.toString());
     }
-    
+
     /**
      * @comment 打印全部
      * @comment 比较粗糙的打印2d二叉树的实例
-     **/
+     */
     public void peakAll2D() {
         if (this.cursor < 0) {
             logger.warn("===THERE IS NOTHING===");
@@ -74,11 +72,10 @@ public class HeapBasedPriorityQueue implements Serializable {
         int len = this.cursor + 1;
         int padding = perPad * (len / 2); // 3U
         int idx = 0;
-        
         for (int n = 0; idx < len; n++) {
             // gap = 2^n-1 to 2^2-2
             int leftCur = (int) Math.pow(2, n) - 1;
-            int rightCur = (int) Math.pow(2, n+1) - 2;
+            int rightCur = (int) Math.pow(2, n + 1) - 2;
             int nGaps = rightCur - leftCur + 2;
             int per = padding / nGaps;
             StringBuilder sb = new StringBuilder();
@@ -87,31 +84,34 @@ public class HeapBasedPriorityQueue implements Serializable {
                 sb.append(DispUtil.splitOne(per, ' '));
                 sb.append(arr[i]);
             }
-            logger.info(sb.toString() + "\n");
+            logger.info(sb + "\n");
         }
-        
     }
-    
+
     public int size() {
         return cursor + 1;
     }
-    
+
     public Integer peek() {
-        if (this.cursor < 0) return null;
+        if (this.cursor < 0) {
+            return null;
+        }
         return arr[0];
     }
-    
+
     public Integer peekAt(int idx) {
-        if (this.cursor < idx) return null;
+        if (this.cursor < idx) {
+            return null;
+        }
         return arr[idx];
     }
-    
+
     /**
      * @comment 插入key，步骤如下：
      * @comment 1. 扩容1个
      * @comment 2. 新key先以MAX或者MIN插入
      * @comment 3. 调用increaseKey或者decreaseKey进行翻转
-     **/
+     */
     public void insertKey(int key) {
         int len = this.arr.length;
         if (this.cursor + 1 == len) {
@@ -122,13 +122,15 @@ public class HeapBasedPriorityQueue implements Serializable {
         this.cursor++;
         protoIncDecKey(cursor, key);
     }
-    
+
     /**
      * @comment 弹出最前的元素
      * @comment 末尾元素篡位，然后从头开始maxHeapify
-     **/
+     */
     public Integer pop() {
-        if (cursor < 0) return null; // 空则返回null
+        if (cursor < 0) {
+            return null;
+        } // 空则返回null
         Integer res = arr[0];
         if (cursor >= 0) {
             arr[0] = arr[cursor--];
@@ -144,17 +146,17 @@ public class HeapBasedPriorityQueue implements Serializable {
         int res = this.arr[pos];
         this.arr[pos] = this.arr[cursor];
         if (cursor >= 0) {
-            cursor-- ;
+            cursor--;
             HeapSortAlgo.maxheapify(arr, order, true, pos, cursor + 1);
         }
         return res;
     }
-    
+
     /**
-     * @comment 对于最大Queue的pos位增加权重到newVal（注意newVal是最终值，不是递增量） 
-     * @comment 如果是最小Queue，或者newVal比原值小，此方法返回false 
+     * @comment 对于最大Queue的pos位增加权重到newVal（注意newVal是最终值，不是递增量）
+     * @comment 如果是最小Queue，或者newVal比原值小，此方法返回false
      * @comment 如果pos越界，也返回false
-     **/
+     */
     public boolean increaseKey(int pos, int newVal) {
         if (SortOrderEnum.DESC.equals(this.order) || this.cursor < pos || this.arr[pos] > newVal) {
             return false;
@@ -162,12 +164,12 @@ public class HeapBasedPriorityQueue implements Serializable {
         protoIncDecKey(pos, newVal);
         return true;
     }
-    
+
     /**
-     * @comment 对于最小Queue的pos位减少权重到newVal（注意newVal是最终值，不是递增量） 
-     * @comment 如果是最大Queue，或者newVal比原值大，此方法返回false 
+     * @comment 对于最小Queue的pos位减少权重到newVal（注意newVal是最终值，不是递增量）
+     * @comment 如果是最大Queue，或者newVal比原值大，此方法返回false
      * @comment 如果pos越界，也返回false
-     **/
+     */
     public boolean decreaseKey(int pos, int newVal) {
         if (SortOrderEnum.ASC.equals(this.order) || this.cursor < pos || this.arr[pos] < newVal) {
             return false;
@@ -176,18 +178,10 @@ public class HeapBasedPriorityQueue implements Serializable {
         return true;
     }
 
-    /**   
-     * @Title: protoIncDecKey   
-     * @Description: 递增或递减newVal的元方法 
-     * @param: @param pos
-     * @param: @param key
-     * @return: boolean      
-     * @throws   
-     */
     private void protoIncDecKey(int pos, int newVal) {
         this.arr[pos] = newVal;
         while (pos != 0) { // pos为0则跳出，否则死循环
-            int parent = (pos - 1) >>> 1;
+            int parent = pos - 1 >>> 1;
             boolean shouldGoUp = arr[parent] < newVal && SortOrderEnum.ASC.equals(this.order);
             shouldGoUp = shouldGoUp || (arr[parent] > newVal && SortOrderEnum.DESC.equals(this.order));
             if (shouldGoUp) {
@@ -199,5 +193,4 @@ public class HeapBasedPriorityQueue implements Serializable {
         }
         this.arr[pos] = newVal;
     }
-    
 }

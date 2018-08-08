@@ -25,7 +25,6 @@ public class MyQueueUsing2Stack<T extends Object> {
     private static final int INIT_SIZE = 16;
 
     public MyQueueUsing2Stack(int initSize) {
-        super();
         if (initSize < 0) {
             initSize = INIT_SIZE;
         }
@@ -35,30 +34,24 @@ public class MyQueueUsing2Stack<T extends Object> {
     }
 
     public MyQueueUsing2Stack() {
-        super();
         this.initSize = INIT_SIZE;
         stack1 = new MyStack<>(this.initSize);
         stack2 = new MyStack<>(this.initSize);
     }
 
-    /**
-     * 无脑将新元素压入stack1即可
-     * 如果stack1满了将无元素可压（可以动stack2的脑筋吗？） 
-     */
+    /** 无脑将新元素压入stack1即可 如果stack1满了将无元素可压（可以动stack2的脑筋吗？）. */
     public void enqueue(T item) throws Exception {
-        if (stack1.isFull())
+        if (stack1.isFull()) {
             throw new QueueOverflowException("queue full");
+        }
         stack1.push(item);
     }
 
-    /**
-     * ★★★核心思想★★★
-     * 可以将stack2类比为jvm的"老年代",stack1为"伊甸"
-     * 能存在于stack2的元素，必然在stack1里面待过，并且年龄不小了 
-     */
+    /** ★★★核心思想★★★ 可以将stack2类比为jvm的"老年代",stack1为"伊甸" 能存在于stack2的元素，必然在stack1里面待过，并且年龄不小了. */
     public T dequeue() throws Exception {
-        if (stack1.isEmpty() && stack2.isEmpty())
+        if (stack1.isEmpty() && stack2.isEmpty()) {
             throw new QueueUnderflowException("queue empty");
+        }
         if (!stack2.isEmpty()) { // stack2有容量，则直接从stack2弹出来
             return stack2.pop();
         }
@@ -66,8 +59,7 @@ public class MyQueueUsing2Stack<T extends Object> {
             T pp = stack1.pop();
             stack2.push(pp);
         }
-        T pop = stack2.pop();
-        return pop;
+        return stack2.pop();
     }
 
     public static void main(String[] args) throws Exception {
@@ -94,4 +86,3 @@ public class MyQueueUsing2Stack<T extends Object> {
         }
     }
 }
-

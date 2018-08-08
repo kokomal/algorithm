@@ -6,7 +6,7 @@
  * @date: 2018年7月24日 下午3:57:36
  * @version V1.0
  * @Copyright: 2018 All rights reserved.
- **/
+ */
 package yuanjun.chen.base.sort;
 
 import java.util.Arrays;
@@ -22,14 +22,10 @@ import yuanjun.chen.base.common.SortOrderEnum;
  * @Description: 希尔排序
  * @author: 陈元俊
  * @date: 2018年7月24日 下午3:57:36
- **/
+ */
 public class ShellSortAlgo {
-    
-    private static final Logger logger = LogManager.getLogger(ShellSortAlgo.class);
-    /**
-     * Knuth法优化的shell排序
-     * 
-     **/
+        private static final Logger logger = LogManager.getLogger(ShellSortAlgo.class);
+    /** Knuth法优化的shell排序. */
     public static <T> void inplaceShellSortKnuthWay(Comparable<T>[] arr, SortOrderEnum order) {
         int len = arr.length;
         if (len <= 1) {
@@ -37,11 +33,11 @@ public class ShellSortAlgo {
         }
         int h = getHByKnuthWay(len);
         logger.info("len = " + len + " ,with step h = " + h);
-        /**
+        /*
          * [0] [1] [2] [3] [4] [5] --- [h] [h+1] --- [2h][2h+1] --- [3h][3h+1]
          * |____________________________|_____________|______________| 
          * j-n*h                        j-h           j
-         **/
+         */
         while (h >= 1) {
             for (int i = h; i < len; i++) {
                 for (int j = i; j >= h && ((CommonUtils.less(arr[j], arr[j - h]) && SortOrderEnum.ASC.equals(order))
@@ -54,10 +50,10 @@ public class ShellSortAlgo {
     }
 
     /**
-     * getHByKnuthWay 通过辗转*3法获得len下适合的h步长
+     * GetHByKnuthWay 通过辗转*3法获得len下适合的h步长
      * 
      * @param: len
-     **/
+     */
     private static int getHByKnuthWay(int len) {
         int h = 1;
         while (h < len / 3) { // 取得最大的h,使得遵循公式(3^h-1)/2或[1,4,14,40,121,…], 从len/3开始衰减到1
@@ -65,8 +61,7 @@ public class ShellSortAlgo {
         }
         return h;
     }
-    
-    public static void main(String[] args) throws Exception {
+        public static void main(String[] args) throws Exception {
         Integer[] arr = new Integer[] {33, 23, 12, 3, 22, 12};
         inplaceShellSortKnuthWay(arr, SortOrderEnum.ASC);
         System.out.println(Arrays.toString(arr));

@@ -4,19 +4,18 @@ import org.junit.Test;
 import yuanjun.chen.base.common.GenericAlgoTester;
 import yuanjun.chen.base.common.SortOrderEnum;
 
-/*
- * 冒泡排序测试
- * */
+/** 冒泡排序测试. */
 public class BubbleSortTest {
     @Test
     public void testBubble001() throws Exception {
         testBubbleSortProto(10000, 8000, SortOrderEnum.ASC, Integer.class);
     }
-    
+
     @Test
     public void testBubble002() throws Exception {
         testBubbleSortProto(10000, 8000, SortOrderEnum.ASC, Float.class);
     }
+
     /**
      * @Title testBucketSortProto
      * @Description 原始测试类

@@ -1,6 +1,3 @@
-/**
- * 
- */
 package yuanjun.chen.base.container;
 
 import java.util.Arrays;
@@ -12,7 +9,6 @@ import yuanjun.chen.base.exception.QueueOverflowException;
 
 /**
  * @author 陈元俊
- *
  */
 public class MyQueueTest {
     private static final Logger logger = LogManager.getLogger(MyQueueTest.class);
@@ -21,7 +17,7 @@ public class MyQueueTest {
     public void testDequeue() throws Exception {
         MyQueue<Float> q = genMyQueue(100, 200, Float.class); // 生成一个满的queue
         try {
-            q.enqueue((float) 11.11); // 再次enqueue
+            q.enqueue(11.11f); // 再次enqueue
         } catch (QueueOverflowException e) {
             logger.error("enqueue extra failed " + e.getMsg());
         }
@@ -29,7 +25,7 @@ public class MyQueueTest {
         StringBuilder sb = new StringBuilder("["); // 全部dequeue出来
         while (!q.isEmpty()) {
             Float x = q.dequeue();
-            sb.append(x + ", ");
+            sb.append(x).append(", ");
         }
         String str = sb.substring(0, sb.length() - 2);
         logger.info("outputdata is = " + str + "]");

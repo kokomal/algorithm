@@ -24,22 +24,22 @@ public class MergeSortTest {
     public void testMergeSort1() throws Exception {
         testMergeSortProto(10000, 8000, SortOrderEnum.ASC, Integer.class);
     }
-       
+
     @Test
     public void testMergeSort2() throws Exception {
         testMergeSortProto(20000, 8000, SortOrderEnum.DESC, Integer.class);
     }
-    
+
     @Test
     public void testMergeSort3() throws Exception {
         testMergeSortProto(30000, 8000, SortOrderEnum.ASC, Double.class);
     }
-       
+
     @Test
     public void testMergeSort4() throws Exception {
         testMergeSortProto(40000, 8000, SortOrderEnum.DESC, Double.class);
     }
-    
+
     /**
      * @Title testBucketSortProto
      * @Description 原始测试类

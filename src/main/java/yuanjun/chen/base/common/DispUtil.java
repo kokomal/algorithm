@@ -5,7 +5,7 @@ import org.apache.logging.log4j.Logger;
 
 public class DispUtil {
     private static final Logger logger = LogManager.getLogger(DispUtil.class);
-    
+
     public static void split(int len, char x) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < len; i++) {
@@ -33,13 +33,13 @@ public class DispUtil {
         }
         return sb.toString();
     }
-    
+
     public static void showMatrix(Integer[][] matrix) {
         for (Integer[] line : matrix) {
             StringBuilder sb = new StringBuilder();
-            sb.append("|" + line[0]);
+            sb.append("|").append(line[0]);
             for (int i = 1; i < line.length; i++) {
-                sb.append("," + line[i]);
+                sb.append(",").append(line[i]);
             }
             sb.append("|");
             logger.info(sb.toString());

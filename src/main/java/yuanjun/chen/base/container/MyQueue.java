@@ -1,6 +1,3 @@
-/**
- * 
- */
 package yuanjun.chen.base.container;
 
 import org.apache.logging.log4j.LogManager;
@@ -14,13 +11,12 @@ import yuanjun.chen.base.exception.QueueUnderflowException;
 public class MyQueue<T extends Object> {
     private static final Logger logger = LogManager.getLogger(MyQueue.class);
     protected T[] vals;
-    protected int head = 0;
-    protected int tail = 0;
+    protected int head;
+    protected int tail;
     private static final int INIT_SIZE = 16;
 
     @SuppressWarnings("unchecked")
     public MyQueue() {
-        super();
         this.vals = (T[]) new Object[INIT_SIZE];
         this.head = 0;
         this.tail = 0;
@@ -28,7 +24,6 @@ public class MyQueue<T extends Object> {
 
     @SuppressWarnings("unchecked")
     public MyQueue(int initSize) {
-        super();
         if (initSize < 0) {
             initSize = INIT_SIZE;
         }
@@ -40,19 +35,21 @@ public class MyQueue<T extends Object> {
     public int size() {
         return (tail - head + vals.length) % vals.length;
     }
-    // enqueue影响tail，并且tail永远保持一个虚的占位
+    /** Enqueue影响tail，并且tail永远保持一个虚的占位. */
     public void enqueue(T item) throws QueueOverflowException {
-        if (isFull())
+        if (isFull()) {
             throw new QueueOverflowException("queue full");
+        }
         this.vals[this.tail] = item;
         this.tail = stepAhead(this.tail);
         // tellHeadAndTail();
     }
 
-    // dequeue仅影响head，head实打实
+    /** Dequeue仅影响head，head实打实. */
     public T dequeue() throws QueueUnderflowException {
-        if (isEmpty())
+        if (isEmpty()) {
             throw new QueueUnderflowException("queue underflow");
+        }
         T x = this.vals[this.head];
         this.head = stepAhead(this.head);
         // tellHeadAndTail();

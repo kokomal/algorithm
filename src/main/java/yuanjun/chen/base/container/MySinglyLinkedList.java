@@ -1,24 +1,16 @@
-/**
- * 
- */
 package yuanjun.chen.base.container;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-/**
- * 单链表
- *
- */
+/** 单链表. */
 public class MySinglyLinkedList<T extends Object> {
-
 	private static final Logger logger = LogManager.getLogger(MySinglyLinkedList.class);
 
 	private Node<T> head;
 	private Node<T> tail;
 
 	public MySinglyLinkedList() {
-		super();
 		head = null;
 		tail = null;
 	}
@@ -31,11 +23,10 @@ public class MySinglyLinkedList<T extends Object> {
 		Node<T> nd = new Node<T>(item, null, null);
 		if (isEmpty()) {
 		    head = nd;
-		    tail = nd;
 		} else {
 		    tail.next = nd;
-		    tail = nd;
 		}
+        tail = nd;
 	}
 
 	public Node<T> search(T item) {
@@ -47,8 +38,9 @@ public class MySinglyLinkedList<T extends Object> {
 	}
 
 	public void remove(T item) {
-		if (isEmpty())
-			return;
+		if (isEmpty()) {
+            return;
+        }
 		Node<T> cur = head;
 		if(cur.val.equals(item)) {
 		    this.head = head.next;
@@ -57,7 +49,9 @@ public class MySinglyLinkedList<T extends Object> {
 		while (cur != null && cur.next != null && !cur.next.val.equals(item)) {
 			cur = cur.next;
 		}
-		if (cur.next == null) return;
+		if (cur.next == null) {
+            return;
+        }
 		cur.next = cur.next.next;
 		if (cur.next == null) { // 注意要保护好tail防止被删了后空指针
 		    tail = cur;
@@ -74,7 +68,7 @@ public class MySinglyLinkedList<T extends Object> {
 			str = sb.toString();
 		} else {
 			while (cur != null) {
-				sb.append(cur.val + ", ");
+				sb.append(cur.val).append(", ");
 				cur = cur.next;
 			}
 			str = sb.substring(0, sb.length() - 2);
@@ -83,11 +77,11 @@ public class MySinglyLinkedList<T extends Object> {
 		logger.info("outputdata is = " + str);
 	}
 
-	/**
-	 * 单链表的原地翻转
-	 */
+	/** 单链表的原地翻转. */
 	public void inplaceReverse() {
-	    if (isEmpty() || head == tail) return;
+	    if (isEmpty() || head == tail) {
+            return;
+        }
 	    Node<T> cur = head;
 	    Node<T> newtail = null;
 	    while (cur != tail) {
@@ -99,8 +93,7 @@ public class MySinglyLinkedList<T extends Object> {
 	    cur.next = newtail;
 	    head = cur;
 	}
-	
-	public static void main(String[] args) {
+		public static void main(String[] args) {
 		MySinglyLinkedList<Integer> myll = new MySinglyLinkedList<>();
 		myll.showAll();
 		myll.insert(11);

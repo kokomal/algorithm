@@ -11,13 +11,13 @@ import yuanjun.chen.base.common.SortOrderEnum;
  * @Description: 基数排序算法
  * @author: 陈元俊
  * @date: 2018年7月22日 下午22:46:11
- **/
+ */
 public class RadixSortAlgo {
-
     public static void radixSort(Integer[] arr, SortOrderEnum order) {
         MyPair<Integer> maxAndMin = MyArrayUtils.fetchMinAndMax(arr);
-        if (maxAndMin.getMax() == 0)
-            return; // 目前暂时支持正数排序，不考虑负数
+        if (maxAndMin.getMax() == 0) {
+            return;
+        } // 目前暂时支持正数排序，不考虑负数
         int idx = 0;
         int max = maxAndMin.getMax();
         while (max > 0) {
@@ -31,7 +31,7 @@ public class RadixSortAlgo {
      * @param order
      * @param Integer[] arr
      * @param int totalDigits
-     **/
+     */
     public static void innerRadixSort(Integer[] arr, int totalDigits, SortOrderEnum order) {
         for (int i = 1; i <= totalDigits; i++) {
             // 针对每一位进行基数排序
@@ -40,7 +40,7 @@ public class RadixSortAlgo {
     }
 
     /**
-     * 按位进行排序，这里可以考虑计数排序，申请额外的空间O[n+m]
+     * 按位进行排序，这里可以考虑计数排序，申请额外的空间O[n+m].
      * 
      * @param arr
      * @param order
@@ -75,7 +75,7 @@ public class RadixSortAlgo {
     }
 
     /**
-     * 获得某数a在第i（i>=1）位的值，例如34，第1位为4，第2位为3，以此类推
+     * 获得某数a在第i（i>=1）位的值，例如34，第1位为4，第2位为3，以此类推.
      * 
      * @param a
      * @param i

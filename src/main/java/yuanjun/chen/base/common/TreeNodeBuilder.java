@@ -1,6 +1,3 @@
-/**
- * 
- */
 package yuanjun.chen.base.common;
 
 import java.util.ArrayList;
@@ -18,14 +15,15 @@ import yuanjun.chen.base.container.TreeNode;
 public class TreeNodeBuilder {
     public static <T extends Object> TreeNode<T> buildABinaryTree(T[] vals) {
         int len = vals.length;
-        if (len < 1)
+        if (len < 1) {
             return null;
+        }
         TreeNode<T> root = new TreeNode<>();
         root.setVal(vals[0]);
         List<TreeNode<T>> thisLoop = new ArrayList<>();
         thisLoop.add(root);
         int i = 0;
-        while (true) {
+        do {
             List<TreeNode<T>> nextLoop = new ArrayList<>();
             for (TreeNode<T> t : thisLoop) {
                 i++;
@@ -48,28 +46,28 @@ public class TreeNodeBuilder {
                 }
                 thisLoop = nextLoop;
             }
-        }
+        } while (true);
     }
 
-    /**
-     * 前序遍历[递归]
-     */
+    /** 前序遍历[递归]. */
     public static <T extends Object> void DLRtraverseRecursive(TreeNode<T> t) {
-        if (t == null)
+        if (t == null) {
             return;
+        }
         System.out.println("node--" + t.getVal());
         DLRtraverseRecursive(t.getLeft());
         DLRtraverseRecursive(t.getRight());
     }
 
     /**
-     * 前序遍历[非递归]
+     * 前序遍历[非递归].
      * 
      * @throws Exception
      */
     public static <T extends Object> void DLRtraverse(TreeNode<T> t) throws Exception {
-        if (t == null)
+        if (t == null) {
             return;
+        }
         MyStack<TreeNode<T>> stack = new MyStack<>();
         stack.push(t);
         while (!stack.isEmpty()) {
@@ -84,25 +82,25 @@ public class TreeNodeBuilder {
         }
     }
 
-    /**
-     * 中序遍历[递归]
-     */
+    /** 中序遍历[递归]. */
     public static <T extends Object> void LDRtraverseRecursive(TreeNode<T> t) {
-        if (t == null)
+        if (t == null) {
             return;
+        }
         LDRtraverseRecursive(t.getLeft());
         System.out.println("node--" + t.getVal());
         LDRtraverseRecursive(t.getRight());
     }
 
     /**
-     * 中序遍历[非递归] 先找到极左，然后逐步遍历栈顶，找到每一个栈顶的右侧，入栈
+     * 中序遍历[非递归] 先找到极左，然后逐步遍历栈顶，找到每一个栈顶的右侧，入栈.
      * 
      * @throws Exception
      */
     public static <T extends Object> void LDRtraverse(TreeNode<T> t) throws Exception {
-        if (t == null)
+        if (t == null) {
             return;
+        }
         MyStack<TreeNode<T>> stack = new MyStack<>();
         stack.push(t);
         while (!stack.isEmpty()) {
@@ -121,25 +119,25 @@ public class TreeNodeBuilder {
         }
     }
 
-    /**
-     * 后序遍历[递归]
-     */
+    /** 后序遍历[递归]. */
     public static <T extends Object> void LRDtraverseRecursive(TreeNode<T> t) {
-        if (t == null)
+        if (t == null) {
             return;
+        }
         LRDtraverseRecursive(t.getLeft());
         LRDtraverseRecursive(t.getRight());
         System.out.println("node--" + t.getVal());
     }
 
     /**
-     * 后序遍历[非递归]
+     * 后序遍历[非递归].
      * 
      * @throws Exception
      */
     public static <T extends Object> void LRDtraverse(TreeNode<T> t) throws Exception {
-        if (t == null)
+        if (t == null) {
             return;
+        }
         MyStack<TreeNode<T>> stack = new MyStack<>();
         TreeNode<T> lastPop = null;
         stack.push(t);
@@ -161,13 +159,14 @@ public class TreeNodeBuilder {
     }
 
     /**
-     * 层次遍历,注意层次遍历无递归方法
+     * 层次遍历,注意层次遍历无递归方法.
      * 
      * @throws Exception
      */
     public static <T extends Object> void leveltraverse(TreeNode<T> t) throws Exception {
-        if (t == null)
+        if (t == null) {
             return;
+        }
         MyQueue<TreeNode<T>> queue = new MyQueue<>();
         queue.enqueue(t);
         int level = 1;

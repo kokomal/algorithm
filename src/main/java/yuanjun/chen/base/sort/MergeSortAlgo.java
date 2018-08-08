@@ -18,10 +18,7 @@ import static yuanjun.chen.base.common.CommonUtils.*;
  * @date: 2018年7月17日 下午1:43:42
  */
 public class MergeSortAlgo {
-
-    /*
-     * 对外包装方法
-     */
+    /** 对外包装方法. */
     @SuppressWarnings("rawtypes")
     public static Comparable[] mergeSort(Comparable[] arr, SortOrderEnum order) {
         return extraSpaceMergeSort(arr, 0, arr.length - 1, order);
@@ -29,7 +26,7 @@ public class MergeSortAlgo {
 
     @SuppressWarnings("rawtypes")
     private static Comparable[] extraSpaceMergeSort(Comparable[] arr, int low, int high, SortOrderEnum order) {
-        int mid = (low + high) >>> 1; // 劈成2半
+        int mid = low + high >>> 1; // 劈成2半
         if (low < high) {
             extraSpaceMergeSort(arr, low, mid, order);
             extraSpaceMergeSort(arr, mid + 1, high, order);
@@ -53,8 +50,8 @@ public class MergeSortAlgo {
         int idx = 0;
         // 把较小（升序）|较大（降序）的数先移到新数组中
         while (i <= mid && j <= high) {
-            if ((less(arr[i], arr[j]) && order.equals(SortOrderEnum.ASC))
-                    || (more(arr[i], arr[j]) && order.equals(SortOrderEnum.DESC))) {
+            if ((less(arr[i], arr[j]) && SortOrderEnum.ASC.equals(order))
+                    || (more(arr[i], arr[j]) && SortOrderEnum.DESC.equals(order))) {
                 temp[idx++] = arr[i++];
             } else {
                 temp[idx++] = arr[j++];
@@ -71,5 +68,4 @@ public class MergeSortAlgo {
         // 把新数组中的数覆盖nums数组,影响篇幅为low~high,左闭右开
         System.arraycopy(temp, 0, arr, low, temp.length);
     }
-
 }

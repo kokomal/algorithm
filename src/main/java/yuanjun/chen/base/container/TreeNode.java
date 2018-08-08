@@ -43,5 +43,4 @@ public class TreeNode<T extends Object> {
 	public void setVal(T val) {
 		this.val = val;
 	}
-
 }

@@ -11,9 +11,7 @@ import yuanjun.chen.base.common.SortOrderEnum;
  * @date: 2018年7月20日 上午11:29:57
  */
 public class HeapSortAlgo {
-    /*
-     * 采用递归max-heapify算法进行堆整理 缺点是在大数据时会导致栈溢出
-     */
+    /** 采用递归max-heapify算法进行堆整理 缺点是在大数据时会导致栈溢出. */
     @SuppressWarnings("rawtypes")
     public static void inplaceHeapSort(Comparable[] arr, SortOrderEnum order, boolean recurFlag) {
         if (arr.length <= 1) {
@@ -27,21 +25,9 @@ public class HeapSortAlgo {
         }
     }
 
-    /**   
-     *@Title: buildMaxHeap   
-     *@Description: 构建最大堆  
-     *@param: Integer[] arr
-     *@param: SortOrderEnum order
-     *@param: int lenX      
-     *@return: void      
-     *@throws   
-     **/
     @SuppressWarnings("rawtypes")
     public static void buildMaxHeap(Comparable[] arr, SortOrderEnum order, int lenX) {
-        boolean recurFlag = true;
-        if (lenX > 10000) { // 太大不适合用递归
-            recurFlag = false;
-        }
+        boolean recurFlag = lenX <= 10000;
         // 1.BUILD-MAX-HEAP
         for (int i = lenX >>> 1; i >= 0; i--) {
             maxheapify(arr, order, recurFlag, i, lenX);
@@ -68,13 +54,13 @@ public class HeapSortAlgo {
         int maxPos = i;
         int left = 2 * i + 1;
         int right = left + 1;
-        boolean leftMoveAsc = (left < length) && (more(arr[left], arr[i]) && order.equals(SortOrderEnum.ASC));
-        boolean leftMoveDesc = (left < length) && (less(arr[left], arr[i]) && order.equals(SortOrderEnum.DESC));
+        boolean leftMoveAsc = left < length && more(arr[left], arr[i]) && SortOrderEnum.ASC.equals(order);
+        boolean leftMoveDesc = left < length && less(arr[left], arr[i]) && SortOrderEnum.DESC.equals(order);
         if (leftMoveAsc || leftMoveDesc) { // 左大
             maxPos = left;
         }
-        boolean rightMoveAsc = (right < length) && (more(arr[right], arr[maxPos]) && order.equals(SortOrderEnum.ASC));
-        boolean rightMoveDesc = (right < length) && (less(arr[right], arr[maxPos]) && order.equals(SortOrderEnum.DESC));
+        boolean rightMoveAsc = right < length && more(arr[right], arr[maxPos]) && SortOrderEnum.ASC.equals(order);
+        boolean rightMoveDesc = right < length && less(arr[right], arr[maxPos]) && SortOrderEnum.DESC.equals(order);
         if (rightMoveAsc || rightMoveDesc) { // 右大
             maxPos = right;
         }
@@ -85,7 +71,7 @@ public class HeapSortAlgo {
     }
 
     /**
-     * 调整大顶堆（仅是调整过程，建立在大顶堆已构建的基础上） MAX-HEAPIFY
+     * 调整大顶堆（仅是调整过程，建立在大顶堆已构建的基础上） MAX-HEAPIFY.
      * 
      * @param int[] arr 原始数组
      * @param int i maxheapify操作数组的开始序号
@@ -95,13 +81,13 @@ public class HeapSortAlgo {
     public static void nonRecursiveMaxHeapify(Comparable[] arr, int i, int length, SortOrderEnum order) {
         Comparable temp = arr[i]; // 先取出当前元素i
         for (int k = i * 2 + 1; k < length; k = k * 2 + 1) { // 从i结点的左子结点开始，也就是2i+1处开始
-            boolean nextKAsc = k + 1 < length && (less(arr[k], arr[k + 1]) && order.equals(SortOrderEnum.ASC));
-            boolean nextKDesc = k + 1 < length && (more(arr[k], arr[k + 1]) && order.equals(SortOrderEnum.DESC));
+            boolean nextKAsc = k + 1 < length && less(arr[k], arr[k + 1]) && SortOrderEnum.ASC.equals(order);
+            boolean nextKDesc = k + 1 < length && more(arr[k], arr[k + 1]) && SortOrderEnum.DESC.equals(order);
             if (nextKAsc || nextKDesc) { // 如果左子结点小于右子结点，k指向右子结点
                 k++;
             }
-            if ((more(arr[k], temp) && order.equals(SortOrderEnum.ASC))
-                    || (less(arr[k], temp) && order.equals(SortOrderEnum.DESC))) { // 如果子节点大于父节点，将子节点值赋给父节点（不用进行交换）
+            if ((more(arr[k], temp) && SortOrderEnum.ASC.equals(order))
+                    || (less(arr[k], temp) && SortOrderEnum.DESC.equals(order))) { // 如果子节点大于父节点，将子节点值赋给父节点（不用进行交换）
                 arr[i] = arr[k];
                 i = k;
             } else {
@@ -110,5 +96,4 @@ public class HeapSortAlgo {
         }
         arr[i] = temp;// 将temp值放到最终的位置
     }
-
 }

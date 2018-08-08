@@ -16,7 +16,6 @@ package yuanjun.chen.base.exception;
  * @date: 2018年7月25日 上午9:39:37
  */
 public class UnsupportedTypeException extends Exception {
-
     /**
      * @Fields serialVersionUID : 生成随机参数时抛出不支持类型的异常
      */
@@ -24,12 +23,9 @@ public class UnsupportedTypeException extends Exception {
 
     private String msg;
 
-    /**
-     * @param msg
-     */
     public UnsupportedTypeException(String msg) {
         super(msg);
-        this.setMsg(msg);
+        setMsg(msg);
     }
 
     /**
@@ -45,5 +41,4 @@ public class UnsupportedTypeException extends Exception {
     public void setMsg(String msg) {
         this.msg = msg;
     }
-
 }

@@ -24,22 +24,22 @@ public class InsertionSortTest {
     public void testInsertionSort1() throws Exception {
         testInsertionSortProto(10000, 3000, SortOrderEnum.ASC, Integer.class);
     }
-    
+
     @Test
     public void testInsertionSort2() throws Exception {
         testInsertionSortProto(10000, 3000, SortOrderEnum.DESC, Double.class);
     }
-    
+
     @Test
     public void testInsertionSort3() throws Exception {
         testInsertionBinarySortProto(10000, 3000, SortOrderEnum.ASC, Integer.class);
     }
-    
+
     @Test
     public void testInsertionSort4() throws Exception {
         testInsertionBinarySortProto(10000, 3000, SortOrderEnum.DESC, Double.class);
     }
-    
+
     /**
      * @Title testBucketSortProto
      * @Description 原始测试类
@@ -58,9 +58,10 @@ public class InsertionSortTest {
             }
         }.genericTest(size, bound, order, clazz);
     }
-    
+
     @SuppressWarnings({"unchecked", "rawtypes"})
-    private static void testInsertionBinarySortProto(int size, int bound, SortOrderEnum order, Class clazz) throws Exception {
+    private static void testInsertionBinarySortProto(int size, int bound, SortOrderEnum order, Class clazz)
+            throws Exception {
         new GenericAlgoTester("INSERTION-BINARY") {
             @Override
             public void showTime(Comparable[] arr, SortOrderEnum order) {

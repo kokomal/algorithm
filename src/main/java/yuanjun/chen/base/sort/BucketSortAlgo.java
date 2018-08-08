@@ -29,18 +29,13 @@ import static yuanjun.chen.base.common.CommonUtils.*;
 public class BucketSortAlgo {
     private static final Logger logger = LogManager.getLogger(BucketSortAlgo.class);
 
-    private static boolean showDebug = false;
+    private static boolean showDebug;
 
     public static class Node<T extends Comparable<?>> {
         public T val;
         private Node<T> next;
 
-        /**
-         * @param val
-         * @param next
-         */
         public Node(T val, Node<T> next) {
-            super();
             this.val = val;
             this.next = next;
         }
@@ -73,9 +68,8 @@ public class BucketSortAlgo {
             System.out.println("null");
         }
     }
-    
-    /**
-     * 遍历每一个entry，进行排序
+        /**
+     * 遍历每一个entry，进行排序.
      * 
      * @param nodeEntrySet
      * @param order
@@ -96,7 +90,7 @@ public class BucketSortAlgo {
                     pre = ans;
                     // 当pre.next.val大于cur.val时停止循环
                     while (pre.next != null && ((less(pre.next.val, cur.val) && SortOrderEnum.ASC.equals(order))
-                            || (more(pre.next.val, cur.val)) && SortOrderEnum.DESC.equals(order))) {
+                            || (more(pre.next.val, cur.val) && SortOrderEnum.DESC.equals(order)))) {
                         pre = pre.next;
                     }
                     // pre.next.val 大于 cur.val，此时应该把cur插入到pre后
@@ -114,7 +108,7 @@ public class BucketSortAlgo {
     }
 
     /**
-     * 遍历每一个槽，取出数据拼装成完整的数组并原地拷贝
+     * 遍历每一个槽，取出数据拼装成完整的数组并原地拷贝.
      * 
      * @param nodeEntrySet
      * @param arr
@@ -155,7 +149,7 @@ public class BucketSortAlgo {
     }
 
     /**
-     * 因为是链表，考虑采用插入排序，避免大规模内存拷贝复制
+     * 因为是链表，考虑采用插入排序，避免大规模内存拷贝复制.
      * 
      * @param nodeEntrySet
      * @param val
@@ -187,8 +181,7 @@ public class BucketSortAlgo {
         Float[] arr2 = RandomGenner.generateRandomTArray(size, bound, Float.class);
         Float[] arr3 = new Float[size];
         System.arraycopy(arr2, 0, arr3, 0, size);
-        
-        DispUtil.embed(50, '*', "BUCKET ASC SORT STARTS");
+                DispUtil.embed(50, '*', "BUCKET ASC SORT STARTS");
         logger.info("before--" + Arrays.toString(arr2));
         long t1 = System.currentTimeMillis();
         inplaceBucketSort(arr2, SortOrderEnum.DESC);
@@ -196,8 +189,7 @@ public class BucketSortAlgo {
         logger.info("after--" + Arrays.toString(arr2));
         DispUtil.embed(50, '*', "COUNTING SORT ENDS..");
         logger.info("BUCKET ASC SORT time used " + (t2 - t1) + "ms");
-        
-        logger.info("before--" + Arrays.toString(arr3));
+                logger.info("before--" + Arrays.toString(arr3));
         Arrays.sort(arr3, Collections.reverseOrder());
         logger.info("after--" + Arrays.toString(arr3));
     }

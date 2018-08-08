@@ -22,10 +22,10 @@ import yuanjun.chen.base.common.SortOrderEnum;
  */
 public class BucketSortTest {
     /**
-     * 桶排序是经典的用空间换取时间的“无赖”算法，其具备极高的时间性能O[n]
+     * 桶排序是经典的用空间换取时间的“无赖”算法，其具备极高的时间性能O[n].
      * 
      * @throws Exception
-     **/
+     */
     @Test
     public void testBucket001() throws Exception {
         int size = 65536;

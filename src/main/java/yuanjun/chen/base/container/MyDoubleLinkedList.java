@@ -3,18 +3,14 @@ package yuanjun.chen.base.container;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-/**
- * 双向链表
- */
+/** 双向链表. */
 public class MyDoubleLinkedList<T extends Object> {
-
     private static final Logger logger = LogManager.getLogger(MyDoubleLinkedList.class);
 
     private Node<T> dummy = new Node<T>(null, null, null);
-    // private Node<T> tail = null; // dummyHead+头插法可以完全无视tail或者head指针
+    /** Private Node<T> tail = null; // dummyHead+头插法可以完全无视tail或者head指针. */
 
     public MyDoubleLinkedList() {
-        super();
         dummy.next = dummy; // 需要先new然后知道自己地址，再将next和pre指向自己
         dummy.pre = dummy;
     }
@@ -40,8 +36,9 @@ public class MyDoubleLinkedList<T extends Object> {
     }
 
     public void remove(T item) {
-        if (isEmpty())
+        if (isEmpty()) {
             return;
+        }
         Node<T> cur = dummy.next;
         while (cur != dummy && !cur.val.equals(item)) {
             cur = cur.next;
@@ -52,7 +49,7 @@ public class MyDoubleLinkedList<T extends Object> {
         }
     }
 
-    // 头插法，遍历则需要逆序，略别扭
+    /** 头插法，遍历则需要逆序，略别扭. */
     public void showAll() {
         Node<T> cur = dummy.pre;
         String str;
@@ -63,7 +60,7 @@ public class MyDoubleLinkedList<T extends Object> {
             str = sb.toString();
         } else {
             while (cur != dummy) {
-                sb.append(cur.val + ", ");
+                sb.append(cur.val).append(", ");
                 cur = cur.pre;
             }
             str = sb.substring(0, sb.length() - 2);
@@ -82,7 +79,7 @@ public class MyDoubleLinkedList<T extends Object> {
             str = sb.toString();
         } else {
             while (cur != dummy) {
-                sb.append(cur.val + ", ");
+                sb.append(cur.val).append(", ");
                 cur = cur.next;
             }
             str = sb.substring(0, sb.length() - 2);
@@ -92,8 +89,9 @@ public class MyDoubleLinkedList<T extends Object> {
     }
 
     public void inplaceReverse() {
-        if (isEmpty() || dummy.next == dummy.pre)
+        if (isEmpty() || dummy.next == dummy.pre) {
             return;
+        }
         Node<T> cur = dummy.next; // 首元素
         Node<T> tail = dummy.pre;
         Node<T> newtail = dummy;

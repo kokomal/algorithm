@@ -32,7 +32,7 @@ public class MyDequeTest {
         StringBuilder sb = new StringBuilder("["); // 全部dequeue出来
         while (!mydq.isEmpty()) {
             Float x = mydq.dequeue();
-            sb.append(x + ", ");
+            sb.append(x).append(", ");
         }
         String str = sb.substring(0, sb.length() - 2);
         logger.info("after dequeue the data is" + str + "]");
@@ -44,7 +44,7 @@ public class MyDequeTest {
         StringBuilder sb = new StringBuilder("["); // 全部dequeue出来
         while (!mydq.isEmpty()) {
             Float x = mydq.dequeueTail(); // 从尾部dequeue，退化成栈了
-            sb.append(x + ", ");
+            sb.append(x).append(", ");
         }
         String str = sb.substring(0, sb.length() - 2);
         logger.info("after dequeue the data is" + str + "]");
@@ -56,7 +56,7 @@ public class MyDequeTest {
         StringBuilder sb = new StringBuilder("["); // 全部dequeue出来
         while (!mydq.isEmpty()) {
             Float x = mydq.dequeueTail(); // 从尾部dequeue，退化成栈了
-            sb.append(x + ", ");
+            sb.append(x).append(", ");
         }
         String str = sb.substring(0, sb.length() - 2);
         logger.info("after dequeue the data is" + str + "]");

@@ -20,25 +20,26 @@ import yuanjun.chen.base.exception.QueueUnderflowException;
  */
 public class MyDeque<T extends Object> extends MyQueue<T> {
     public MyDeque() {
-        super();
     }
 
     public MyDeque(int initSize) {
         super(initSize);
     }
 
-    // enqueueHead影响head
+    /** EnqueueHead影响head. */
     public void enqueueHead(T item) throws QueueOverflowException {
-        if (isFull())
+        if (isFull()) {
             throw new QueueOverflowException("queue full");
+        }
         this.head = stepBack(head);
         this.vals[this.head] = item;
     }
 
-    // dequeueTail影响tail
+    /** DequeueTail影响tail. */
     public T dequeueTail() throws QueueUnderflowException {
-        if (isEmpty())
+        if (isEmpty()) {
             throw new QueueUnderflowException("queue underflow");
+        }
         int real_tail = stepBack(this.tail);
         T x = this.vals[real_tail];
         this.tail = real_tail;
@@ -59,7 +60,7 @@ public class MyDeque<T extends Object> extends MyQueue<T> {
         myqueue.enqueueHead(44);
         System.out.println(myqueue.dequeue()); // 44
         System.out.println(myqueue.dequeue()); // 33
-        /*---------------------------------------------*/
+        /* --------------------------------------------- */
         myqueue.enqueue(55);
         myqueue.enqueueHead(66); // 66---55
         myqueue.enqueue(77); // 66---55---77
@@ -67,7 +68,7 @@ public class MyDeque<T extends Object> extends MyQueue<T> {
         while (!myqueue.isEmpty()) {
             System.out.print("-->" + myqueue.dequeueTail()); // -->77-->55-->66-->88
         }
-        /*---------------------------------------------*/
+        /* --------------------------------------------- */
         myqueue.enqueue(55);
         myqueue.enqueueHead(66); // 66---55
         myqueue.enqueue(77); // 66---55---77

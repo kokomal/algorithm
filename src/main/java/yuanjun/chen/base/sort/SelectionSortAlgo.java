@@ -19,9 +19,7 @@ import static yuanjun.chen.base.common.CommonUtils.*;
  * @date: 2018年7月18日 下午5:22:25
  */
 public class SelectionSortAlgo {
-    /*
-     * 原地选择排序
-     */
+    /** 原地选择排序. */
     @SuppressWarnings({"rawtypes", "unchecked"})
     public static void inplaceSelectionSort(Comparable[] arr, SortOrderEnum order) {
         int len = arr.length;
@@ -44,5 +42,4 @@ public class SelectionSortAlgo {
             }
         }
     }
-
 }

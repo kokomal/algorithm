@@ -1,6 +1,4 @@
-/**
- * 基本栈容器
- */
+/** 基本栈容器. */
 package yuanjun.chen.base.container;
 
 import org.apache.logging.log4j.LogManager;
@@ -13,21 +11,18 @@ import yuanjun.chen.base.exception.StackUnderflowException;
  */
 public class MyStack<T extends Object> {
 	private static final Logger logger = LogManager.getLogger(MyStack.class);
-	    
-	private T[] vals;
-	private int elements = 0;
+	    	private T[] vals;
+	private int elements;
 	private static final int INIT_SIZE = 16;
 
 	@SuppressWarnings("unchecked")
 	public MyStack() {
-		super();
 		this.vals = (T[]) new Object[INIT_SIZE];
 		this.elements = 0;
 	}
 
 	@SuppressWarnings("unchecked")
 	public MyStack(int initSize) {
-		super();
 		if (initSize < 0) {
 			initSize = INIT_SIZE;
 		}
@@ -42,45 +37,42 @@ public class MyStack<T extends Object> {
 	public boolean isFull() {
 	    return this.elements == this.vals.length;
 	}
-	
-	public T push(T item) {
+		public T push(T item) {
 		ensureCapacity(this.elements + 1);
 		return this.vals[this.elements++] = item;
 	}
 
 	public T peek() throws StackUnderflowException {
-		if (this.isEmpty())
-			throw new StackUnderflowException("underflow");
+		if (this.isEmpty()) {
+            throw new StackUnderflowException("underflow");
+        }
 		return this.vals[this.elements - 1];
 	}
 
 	public int size() {
 	    return this.elements;
 	}
-	
-	public T pop() throws StackUnderflowException {
-		if (this.isEmpty())
-			throw new StackUnderflowException("underflow");
+		public T pop() throws StackUnderflowException {
+		if (this.isEmpty()) {
+            throw new StackUnderflowException("underflow");
+        }
 		this.elements--;
 		return this.vals[this.elements];
 	}
 
 	@SuppressWarnings("unchecked")
 	public void shrinkToFit() {
-		if (this.isEmpty()) return;
+		if (this.isEmpty()) {
+            return;
+        }
 		T[] newVals = (T[]) new Object[this.elements];
 		System.arraycopy(this.vals, 0, newVals, 0, this.elements);
 		this.vals = newVals;
 	}
-	
-	public int capacity() {
+		public int capacity() {
 		return this.vals.length;
 	}
-	
-	/**
-	 * @param i
-	 */
-	@SuppressWarnings("unchecked")
+		@SuppressWarnings("unchecked")
 	private void ensureCapacity(int i) {
 		if (this.vals.length >= i) {
 			return;
@@ -110,8 +102,7 @@ public class MyStack<T extends Object> {
 		System.out.println("now size = " + mystack.capacity());
 		mystack.shrinkToFit();
 		System.out.println("after shrink size = " + mystack.capacity());
-		
-		System.out.println("peek " + mystack.peek()); // 29
+				System.out.println("peek " + mystack.peek()); // 29
 		mystack.push(99); // resize again
 		while (!mystack.isEmpty()) {
 			System.out.print("==>" + mystack.pop());

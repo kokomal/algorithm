@@ -29,22 +29,20 @@ import yuanjun.chen.base.common.SortOrderEnum;
 public class CountingSortAlgo {
     private static final Logger logger = LogManager.getLogger(CountingSortAlgo.class);
 
-    /**
-     * 通用正数的排序
-     **/
+    /** 通用正数的排序. */
     public static Integer[] genericCountingSort(final Integer[] A, SortOrderEnum order) {
         MyPair<Integer> maxAndMin = MyArrayUtils.fetchMinAndMax(A);
         return countingSort(A, maxAndMin.getMax() + 1, order);
     }
 
     /**
-     * 计数排序，A为原始输入数组，B为返回排好序的数组， k_range表示数据的上限，即所有输入均在[0, k_range]之间
+     * 计数排序，A为原始输入数组，B为返回排好序的数组， k_range表示数据的上限，即所有输入均在[0, k_range]之间.
      * 
      * @param Integer[] A
      * @param Integer k_range
      * @param SortOrderEnum order
      * @return Integer[]
-     **/
+     */
     public static Integer[] countingSort(final Integer[] A, Integer k_range, SortOrderEnum order) {
         int len = A.length;
         Integer[] B = new Integer[len];
