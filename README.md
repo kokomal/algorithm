@@ -72,4 +72,6 @@ fiveFoldedMidSelectIthMaxWrapper采用了CLRS chapter 9 里面提到的五分组
 container包相关:  
 此包涵盖基础的容器类的实现及相应算法  
 ## yuanjun.chen.base.container.MyStack.java
-此类为简易的栈，支持简易的入栈出栈操作，并且支持自动shrink操作，yuanjun.chen.base.container.MyStackTest.java实现了对MyStack的测试
+此类为简易的栈，支持简易的入栈出栈操作，并且支持自动shrink操作，yuanjun.chen.base.container.MyStackTest.java实现了对MyStack的测试  
+## yuanjun.chen.base.container.MyRBTree.java
+此类为红黑树的经典实现，内置了NIL哨兵常量来避免空指针的边界判断，支持插入、删除等常规红黑树操作，以及层次/中序遍历、打印等观察和验证功能  
