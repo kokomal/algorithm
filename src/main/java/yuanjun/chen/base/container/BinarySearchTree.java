@@ -59,6 +59,8 @@ public class BinarySearchTree<T extends Comparable<?>> {
         }
     }
 
+    /*NEED TRANSPLANT*/
+    
     /**
      * BST的删除节点操作，略繁琐 考虑被删除的节点是否有子女节点， 如果最多1个，那么直接删除
      * 如果有2个，则最复杂，需要找到SUCCESSOR，将SUCCESSOR的数据拷贝覆盖过来后，删除SUCCESSOR 被删除的node返回的结果可能仍然保留着前置和后置的节点单向指针
@@ -83,7 +85,7 @@ public class BinarySearchTree<T extends Comparable<?>> {
         }
         if (parent(y) == null) { // y是root？
             this.root = x;
-        } else if (y.equals(left(parent(y)))) {
+        } else if (y == left(parent(y))) { // 需要用==，因为是比较指针
             parent(y).left = x;// y是左孩子，那么y的父的左孩子变成x了
         } else {
             parent(y).right = x;// y是右孩子，那么y的父的右孩子变成x了
@@ -141,7 +143,7 @@ public class BinarySearchTree<T extends Comparable<?>> {
         }
         BSTnode<T> cur = rt;
         BSTnode<T> parent = cur.parent;
-        while (parent != null && cur.equals(left(parent))) {
+        while (parent != null && cur == left(parent)) {
             cur = parent;
             parent = parent.parent;
         }
@@ -160,7 +162,7 @@ public class BinarySearchTree<T extends Comparable<?>> {
         }
         BSTnode<T> cur = rt;
         BSTnode<T> parent = parent(cur);
-        while (parent != null && cur.equals(right(parent))) {
+        while (parent != null && cur == right(parent)) {
             cur = parent;
             parent = parent(parent);
         }
