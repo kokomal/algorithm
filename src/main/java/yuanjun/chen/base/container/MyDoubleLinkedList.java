@@ -2,12 +2,15 @@ package yuanjun.chen.base.container;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import yuanjun.chen.base.container.MySinglyLinkedList.SLLIterator;
+import yuanjun.chen.base.exception.IteratorInvalidException;
 
 /** 双向链表. */
 public class MyDoubleLinkedList<T extends Object> {
     private static final Logger logger = LogManager.getLogger(MyDoubleLinkedList.class);
 
     private Node<T> dummy = new Node<T>(null, null, null);
+
     /** Private Node<T> tail = null; // dummyHead+头插法可以完全无视tail或者head指针. */
 
     public MyDoubleLinkedList() {
@@ -15,16 +18,83 @@ public class MyDoubleLinkedList<T extends Object> {
         dummy.pre = dummy;
     }
 
+    public DLLIterator<T> getIterator() { // 永远指向dummy下一个
+        return new DLLIterator<T>(this.dummy);
+    }
+
+    public DLLReverseIterator<T> getReverseIterator() { // 永远指向dummy上一个
+        return new DLLReverseIterator<T>(this.dummy);
+    }
+    
+    public static class DLLIterator<T extends Object> {
+        public DLLIterator(Node<T> cur) {
+            this.cur = cur;
+            this.dummy = cur;
+        }
+        private Node<T> cur;
+        private Node<T> dummy;
+        public boolean hasNext() { // 双链表永远是有下一个,除非是dummy
+            return cur.next != dummy;
+        }
+        // 首次调用next的时候，需要定位到第一个元素，因此要保留cur之后再步进cur
+        public Node<T> next() {
+            cur = cur.next;
+            if (cur.val == null) { // 跳过拧巴的dummy
+                cur = cur.next;
+            }
+            return cur;
+        }
+        public void delete() {
+            cur.pre.next = cur.next;
+            cur.next.pre = cur.pre;
+        }
+    }
+
+    public static class DLLReverseIterator<T extends Object> {
+        public DLLReverseIterator(Node<T> cur) {
+            this.cur = cur;
+            this.dummy = cur;
+        }
+        private Node<T> cur;
+        private Node<T> dummy;
+        public boolean hasPrevious() { // 双链表永远是有下一个,除非是dummy
+            return cur.pre != dummy;
+        }
+        // 首次调用next的时候，需要定位到第一个元素，因此要保留cur之后再步进cur
+        public Node<T> previous() {
+            cur = cur.pre;
+            if (cur.val == null) { // 跳过拧巴的dummy
+                cur = cur.pre;
+            }
+            return cur;
+        }
+        public void delete() {
+            cur.pre.next = cur.next;
+            cur.next.pre = cur.pre;
+        }
+    }
+
+    
     public boolean isEmpty() {
         return dummy.next == dummy;
     }
 
+    // 头插法
     public void insert(T item) {
         Node<T> nd = new Node<T>(item, null, null);
         nd.next = dummy.next;
         nd.next.pre = nd;
         dummy.next = nd;
         nd.pre = dummy;
+    }
+    
+    // 尾插法
+    public void insertRear(T item) {
+        Node<T> nd = new Node<T>(item, null, null);
+        dummy.pre.next = nd;
+        nd.pre = dummy.pre;
+        nd.next = dummy;
+        dummy.pre = nd;
     }
 
     public Node<T> search(T item) {
@@ -51,25 +121,6 @@ public class MyDoubleLinkedList<T extends Object> {
 
     /** 头插法，遍历则需要逆序，略别扭. */
     public void showAll() {
-        Node<T> cur = dummy.pre;
-        String str;
-        StringBuilder sb = new StringBuilder();
-        sb.append("[");
-        if (isEmpty()) {
-            sb.append("]");
-            str = sb.toString();
-        } else {
-            while (cur != dummy) {
-                sb.append(cur.val).append(", ");
-                cur = cur.pre;
-            }
-            str = sb.substring(0, sb.length() - 2);
-            str += "]";
-        }
-        logger.info("outputdata is = " + str);
-    }
-
-    public void showAllReverse() {
         Node<T> cur = dummy.next;
         String str;
         StringBuilder sb = new StringBuilder();
@@ -81,6 +132,25 @@ public class MyDoubleLinkedList<T extends Object> {
             while (cur != dummy) {
                 sb.append(cur.val).append(", ");
                 cur = cur.next;
+            }
+            str = sb.substring(0, sb.length() - 2);
+            str += "]";
+        }
+        logger.info("outputdata is = " + str);
+    }
+
+    public void showAllReverse() {
+        Node<T> cur = dummy.pre;
+        String str;
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        if (isEmpty()) {
+            sb.append("]");
+            str = sb.toString();
+        } else {
+            while (cur != dummy) {
+                sb.append(cur.val).append(", ");
+                cur = cur.pre;
             }
             str = sb.substring(0, sb.length() - 2);
             str += "]";
@@ -110,20 +180,27 @@ public class MyDoubleLinkedList<T extends Object> {
 
     public static void main(String[] args) {
         MyDoubleLinkedList<Integer> myll = new MyDoubleLinkedList<>();
+        int m = 10;
+        int n = 3;
+        for (int i = 0; i < m; i++) {
+            myll.insertRear(i);
+        }
         myll.showAll();
-        myll.insert(11);
-        myll.showAll();
-        myll.insert(22);
-        myll.showAll();
-        myll.insert(33);
-        myll.showAll();
-        myll.insert(44);
-        myll.showAll();
-        myll.remove(44);
-        myll.showAll(); // 11, 33, 44
-        myll.showAllReverse(); // 44, 33, 11
-        myll.inplaceReverse(); // 开始本地逆转
-        myll.showAll(); // 44, 33, 11
-        myll.showAllReverse(); // 11, 33, 44
+        
+        DLLReverseIterator<Integer> driter = myll.getReverseIterator();
+        while(driter.hasPrevious()) {
+            System.out.println(driter.previous().val);
+        }
+        
+        System.out.println("===" + driter.previous().val);
+        
+        DLLIterator<Integer> diter = myll.getIterator();
+        while(diter.hasNext()) {
+            for (int i = 0; i < n; i++) {
+                diter.next();
+            }
+            System.out.println(diter.cur.val + "-out");
+            diter.delete();
+        }
     }
 }

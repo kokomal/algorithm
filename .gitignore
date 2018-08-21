@@ -9,6 +9,8 @@
 */classes/*
 */bin/*
 
+target
+
 # Log file
 *.log
 

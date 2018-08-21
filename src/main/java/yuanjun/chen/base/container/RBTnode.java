@@ -16,7 +16,7 @@ package yuanjun.chen.base.container;
  * @date: 2018年8月20日 上午8:58:18
  */
 public class RBTnode <T extends Comparable<?>> {
-    public static enum COLOR {
+    public enum COLOR {
         RED, BLACK;
     }
     protected T val;
@@ -26,16 +26,13 @@ public class RBTnode <T extends Comparable<?>> {
     protected COLOR color = COLOR.BLACK;
 
     public RBTnode(T val, COLOR color) {
-        super();
         this.val = val;
         this.color = color;
     }
-    
-    public boolean isRed() {
-        return this.color.equals(COLOR.RED);
+        public boolean isRed() {
+        return COLOR.RED.equals(this.color);
     }
-    
-    public boolean isBlack() {
-        return this.color.equals(COLOR.BLACK);
+        public boolean isBlack() {
+        return COLOR.BLACK.equals(this.color);
     }
 }
