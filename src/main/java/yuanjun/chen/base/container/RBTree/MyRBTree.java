@@ -7,10 +7,11 @@
  * @version V1.0
  * @Copyright: 2018 All rights reserved.
  */
-package yuanjun.chen.base.container;
+package yuanjun.chen.base.container.RBTree;
 
+import static yuanjun.chen.base.container.RBTree.RBTnode.COLOR.*;
 import yuanjun.chen.base.common.CommonUtils;
-import static yuanjun.chen.base.container.RBTnode.COLOR.*;
+import yuanjun.chen.base.container.MyQueue;
 /**
  * @ClassName: MyRBTree
  * @Description: 红黑树

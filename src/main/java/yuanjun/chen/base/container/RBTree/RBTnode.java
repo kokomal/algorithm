@@ -7,7 +7,7 @@
  * @version V1.0
  * @Copyright: 2018 All rights reserved.
  */
-package yuanjun.chen.base.container;
+package yuanjun.chen.base.container.RBTree;
 
 /**
  * @ClassName: RBTnode
@@ -15,10 +15,11 @@ package yuanjun.chen.base.container;
  * @author: 陈元俊
  * @date: 2018年8月20日 上午8:58:18
  */
-public class RBTnode <T extends Comparable<?>> {
+public class RBTnode<T extends Comparable<?>> {
     public enum COLOR {
         RED, BLACK;
     }
+
     protected T val;
     protected RBTnode<T> parent;
     protected RBTnode<T> left;
@@ -29,10 +30,12 @@ public class RBTnode <T extends Comparable<?>> {
         this.val = val;
         this.color = color;
     }
-        public boolean isRed() {
+
+    public boolean isRed() {
         return COLOR.RED.equals(this.color);
     }
-        public boolean isBlack() {
+
+    public boolean isBlack() {
         return COLOR.BLACK.equals(this.color);
     }
 }
