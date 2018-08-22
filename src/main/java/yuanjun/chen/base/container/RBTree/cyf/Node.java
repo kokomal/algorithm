@@ -24,6 +24,7 @@ public class Node<T> {
         this.value = value;
     }
 
+    @SuppressWarnings("unchecked")
     public boolean equals(Object o) {
         if (this == o) {
             return true;

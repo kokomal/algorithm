@@ -15,7 +15,6 @@ import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 import yuanjun.chen.base.common.DirectionEnum;
 import yuanjun.chen.base.common.RandomGenner;
-import yuanjun.chen.base.exception.QueueOverflowException;
 
 /**
  * @ClassName: MyDequeTest

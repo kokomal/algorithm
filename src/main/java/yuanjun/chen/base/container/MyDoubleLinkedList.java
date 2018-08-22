@@ -2,8 +2,6 @@ package yuanjun.chen.base.container;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import yuanjun.chen.base.container.MySinglyLinkedList.SLLIterator;
-import yuanjun.chen.base.exception.IteratorInvalidException;
 
 /** 双向链表. */
 public class MyDoubleLinkedList<T extends Object> {
