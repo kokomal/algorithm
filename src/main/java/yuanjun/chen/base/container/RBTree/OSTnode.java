@@ -15,7 +15,7 @@ package yuanjun.chen.base.container.RBTree;
  * @author: 陈元俊
  * @date: 2018年8月20日 上午8:58:18
  */
-public class OSTnode<T extends Comparable<?>> extends RBTnode<T> {
+public class OSTnode<T extends Comparable<T>> extends RBTnode<T> {
     protected int size = 0;
     protected OSTnode<T> parent;
     protected OSTnode<T> left;

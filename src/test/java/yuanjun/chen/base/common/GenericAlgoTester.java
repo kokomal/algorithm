@@ -20,7 +20,7 @@ import org.apache.logging.log4j.Logger;
  * @author: 陈元俊 
  * @date: 2018年7月25日 下午4:24:07  
  */
-public abstract class GenericAlgoTester <T extends Comparable<?>> {
+public abstract class GenericAlgoTester <T extends Comparable<T>> {
     private static final Logger logger = LogManager.getLogger(GenericAlgoTester.class);
     private String algoName = "";
     

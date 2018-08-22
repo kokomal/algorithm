@@ -34,18 +34,18 @@ public class FindAlgo {
     private static final Logger logger = LogManager.getLogger(FindAlgo.class);
 
     /** 只寻找最小值，n-1次比较. */
-    public static <T extends Comparable<?>> T findMinOnly(final T[] arr) {
+    public static <T extends Comparable<T>> T findMinOnly(final T[] arr) {
         return findOneExtreme(arr, ExtremeEnum.MIN);
     }
 
     /** 只寻找最大值，n-1次比较. */
-    public static <T extends Comparable<?>> T findMaxOnly(final T[] arr) {
+    public static <T extends Comparable<T>> T findMaxOnly(final T[] arr) {
         return findOneExtreme(arr, ExtremeEnum.MAX);
     }
 
     /** 查找第i大的数据，不应该把原始数据的内容打乱 因此需要保护性拷贝一份. */
     @SuppressWarnings("unchecked")
-    public static <T extends Comparable<?>> T randomizedSelectIthMaxWrapper(final T[] arr, int i) {
+    public static <T extends Comparable<T>> T randomizedSelectIthMaxWrapper(final T[] arr, int i) {
         if (i > arr.length) {
             return null;
         }
@@ -56,7 +56,7 @@ public class FindAlgo {
 
     /** 查找第i大的数据，不应该把原始数据的内容打乱 因此需要保护性拷贝一份 五分中位数查找，O[n]. */
     @SuppressWarnings("unchecked")
-    public static <T extends Comparable<?>> T fiveFoldedMidSelectIthMaxWrapper(final T[] arr, int i) {
+    public static <T extends Comparable<T>> T fiveFoldedMidSelectIthMaxWrapper(final T[] arr, int i) {
         if (i > arr.length) {
             return null;
         }
@@ -66,7 +66,7 @@ public class FindAlgo {
     }
 
     /** I从1开始，[1,len]. */
-    private static <T extends Comparable<?>> T fiveFoldedMidSelectIthMax(T[] tmp, int p, int r, int i) {
+    private static <T extends Comparable<T>> T fiveFoldedMidSelectIthMax(T[] tmp, int p, int r, int i) {
         if (tmp.length == 0) {
             return null;
         }
@@ -87,7 +87,7 @@ public class FindAlgo {
      * @param: arr
      * @return: int
      */
-    private static <T extends Comparable<?>> int fiveFoldedMidPartition(T[] arr, int p, int r) {
+    private static <T extends Comparable<T>> int fiveFoldedMidPartition(T[] arr, int p, int r) {
         // step 1 找到中位数x
         T mid = findMedian(arr, p, r, 5);
         return QuickSortAlgo.partitionWithFixedPivot(arr, p, r, mid);
@@ -139,7 +139,7 @@ public class FindAlgo {
     }
 
     /** 单个遍历，三次比较获得最小值和最大值 耗时O[3/2n]. */
-    public static <T extends Comparable<?>> MyPair<T> fineBothMinAndMax(final T[] arr) {
+    public static <T extends Comparable<T>> MyPair<T> fineBothMinAndMax(final T[] arr) {
         logger.info("starting finding both min and max");
         int len = arr.length;
         if (len == 0) {
@@ -172,7 +172,7 @@ public class FindAlgo {
      * @param: i
      * @return: void
      */
-    private static <T extends Comparable<?>> void challenge(final T[] arr, MyPair<T> res, int i) {
+    private static <T extends Comparable<T>> void challenge(final T[] arr, MyPair<T> res, int i) {
         if (more(arr[i], arr[i + 1])) { // compare#1
             res.challengeMax(arr[i]); // compare#2
             res.challengeMin(arr[i + 1]); // compare#3
@@ -182,7 +182,7 @@ public class FindAlgo {
         }
     }
 
-    private static <T extends Comparable<?>> T findOneExtreme(final T[] arr, ExtremeEnum extreme) {
+    private static <T extends Comparable<T>> T findOneExtreme(final T[] arr, ExtremeEnum extreme) {
         int len = arr.length;
         if (len == 0) {
             return null;

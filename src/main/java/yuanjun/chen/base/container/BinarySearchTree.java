@@ -18,7 +18,7 @@ import yuanjun.chen.base.common.CommonUtils;
  * @author: 陈元俊
  * @date: 2018年8月17日 下午2:01:52
  */
-public class BinarySearchTree<T extends Comparable<?>> {
+public class BinarySearchTree<T extends Comparable<T>> {
     private BSTnode<T> root;
 
     public BinarySearchTree(BSTnode<T> root) {

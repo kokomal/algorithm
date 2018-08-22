@@ -14,7 +14,7 @@ public class MyArrayUtils {
             arr[idxB] = temp;
         }
     }
-        public static <T extends Comparable<?>> int findIndex(T[] arr, T val) {
+        public static <T extends Comparable<T>> int findIndex(T[] arr, T val) {
         if (arr.length == 0) {
             return -1;
         }
@@ -25,8 +25,8 @@ public class MyArrayUtils {
         }
         return -1;
     }
-        @SuppressWarnings({"rawtypes", "unchecked"})
-    public static <T extends Comparable> MyPair<T> fetchMinAndMax(T[] arr) {
+        
+    public static <T extends Comparable<T>> MyPair<T> fetchMinAndMax(T[] arr) {
         if (arr.length == 0) {
             return null;
         }

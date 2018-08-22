@@ -18,7 +18,7 @@ import yuanjun.chen.base.container.MyQueue;
  * @author: 陈元俊
  * @date: 2018年8月17日 下午2:01:52
  */
-public class MyRBTree<T extends Comparable<?>> {
+public class MyRBTree<T extends Comparable<T>> {
     private RBTnode<T> root;
 
     private final RBTnode<T> NIL; // 虚空指针

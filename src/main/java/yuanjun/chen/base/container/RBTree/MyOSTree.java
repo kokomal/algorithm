@@ -19,7 +19,7 @@ import yuanjun.chen.base.container.MyQueue;
  * @author: 陈元俊 
  * @date: 2018年8月21日 下午3:58:12  
  */
-public class MyOSTree <T extends Comparable<?>> {
+public class MyOSTree <T extends Comparable<T>> {
     private OSTnode<T> root;
 
     private final OSTnode<T> NIL; // 虚空指针

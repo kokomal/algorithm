@@ -17,7 +17,7 @@ import static yuanjun.chen.base.common.CommonUtils.*;
  * @author: 陈元俊
  * @date: 2018年7月24日 下午12:24:24
  */
-public class MyPair<T extends Comparable<?>> {
+public class MyPair<T extends Comparable<T>> {
     T max;
     T min;
 

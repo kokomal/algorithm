@@ -42,7 +42,7 @@ public class BucketSortAlgo {
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
-    public static <T extends Comparable<?>> void inplaceBucketSort(T[] arr, SortOrderEnum order) {
+    public static <T extends Comparable<T>> void inplaceBucketSort(T[] arr, SortOrderEnum order) {
         MyPair<T> maxAndMin = MyArrayUtils.fetchMinAndMax(arr);
         // 获得最大的值
         if (maxAndMin == null || lesseq(maxAndMin.getMax(), maxAndMin.getMin())) {
@@ -58,7 +58,7 @@ public class BucketSortAlgo {
         concatenateInplace(nodeEntrySet, arr, order);
     }
 
-    public static <T extends Comparable<?>> void reviewMe(Node<T> node) {
+    public static <T extends Comparable<T>> void reviewMe(Node<T> node) {
         if (node != null) {
             Node<T> cur = node;
             while(cur != null) {
@@ -74,7 +74,7 @@ public class BucketSortAlgo {
      * @param nodeEntrySet
      * @param order
      */
-    private static <T extends Comparable<?>> void sortEachEntry(Node<T>[] nodeEntrySet, SortOrderEnum order) {
+    private static <T extends Comparable<T>> void sortEachEntry(Node<T>[] nodeEntrySet, SortOrderEnum order) {
         int len = nodeEntrySet.length;
         for (int i = 0; i < len; i++) {
             Node<T> head = nodeEntrySet[i];
@@ -115,7 +115,7 @@ public class BucketSortAlgo {
      * @param order
      */
     @SuppressWarnings({"unchecked"})
-    private static <T extends Comparable<?>> void concatenateInplace(Node<T>[] nodeEntrySet, T[] arr,
+    private static <T extends Comparable<T>> void concatenateInplace(Node<T>[] nodeEntrySet, T[] arr,
             SortOrderEnum order) {
         T[] tmp = (T[]) new Comparable[arr.length];
         int idx = 0;
@@ -131,7 +131,7 @@ public class BucketSortAlgo {
         System.arraycopy(tmp, 0, arr, 0, arr.length);
     }
 
-    private static <T extends Comparable<?>> int concatEachNode(T[] tmp, int idx, int buckNo, Node<T> node) {
+    private static <T extends Comparable<T>> int concatEachNode(T[] tmp, int idx, int buckNo, Node<T> node) {
         if (node != null) {
             Node<T> tmpNode = node;
             int inner = 0;
@@ -154,7 +154,7 @@ public class BucketSortAlgo {
      * @param nodeEntrySet
      * @param val
      */
-    private static <T extends Comparable<?>> void insertBucket(Node<T>[] nodeEntrySet, int min, T val) {
+    private static <T extends Comparable<T>> void insertBucket(Node<T>[] nodeEntrySet, int min, T val) {
         Number valIdx = (Number) val;
         int idx = valIdx.intValue() - min; // 强制置为int，意味着所有类型的Comparable都要进行类型转换
         if (nodeEntrySet[idx] == null) { // 如果没有值则新建Node

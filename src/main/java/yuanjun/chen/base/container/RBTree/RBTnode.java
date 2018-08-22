@@ -15,7 +15,7 @@ package yuanjun.chen.base.container.RBTree;
  * @author: 陈元俊
  * @date: 2018年8月20日 上午8:58:18
  */
-public class RBTnode<T extends Comparable<?>> {
+public class RBTnode<T extends Comparable<T>> {
     public enum COLOR {
         RED, BLACK;
     }

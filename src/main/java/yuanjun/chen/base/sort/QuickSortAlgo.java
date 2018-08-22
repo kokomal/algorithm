@@ -108,7 +108,7 @@ public class QuickSortAlgo {
     }
 
     /** 固定pivot的partition算法 前提是pivot必然存在arr的[p,r]区间内，否则没有任何意义. */
-    public static <T extends Comparable<?>> int partitionWithFixedPivot(T[] arr, int p, int r, final T pivot) {
+    public static <T extends Comparable<T>> int partitionWithFixedPivot(T[] arr, int p, int r, final T pivot) {
         if (p == r) {
             return p;
         }
