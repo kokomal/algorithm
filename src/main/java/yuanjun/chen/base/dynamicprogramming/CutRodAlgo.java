@@ -117,7 +117,7 @@ public class CutRodAlgo {
     }
 
     public static void main(String[] args) throws Exception {
-        Integer[] arr1 = RandomGenner.generateRandomTArray(30, 200, Integer.class);
+        Integer[] arr1 = RandomGenner.generateRandomTArray(30, 1, 200, Integer.class);
         Arrays.sort(arr1);
         int[] rules= Arrays.stream(arr1).mapToInt(Integer::valueOf).toArray(); // java8
         logger.info("rules -- " + Arrays.toString(rules));

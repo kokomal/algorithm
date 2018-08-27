@@ -198,7 +198,7 @@ public class FindAlgo {
     }
 
     public static void main(String[] args) throws Exception {
-        Float[] arr1 = RandomGenner.generateRandomTArray(200, 1000, Float.class);
+        Float[] arr1 = RandomGenner.generateRandomTArray(200, 0, 1000, Float.class);
         int firstN = 100;
         System.out.println(fiveFoldedMidSelectIthMaxWrapper(arr1, firstN));
         Arrays.sort(arr1);

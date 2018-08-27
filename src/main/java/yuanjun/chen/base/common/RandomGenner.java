@@ -34,7 +34,7 @@ public class RandomGenner {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T extends Object> T[] generateRandomTArray(int size, int bound, Class<T> clazz)
+    public static <T extends Object> T[] generateRandomTArray(int size, int lowbound, int upbound, Class<T> clazz)
             throws Exception {
         if (!supportedTypes.contains(clazz)) {
             throw new UnsupportedTypeException("class name " + clazz.getName() + " not supported!");
@@ -43,32 +43,32 @@ public class RandomGenner {
         if (clazz.equals(Integer.class)) {
             Integer intarr[] = new Integer[size];
             for (int i = 0; i < size; i++) {
-                intarr[i] = seed.nextInt(bound);
+                intarr[i] = lowbound + seed.nextInt(upbound - lowbound);
             }
             return (T[]) intarr;
         } else if (clazz.equals(Double.class)) {
             Double[] dbarr = new Double[size];
             for (int i = 0; i < size; i++) {
-                dbarr[i] = seed.nextDouble() * bound;
+                dbarr[i] = lowbound + seed.nextDouble() * (upbound - lowbound);
             }
             return (T[]) dbarr;
         } else if (clazz.equals(BigDecimal.class)) {
             BigDecimal bdArr[] = new BigDecimal[size];
             for (int i = 0; i < size; i++) {
-                bdArr[i] = new BigDecimal(seed.nextDouble() * bound);
+                bdArr[i] = new BigDecimal(lowbound + seed.nextDouble() * (upbound - lowbound));
             }
             return (T[]) bdArr;
         } else if (clazz.equals(Float.class)) {
             Float flArr[] = new Float[size];
             for (int i = 0; i < size; i++) {
-                flArr[i] = seed.nextFloat() * bound;
+                flArr[i] = lowbound + seed.nextFloat() * (upbound - lowbound);
             }
             return (T[]) flArr;
         } else {
             throw new UnsupportedTypeException("class name " + clazz.getName() + " not supported!");
         }
     }
-
+    
     /** 随机生成m*n维的Integer矩阵. */
     public static Integer[][] generateRandomIntMatrix(int m, int n, int bound) {
         Random seed = new Random();
@@ -76,6 +76,17 @@ public class RandomGenner {
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
                 matrix[i][j] = seed.nextInt(bound);
+            }
+        }
+        return matrix;
+    }
+    
+    public static Long[][] generateRandomLongMatrix(int m, int n, long bound) {
+        Random seed = new Random();
+        Long[][] matrix = new Long[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                matrix[i][j] = (long) (seed.nextFloat() * bound);
             }
         }
         return matrix;
@@ -94,16 +105,16 @@ public class RandomGenner {
     }
 
     public static void main(String[] args) throws Exception {
-        Integer[] ii = generateRandomTArray(19, 85, Integer.class);
+        Integer[] ii = generateRandomTArray(19, 0, 85, Integer.class);
         System.out.println(Arrays.toString(ii));
 
-        Float[] ff = generateRandomTArray(19, 85, Float.class);
+        Float[] ff = generateRandomTArray(19, 0, 85, Float.class);
         System.out.println(Arrays.toString(ff));
 
-        Double[] dd = generateRandomTArray(19, 85, Double.class);
+        Double[] dd = generateRandomTArray(19, 0, 85, Double.class);
         System.out.println(Arrays.toString(dd));
 
-        BigDecimal[] bb = generateRandomTArray(19, 85, BigDecimal.class);
+        BigDecimal[] bb = generateRandomTArray(19, 0, 85, BigDecimal.class);
         System.out.println(Arrays.toString(bb));
     }
 }

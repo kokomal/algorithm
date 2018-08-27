@@ -95,7 +95,7 @@ public class RadixSortAlgo {
 
         int size = 65536 * 3;
         int bound = 4000;
-        Integer[] arr2 = RandomGenner.generateRandomTArray(size, bound, Integer.class);
+        Integer[] arr2 = RandomGenner.generateRandomTArray(size, 0, bound, Integer.class);
         radixSort(arr2, SortOrderEnum.ASC);
         System.out.println("finally--" + Arrays.toString(arr2));
     }

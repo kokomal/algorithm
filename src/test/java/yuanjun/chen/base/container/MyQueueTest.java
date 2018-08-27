@@ -33,7 +33,7 @@ public class MyQueueTest {
 
     private static <T> MyQueue<T> genMyQueue(int size, int bound, Class<T> clazz) throws Exception {
         MyQueue<T> myqueue = new MyQueue<>(size);
-        T[] arr1 = RandomGenner.generateRandomTArray(size, bound, clazz);
+        T[] arr1 = RandomGenner.generateRandomTArray(size, 0, bound, clazz);
         logger.info("input data is = " + Arrays.toString(arr1));
         for (T ob : arr1) {
             myqueue.enqueue(ob);

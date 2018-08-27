@@ -69,7 +69,7 @@ public class MyDequeTest {
      */
     private <T extends Object> MyDeque<T> genHalfDeque(int size, int bound, Class<T> clazz, DirectionEnum direct)
             throws Exception {
-        T[] arr1 = RandomGenner.generateRandomTArray(size, bound, clazz);
+        T[] arr1 = RandomGenner.generateRandomTArray(size, 0, bound, clazz);
         logger.info("before enqueue orig data " + Arrays.toString(arr1));
         MyDeque<T> mydq = new MyDeque<>(size * 2); // deque容量20，传入10个元素
         if (DirectionEnum.BACKWARD.equals(direct)) {

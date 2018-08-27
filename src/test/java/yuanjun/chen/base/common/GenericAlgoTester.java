@@ -39,7 +39,7 @@ public abstract class GenericAlgoTester <T extends Comparable<T>> {
     
     @SuppressWarnings("unchecked")
     public void genericTest(int size, int bound, SortOrderEnum order, Class<T> clazz) throws Exception {
-        T[] arr1 = RandomGenner.generateRandomTArray(size, bound, clazz);
+        T[] arr1 = RandomGenner.generateRandomTArray(size, 0, bound, clazz);
         T[] arr2 = (T[]) new Comparable[size];
         System.arraycopy(arr1, 0, arr2, 0, size);
         DispUtil.embed(50, '*', this.algoName + " SORT " + order + " STARTS");

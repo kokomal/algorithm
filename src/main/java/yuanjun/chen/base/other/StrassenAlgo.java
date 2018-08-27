@@ -9,6 +9,8 @@
  */
 package yuanjun.chen.base.other;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import yuanjun.chen.base.common.DispUtil;
@@ -45,19 +47,57 @@ public class StrassenAlgo {
         }
         return res;
     }
+    
+    /** O[n^3]的通用矩阵乘法. */
+    public static Long[][] on3calcMatrix(final Long[][] matrixA, final Long[][] matrixB) {
+        int lenA = matrixA.length;
+        int lenB = matrixA[0].length;
+        int lenC = matrixB.length;
+        int lenD = matrixB[0].length;
+        if (lenB != lenC) {
+            return null;
+        } // 维度不对等，则报错拒绝执行
+        Long[][] res = new Long[lenA][lenD];
+        for (int i = 0; i < lenA; i++) {
+            for (int j = 0; j < lenD; j++) {
+                // 对于i，j
+                Long sum = 0L;
+                for (int idx = 0; idx < lenB; idx++) {
+                    sum += matrixA[i][idx] * matrixB[idx][j];
+                }
+                res[i][j] = sum;
+            }
+        }
+        return res;
+    }
+    
+    public static List<Long[][]> generateMatriceByDimensions(Integer[] dimensions, int bound) {
+        int len = dimensions.length;
+        if (len < 2) {
+            return null;
+        }
+        List<Long[][]> res = new ArrayList<>(len);
+        for (int i = 0, j = 1; i < len && j < len; i++, j++) {
+            int len1 = dimensions[i];
+            int len2 = dimensions[j];
+            Long[][] matrix = RandomGenner.generateRandomLongMatrix(len1, len2, 1000L);
+            res.add(matrix);
+        }
+        return res;
+    }
 
     public static void main(String[] args) {
         Integer[][] matrixA = RandomGenner.generateRandomIntMatrix(16, 16, 100);
         Integer[][] matrixB = RandomGenner.generateRandomIntMatrix(16, 16, 100);
 
         logger.info("matrix A:");
-        DispUtil.showMatrix(matrixA);
+        DispUtil.showMatrixForCopy(matrixA);
         DispUtil.split(60, '-');
         logger.info("matrix B:");
-        DispUtil.showMatrix(matrixB);
+        DispUtil.showMatrixForCopy(matrixB);
         DispUtil.split(60, '-');
         logger.info("matrix A * B:");
         Integer[][] res = on3calcMatrix(matrixA, matrixB);
-        DispUtil.showMatrix(res);
+        DispUtil.showMatrixForCopy(res);
     }
 }

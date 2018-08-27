@@ -67,7 +67,7 @@ public class ShellSortAlgo {
         System.out.println(Arrays.toString(arr));
         int size = 16000;
         int bound = 4000;
-        Integer[] arr2 = RandomGenner.generateRandomTArray(size, bound, Integer.class);
+        Integer[] arr2 = RandomGenner.generateRandomTArray(size, 0, bound, Integer.class);
         inplaceShellSortKnuthWay(arr2, SortOrderEnum.DESC);
         System.out.println(Arrays.toString(arr2));
     }

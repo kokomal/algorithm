@@ -61,7 +61,7 @@ public class MyStackTest {
 
     private static <T> MyStack<T> genMyStack(int size, int bound, Class<T> clazz) throws Exception {
         MyStack<T> mystack = new MyStack<>();
-        T[] arr1 = RandomGenner.generateRandomTArray(size, bound, clazz);
+        T[] arr1 = RandomGenner.generateRandomTArray(size, 0, bound, clazz);
         logger.info("input data is = " + Arrays.toString(arr1));
         for (T ob : arr1) {
             mystack.push(ob);

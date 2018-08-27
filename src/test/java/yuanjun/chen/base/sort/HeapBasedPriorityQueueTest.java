@@ -28,7 +28,7 @@ public class HeapBasedPriorityQueueTest {
 
     @Test
     public void testHeapBasedPriorityQueue() throws Exception {
-        Integer[] initArray = RandomGenner.generateRandomTArray(20, 100, Integer.class);
+        Integer[] initArray = RandomGenner.generateRandomTArray(20, 0, 100, Integer.class);
         HeapBasedPriorityQueue hbpq = new HeapBasedPriorityQueue(initArray, SortOrderEnum.DESC); // 小根堆
         displayBoth1Dand2D(hbpq);
         if (initArray.length > 8) {
@@ -56,7 +56,7 @@ public class HeapBasedPriorityQueueTest {
 
     @Test
     public void testPop() throws Exception {
-        Integer[] initArray = RandomGenner.generateRandomTArray(18, 100, Integer.class);
+        Integer[] initArray = RandomGenner.generateRandomTArray(18, 0, 100, Integer.class);
         HeapBasedPriorityQueue hbpq = new HeapBasedPriorityQueue(initArray, SortOrderEnum.DESC); // 小根堆
         DispUtil.embed(40, '=', "Before pop");
         displayBoth1Dand2D(hbpq);
@@ -71,7 +71,7 @@ public class HeapBasedPriorityQueueTest {
 
     @Test
     public void testPop2() throws Exception {
-        Integer[] initArray = RandomGenner.generateRandomTArray(2, 100, Integer.class);
+        Integer[] initArray = RandomGenner.generateRandomTArray(2, 0, 100, Integer.class);
         HeapBasedPriorityQueue hbpq = new HeapBasedPriorityQueue(initArray, SortOrderEnum.DESC); // 小根堆
         DispUtil.embed(40, '=', "Before pop");
         displayBoth1Dand2D(hbpq);
@@ -86,7 +86,7 @@ public class HeapBasedPriorityQueueTest {
 
     @Test
     public void testDelete() throws Exception {
-        Integer[] initArray = RandomGenner.generateRandomTArray(20, 100, Integer.class);
+        Integer[] initArray = RandomGenner.generateRandomTArray(20, 0, 100, Integer.class);
         HeapBasedPriorityQueue hbpq = new HeapBasedPriorityQueue(initArray, SortOrderEnum.DESC); // 小根堆
         DispUtil.embed(40, '=', "Before delete");
         displayBoth1Dand2D(hbpq);

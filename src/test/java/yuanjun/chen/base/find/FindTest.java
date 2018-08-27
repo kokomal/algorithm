@@ -29,7 +29,7 @@ public class FindTest {
 
     @Test
     public void testFindAlgo001() throws Exception {
-        BigDecimal[] arr1 = RandomGenner.generateRandomTArray(10000, 20000, BigDecimal.class);
+        BigDecimal[] arr1 = RandomGenner.generateRandomTArray(10000, 0, 20000, BigDecimal.class);
         logger.info("min = " + FindAlgo.findMinOnly(arr1));
         logger.info("max = " + FindAlgo.findMaxOnly(arr1));
         MyPair<BigDecimal> pair = FindAlgo.fineBothMinAndMax(arr1);
@@ -40,7 +40,7 @@ public class FindTest {
     public void testQuickSelect() throws Exception {
         int size = 10000;
         int bound = 20000;
-        BigDecimal[] arr1 = RandomGenner.generateRandomTArray(size, bound, BigDecimal.class);
+        BigDecimal[] arr1 = RandomGenner.generateRandomTArray(size, 0, bound, BigDecimal.class);
         int firstN = size / 16;
         logger.info("to find first " + firstN + "th number in array...");
         BigDecimal f1 = FindAlgo.fiveFoldedMidSelectIthMaxWrapper(arr1, firstN);

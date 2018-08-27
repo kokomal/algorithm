@@ -178,7 +178,7 @@ public class BucketSortAlgo {
         // showDebug();
         int size = 30;
         int bound = 7000;
-        Float[] arr2 = RandomGenner.generateRandomTArray(size, bound, Float.class);
+        Float[] arr2 = RandomGenner.generateRandomTArray(size, 0, bound, Float.class);
         Float[] arr3 = new Float[size];
         System.arraycopy(arr2, 0, arr3, 0, size);
                 DispUtil.embed(50, '*', "BUCKET ASC SORT STARTS");
