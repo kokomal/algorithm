@@ -27,7 +27,7 @@ public class MemoizedCutRodTest {
     
     @BeforeClass
     public static void before() throws Exception {
-        Integer[] arr1 = RandomGenner.generateRandomTArray(140, 0, 400, Integer.class);
+        Integer[] arr1 = RandomGenner.generateRandomTArray(100, 0, 400, Integer.class);
         Arrays.sort(arr1);
         int[] rules= Arrays.stream(arr1).mapToInt(Integer::valueOf).toArray(); // java8
         logger.info("rules -- " + Arrays.toString(rules));
