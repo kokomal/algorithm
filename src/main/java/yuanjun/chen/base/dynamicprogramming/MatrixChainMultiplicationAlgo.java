@@ -4,7 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * Matrix chain multiplication, MXOP
+ * Matrix chain multiplication, MCOP
  */
 public class MatrixChainMultiplicationAlgo {
     private static final Logger logger = LogManager.getLogger(MatrixChainMultiplicationAlgo.class);

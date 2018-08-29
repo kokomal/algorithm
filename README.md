@@ -79,5 +79,9 @@ container包相关:
 ---
 dynamicprogramming包相关：  
 此包涵盖动态规划相关算法  
-## yuanjun.chen.base.dynamicprogramming.CutRodAlgo.java
-为CLRS经典的切割钢条算法，如果采用暴力遍历，则效率为O[2^n]的时间复杂度，如果采用辅助的容器来记录子问题的已有答案，则性能及其优秀，时间复杂度O[n^2]，空间复杂度O[n]  
+## CutRodAlgo.java
+为CLRS-3经典的切割钢条算法，如果采用暴力遍历，则效率为O[2^n]的时间复杂度，如果采用辅助的容器来记录子问题的已有答案，则性能及其优秀，时间复杂度O[n^2]，空间复杂度O[n]
+## MatrixChainMultiplicationAlgo.java
+为CLRS-3经典的矩阵链式乘法的动态规划算法，如果采用暴力遍历，效率为O[n!]遍历，但如果步进记录各个小问题的答案，则时间复杂度为O[n^3],空间复杂度为O[n^2]
+## LCSAlgo.java
+为CLRS-3经典的LCS算法（最长公共子串），采用额外的辅助矩阵来记录方向（可以优化掉，但为了不影响理解，暂时保留），特别感谢@[薛丁文](https://www.cnblogs.com/XueDingWen/p/EXLCS.html)给出的遍历所有LCS解法打印的方案
