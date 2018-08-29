@@ -1,15 +1,24 @@
 package yuanjun.chen.base.dynamicprogramming;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+import yuanjun.chen.base.common.RandomGenner;
+
 /** CLRS-3原版LCS算法 这里新开辟一个类，避免和其他算法公用相同的静态变量导致冲突. */
 public class LCSAlgo {
     /**   
      * @Fields SPLITTER : TODO(用一句话描述这个变量表示什么)   
      */
-    private static final String SPLITTER = " │ ";
+    public static final String SPLITTER = " │ ";
     /** 辅助方向矩阵. */
-    private static char[][] b;
+    static char[][] b;
     /** LCS的长度. */
-    private static int[][] c;
+    static int[][] c;
 
     /**
      * 原版的LCS-LENGTH算法，带辅助方向矩阵b
@@ -74,11 +83,72 @@ public class LCSAlgo {
             System.out.print('}');
         }
     }
+    
+    public static List<String> print_lcs_list(String X, int i, int j) {
+        if (i == 0 || j == 0) {
+            List<String> ll = new LinkedList<>();
+            ll.add(new String());
+            return ll;
+        }
+        if (b[i][j] == '↖') {
+            List<String> old = print_lcs_list(X, i - 1, j - 1);
+            //System.out.println("old - " + old);
+            List<String> newStrs = new LinkedList<>();
+            for (String each : old) {
+                newStrs.add(each + X.charAt(i - 1));
+            }
+            //System.out.println("new - " + newStrs);
+            return newStrs;
+        } else if (b[i][j] == '↑') {
+            return print_lcs_list(X, i - 1, j);
+        } else if (b[i][j] == '←'){
+            return print_lcs_list(X, i, j - 1);
+        } else { // x
+            List<String> old = print_lcs_list(X, i - 1, j);
+            old.addAll(print_lcs_list(X, i, j - 1));
+            return old;
+        }
+    }
+    
+    public static List<String> print_lcs_list_unique(String X, int i, int j) {
+        List<String> res;
+        if (i == 0 || j == 0) {
+            List<String> ll = new LinkedList<>();
+            ll.add(new String());
+            return ll;
+        }
+        if (b[i][j] == '↖') {
+            List<String> old = print_lcs_list_unique(X, i - 1, j - 1);
+            List<String> newStrs = new LinkedList<>();
+            for (String each : old) {
+                newStrs.add(each + X.charAt(i - 1));
+            }
+            res = newStrs;
+        } else if (b[i][j] == '↑') {
+            return print_lcs_list_unique(X, i - 1, j);
+        } else if (b[i][j] == '←'){
+            return print_lcs_list_unique(X, i, j - 1);
+        } else { // x
+            List<String> old = print_lcs_list_unique(X, i - 1, j);
+            old.addAll(print_lcs_list_unique(X, i, j - 1));
+            res = old;
+        }
+        Set<String> fitres = new HashSet<>(res); // 去重之后
+        return new LinkedList<>(fitres);
+    }
 
     public static void main(String[] args) {
-        String X = "ABCBDAB";
-        String Y = "BDCDBA";
+        String X = RandomGenner.generateDNASeries(30);
+        String Y = RandomGenner.generateDNASeries(40);
+        System.out.println("X = " + X);
+        System.out.println("Y = " + Y);
         lcs_legth(X, Y);
+        showBTable(X, Y);
+        List<String> allres = print_lcs_list(X, X.length(), Y.length());
+        System.out.println(allres);
+    }
+
+    public static void showBTable(String X, String Y) {
         System.out.print("X/Y│ ");
         for (int j = 1; j <= Y.length(); j++) {
             System.out.print(Y.charAt(j-1) + "  ");
@@ -92,6 +162,5 @@ public class LCSAlgo {
             System.out.println();
         }
         System.out.println("------------------------");
-        print_lcs(X, X.length() , Y.length());
     }
 }

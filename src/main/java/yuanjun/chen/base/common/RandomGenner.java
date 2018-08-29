@@ -17,6 +17,7 @@ public class RandomGenner {
         supportedTypes.add(Float.class);
     }
 
+    private static final char[] DNA_SERIES = {'A', 'T', 'G', 'C'};
     /**
      * 随机生成指定大小的int数组.
      * 
@@ -104,7 +105,19 @@ public class RandomGenner {
         return matrix;
     }
 
+    // ATGC random
+    public static String generateDNASeries(int len) {
+        Random seed = new Random();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < len; i++) {
+            sb.append(DNA_SERIES[seed.nextInt(DNA_SERIES.length)]);
+        }
+        return sb.toString();
+    }
+    
     public static void main(String[] args) throws Exception {
+        System.out.println(generateDNASeries(20));
+        
         Integer[] ii = generateRandomTArray(19, 0, 85, Integer.class);
         System.out.println(Arrays.toString(ii));
 
