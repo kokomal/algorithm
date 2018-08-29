@@ -1,15 +1,15 @@
 package yuanjun.chen.base.dynamicprogramming;
 
-import yuanjun.chen.base.common.DispUtil;
-
-/**
- * CLRS-3原版LCS算法
- * 这里新开辟一个类，避免和其他算法公用相同的静态变量导致冲突
- */
+/** CLRS-3原版LCS算法 这里新开辟一个类，避免和其他算法公用相同的静态变量导致冲突. */
 public class LCSAlgo {
-
-    private static char[][] b; // 辅助方向矩阵
-    private static int[][] c; // LCS的长度
+    /**   
+     * @Fields SPLITTER : TODO(用一句话描述这个变量表示什么)   
+     */
+    private static final String SPLITTER = " │ ";
+    /** 辅助方向矩阵. */
+    private static char[][] b;
+    /** LCS的长度. */
+    private static int[][] c;
 
     /**
      * 原版的LCS-LENGTH算法，带辅助方向矩阵b
@@ -22,7 +22,7 @@ public class LCSAlgo {
      * 4 B  0
      * 5 D  0
      * 6 A  0
-     * 7 B  0
+     * 7 B  0.
      */
     public static void lcs_legth(String X, String Y) {
         int m = X.length();
@@ -52,7 +52,7 @@ public class LCSAlgo {
 
     /**
      * 原版的PRINT-LCS算法
-     * 入参的取值范围为m,n，即b的维度
+     * 入参的取值范围为m,n，即b的维度.
      * @SpecialThanksTo 薛丁文给出打印所有LCS的递归方法！
      */
     public static void print_lcs(String X, int i, int j) {
@@ -79,19 +79,19 @@ public class LCSAlgo {
         String X = "ABCBDAB";
         String Y = "BDCDBA";
         lcs_legth(X, Y);
-        System.out.print("X/Y| ");
+        System.out.print("X/Y│ ");
         for (int j = 1; j <= Y.length(); j++) {
             System.out.print(Y.charAt(j-1) + "  ");
         }
         System.out.println("\n───┼─────────────────");
         for (int i = 1; i <= X.length(); i++) {
-            System.out.print(" " + X.charAt(i-1) + " │ ");
+            System.out.print(" " + X.charAt(i-1) + SPLITTER);
             for (int j = 1; j <= Y.length(); j++) {
                 System.out.print(b[i][j] + "  ");
             }
             System.out.println();
         }
         System.out.println("------------------------");
-        print_lcs(X, X.length() , Y.length() );
+        print_lcs(X, X.length() , Y.length());
     }
 }
