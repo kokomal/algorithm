@@ -185,15 +185,14 @@ public class MyDoubleLinkedList<T extends Object> {
         }
         myll.showAll();
         
-        DLLReverseIterator<Integer> driter = myll.getReverseIterator();
+        DLLReverseIterator<Integer> driter = myll.getReverseIterator(); // 反向迭代器
         while(driter.hasPrevious()) {
             System.out.println(driter.previous().val);
         }
-        
         System.out.println("===" + driter.previous().val);
         
-        DLLIterator<Integer> diter = myll.getIterator();
-        while(diter.hasNext()) {
+        DLLIterator<Integer> diter = myll.getIterator(); // 正向迭代器
+        while(diter.hasNext()) { // 模拟约瑟夫环出列问题
             for (int i = 0; i < n; i++) {
                 diter.next();
             }
