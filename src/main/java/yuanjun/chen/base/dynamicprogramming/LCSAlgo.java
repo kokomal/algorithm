@@ -84,6 +84,7 @@ public class LCSAlgo {
         }
     }
     
+    @Deprecated
     public static List<String> print_lcs_list(String X, int i, int j) {
         if (i == 0 || j == 0) {
             List<String> ll = new LinkedList<>();
