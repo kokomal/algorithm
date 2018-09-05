@@ -1,9 +1,6 @@
 package yuanjun.chen.base.dynamicprogramming;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -93,21 +90,24 @@ public class LCSAlgo {
         }
         if (b[i][j] == '↖') {
             List<String> old = print_lcs_list(X, i - 1, j - 1);
-            //System.out.println("old - " + old);
+            // System.out.println("old - " + old);
             List<String> newStrs = new LinkedList<>();
             for (String each : old) {
                 newStrs.add(each + X.charAt(i - 1));
             }
-            //System.out.println("new - " + newStrs);
+            // System.out.println("new - " + newStrs);
             return newStrs;
         } else if (b[i][j] == '↑') {
             return print_lcs_list(X, i - 1, j);
         } else if (b[i][j] == '←'){
             return print_lcs_list(X, i, j - 1);
         } else { // x
-            List<String> old = print_lcs_list(X, i - 1, j);
-            old.addAll(print_lcs_list(X, i, j - 1));
-            return old;
+            List<String> old1 = print_lcs_list(X, i - 1, j);
+            List<String> old2 = print_lcs_list(X, i, j - 1);
+            for (String x : old2) {
+                old1.add(x);
+            }
+            return old1;
         }
     }
     
@@ -139,14 +139,20 @@ public class LCSAlgo {
     }
 
     public static void main(String[] args) {
-        String X = RandomGenner.generateDNASeries(30);
-        String Y = RandomGenner.generateDNASeries(40);
+        String X = RandomGenner.generateDNASeries(10);
+        String Y = RandomGenner.generateDNASeries(10);
+        
+        X = "CGGCCAAACTGTCGCTACGACCATGCTGCA";
+        Y = "CCGTGACAGTCACACTATCAGCTGACAGCGAGGGGTAATC";
         System.out.println("X = " + X);
         System.out.println("Y = " + Y);
         lcs_legth(X, Y);
         showBTable(X, Y);
         List<String> allres = print_lcs_list(X, X.length(), Y.length());
-        System.out.println(allres);
+        System.out.println(allres.size());
+        for (String xx : allres) {
+            System.out.println("---" + xx);
+        }
     }
 
     public static void showBTable(String X, String Y) {
