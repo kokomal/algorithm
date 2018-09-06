@@ -2,9 +2,10 @@ package yuanjun.chen.base.dynamicprogramming;
 
 /**
  * 传说中的LCS
- *
+ * 比较粗糙的版本，只可获得一个最长LCS串
  * @SpecialThanksTo fjssharpsword
  */
+@Deprecated
 public class LongestCommonSubsequenceAlgo {
     public static void main(String[] args) {
         // TODO Auto-generated method stub

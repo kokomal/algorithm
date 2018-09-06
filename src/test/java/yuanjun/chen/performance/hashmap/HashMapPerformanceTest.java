@@ -10,6 +10,7 @@
 package yuanjun.chen.performance.hashmap;
 
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Map;
 import org.junit.Test;
 
@@ -47,5 +48,9 @@ public class HashMapPerformanceTest {
         }
         long s4 = System.currentTimeMillis();
         System.out.println("初始化容量为" + loops + "，耗时 ： " + (s4 - s3) + "ms");
+    }
+    
+    @Test
+    public void testHashTable() {
     }
 }

@@ -61,10 +61,10 @@ public class MatrixChainMultipleTest {
         int size = 7; // size-1个矩阵
         Integer[] dms = RandomGenner.generateRandomTArray(size, lowbound, upbound, Integer.class);
         System.out.println(Arrays.toString(dms));
-        MatrixChainMultiplicationAlgo.dpGenerateBestChain(dms);
+        MCOPAlgo.dpGenerateBestChain(dms);
 
-        StringBuilder sb = MatrixChainMultiplicationAlgo.printAll(0, size - 2);
-        System.out.println("the best sequence is " + MatrixChainMultiplicationAlgo.fetchSequence());
-        System.out.println("final price is " + MatrixChainMultiplicationAlgo.fetchFinalPrice());
+        StringBuilder sb = MCOPAlgo.printAll(0, size - 2);
+        System.out.println("the best sequence is " + MCOPAlgo.fetchSequence());
+        System.out.println("final price is " + MCOPAlgo.fetchFinalPrice());
     }
 }

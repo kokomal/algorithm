@@ -61,14 +61,15 @@ public class BucketSortAlgo {
     public static <T extends Comparable<T>> void reviewMe(Node<T> node) {
         if (node != null) {
             Node<T> cur = node;
-            while(cur != null) {
+            while (cur != null) {
                 System.out.print(cur.val + "-->");
                 cur = cur.next;
             }
             System.out.println("null");
         }
     }
-        /**
+
+    /**
      * 遍历每一个entry，进行排序.
      * 
      * @param nodeEntrySet
@@ -181,7 +182,7 @@ public class BucketSortAlgo {
         Float[] arr2 = RandomGenner.generateRandomTArray(size, 0, bound, Float.class);
         Float[] arr3 = new Float[size];
         System.arraycopy(arr2, 0, arr3, 0, size);
-                DispUtil.embed(50, '*', "BUCKET ASC SORT STARTS");
+        DispUtil.embed(50, '*', "BUCKET ASC SORT STARTS");
         logger.info("before--" + Arrays.toString(arr2));
         long t1 = System.currentTimeMillis();
         inplaceBucketSort(arr2, SortOrderEnum.DESC);
@@ -189,7 +190,7 @@ public class BucketSortAlgo {
         logger.info("after--" + Arrays.toString(arr2));
         DispUtil.embed(50, '*', "COUNTING SORT ENDS..");
         logger.info("BUCKET ASC SORT time used " + (t2 - t1) + "ms");
-                logger.info("before--" + Arrays.toString(arr3));
+        logger.info("before--" + Arrays.toString(arr3));
         Arrays.sort(arr3, Collections.reverseOrder());
         logger.info("after--" + Arrays.toString(arr3));
     }

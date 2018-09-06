@@ -6,8 +6,8 @@ import org.apache.logging.log4j.Logger;
 /**
  * Matrix chain multiplication, MCOP
  */
-public class MatrixChainMultiplicationAlgo {
-    private static final Logger logger = LogManager.getLogger(MatrixChainMultiplicationAlgo.class);
+public class MCOPAlgo {
+    private static final Logger logger = LogManager.getLogger(MCOPAlgo.class);
     /**
      * ____A1___A2________Ak__Ak+1______An
      * p[0]  [1] [2] ...   [k]  [k+1] ... [n]
