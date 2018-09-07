@@ -10,7 +10,6 @@
 package yuanjun.chen.performance.hashmap;
 
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Map;
 import org.junit.Test;
 
