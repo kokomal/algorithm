@@ -13,7 +13,7 @@ import java.util.Arrays;
 
 /**
  * @ClassName: LongestPalindromeAlgo
- * @Description: TODO(这里用一句话描述这个类的作用)
+ * @Description: 最长回文串的最简单做法是把X逆序后求二者的LCS
  * @author: 陈元俊
  * @date: 2018年9月7日 下午5:24:54
  */

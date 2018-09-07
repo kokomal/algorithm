@@ -1,5 +1,7 @@
 package yuanjun.chen.base.dynamicprogramming;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -148,11 +150,17 @@ public class LCSAlgo {
         System.out.println("Y = " + Y);
         lcs_legth(X, Y);
         showBTable(X, Y);
-        List<String> allres = print_lcs_list(X, X.length(), Y.length());
+        List<String> allres = print_lcs_list_unique(X, X.length(), Y.length());
         System.out.println(allres.size());
         for (String xx : allres) {
             System.out.println("---" + xx);
         }
+        
+        X = "character";
+        Y =  new StringBuffer(X).reverse().toString();
+        lcs_legth(X, Y);
+        List<String> allres2 = print_lcs_list_unique(X, X.length(), Y.length());
+        System.out.println(allres2);
     }
 
     public static void showBTable(String X, String Y) {
