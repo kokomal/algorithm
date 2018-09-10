@@ -84,4 +84,11 @@ dynamicprogramming包相关：
 ## MatrixChainMultiplicationAlgo.java
 为CLRS-3经典的矩阵链式乘法的动态规划算法，如果采用暴力遍历，效率为O[n!]遍历，但如果步进记录各个小问题的答案，则时间复杂度为O[n^3],空间复杂度为O[n^2]
 ## LCSAlgo.java
-为CLRS-3经典的LCS算法（最长公共子串），采用额外的辅助矩阵来记录方向（可以优化掉，但为了不影响理解，暂时保留），特别感谢@[薛丁文](https://www.cnblogs.com/XueDingWen/p/EXLCS.html)给出的遍历所有LCS解法打印的方案
+为CLRS-3经典的LCS算法（最长公共子串），采用额外的辅助矩阵来记录方向（可以优化掉，但为了不影响理解，暂时保留），特别感谢@[薛丁文](https://www.cnblogs.com/XueDingWen/p/EXLCS.html)给出的遍历所有LCS解法打印的方案  
+
+
+---
+
+##jmh相关  
+mvn clean install -Dmaven.test.skip=true  此命令将打成2个包，其中包括正常的包，和benchmarks.jar包，后者为真正的性能测试jar 
+如果需要执行benchmark测试，只需java -jar benchmarks.jar就可以看到结果，当然也可以在IDE里面执行main方法  

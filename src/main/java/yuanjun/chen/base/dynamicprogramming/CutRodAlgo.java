@@ -36,15 +36,15 @@ public class CutRodAlgo {
         if (n == 0)
             return 0;
         int q = Integer.MIN_VALUE;
-        int rec = 0;
+        // int rec = 0;
         for (int i = 1; i <= price_table.length && i <= n; i++) {
             int candidate = price_table[i - 1] + brute(n - i);
             if (q < candidate) {
                 q = candidate;
-                rec = i;
+                // rec = i;
             }
         }
-        //logger.info("for " + n + " first cut = " + rec);
+        // logger.info("for " + n + " first cut = " + rec);
         return q;
     }
 

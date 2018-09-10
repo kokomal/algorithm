@@ -1,7 +1,5 @@
 package yuanjun.chen.base.dynamicprogramming;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
