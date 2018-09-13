@@ -115,6 +115,27 @@ public class RandomGenner {
         return sb.toString();
     }
     
+    public static String[] generateRandomStrings(int N, int baseLenPerString) {
+        String[] res = new String[N];
+        for (int i = 0; i < N; i++) {
+            res[i] = generateString(baseLenPerString);
+        }
+        return res;
+    }
+    
+    private static final String SOURCES =
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
+    
+    public static String generateString(int length) {
+        Random random = new Random();
+        int size = random.nextInt(length) + 1;
+        char[] text = new char[size];
+        for (int i = 0; i < size; i++) {
+            text[i] = SOURCES.charAt(random.nextInt(SOURCES.length()));
+        }
+        return new String(text);
+    }
+    
     public static void main(String[] args) throws Exception {
         System.out.println(generateDNASeries(20));
         
@@ -129,5 +150,7 @@ public class RandomGenner {
 
         BigDecimal[] bb = generateRandomTArray(19, 0, 85, BigDecimal.class);
         System.out.println(Arrays.toString(bb));
+        
+        System.out.println(Arrays.toString(generateRandomStrings(100, 20)));
     }
 }
