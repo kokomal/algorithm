@@ -33,7 +33,7 @@ public class PrintNeatTest {
     @Test
     public void testNeatHard() {
         int legalLen = 125; // 每行最多125格
-        String[] nations = RandomGenner.generateRandomStrings(100, legalLen); // 初始化100个长度为1-25的字符串
+        String[] nations = RandomGenner.generateRandomStrings(100, legalLen); // 初始化100个长度为[1-125]的字符串
         System.out.println("raw words = " + Arrays.toString(nations));
         PrintNeatlyAlgo.init(legalLen, nations); 
         int res = PrintNeatlyAlgo.neatly();
