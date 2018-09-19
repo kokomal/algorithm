@@ -85,7 +85,10 @@ dynamicprogramming包相关：
 为CLRS-3经典的矩阵链式乘法的动态规划算法，如果采用暴力遍历，效率为O[n!]遍历，但如果步进记录各个小问题的答案，则时间复杂度为O[n^3],空间复杂度为O[n^2]
 ## LCSAlgo.java
 为CLRS-3经典的LCS算法（最长公共子串），采用额外的辅助矩阵来记录方向（可以优化掉，但为了不影响理解，暂时保留），特别感谢@[薛丁文](https://www.cnblogs.com/XueDingWen/p/EXLCS.html)给出的遍历所有LCS解法打印的方案  
-
+## CompanyPartyConvivialityAlgo.java
+为CLRS-3课后的公司聚会问题DP算法，其采用了左右子女树的公司结构，求得所有最优全体快乐指数的聚会人员安排全集  
+## TspBitonicAlgo.java
+为CLRS-3课后的双调欧几里得旅行商[Bently优化版]，其采用DP的方法求出一个逼近最优解的朴素可行解  
 
 ---
 

@@ -17,7 +17,7 @@ import yuanjun.chen.base.dynamicprogramming.companyParty.EmployeeTreeNode.ENTER_
 
 /**
  * @ClassName: CompanyPartyConvivialityAlgo
- * @Description: TODO(这里用一句话描述这个类的作用)
+ * @Description: 公司聚会DP算法
  * @author: 陈元俊
  * @date: 2018年9月14日 上午8:54:09
  */
