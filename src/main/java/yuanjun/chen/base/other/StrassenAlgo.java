@@ -80,7 +80,7 @@ public class StrassenAlgo {
         for (int i = 0, j = 1; i < len && j < len; i++, j++) {
             int len1 = dimensions[i];
             int len2 = dimensions[j];
-            Long[][] matrix = RandomGenner.generateRandomLongMatrix(len1, len2, 1000L);
+            Long[][] matrix = RandomGenner.generateRandomLongMatrix(len1, len2, bound);
             res.add(matrix);
         }
         return res;

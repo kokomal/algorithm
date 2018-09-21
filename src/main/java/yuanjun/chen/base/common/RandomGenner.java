@@ -18,6 +18,7 @@ public class RandomGenner {
     }
 
     private static final char[] DNA_SERIES = {'A', 'T', 'G', 'C'};
+
     /**
      * 随机生成指定大小的int数组.
      * 
@@ -69,7 +70,7 @@ public class RandomGenner {
             throw new UnsupportedTypeException("class name " + clazz.getName() + " not supported!");
         }
     }
-    
+
     /** 随机生成m*n维的Integer矩阵. */
     public static Integer[][] generateRandomIntMatrix(int m, int n, int bound) {
         Random seed = new Random();
@@ -81,7 +82,7 @@ public class RandomGenner {
         }
         return matrix;
     }
-    
+
     public static Long[][] generateRandomLongMatrix(int m, int n, long bound) {
         Random seed = new Random();
         Long[][] matrix = new Long[m][n];
@@ -114,7 +115,7 @@ public class RandomGenner {
         }
         return sb.toString();
     }
-    
+
     public static String[] generateRandomStrings(int N, int baseLenPerString) {
         String[] res = new String[N];
         for (int i = 0; i < N; i++) {
@@ -122,10 +123,9 @@ public class RandomGenner {
         }
         return res;
     }
-    
-    private static final String SOURCES =
-            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
-    
+
+    private static final String SOURCES = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
+
     public static String generateString(int length) {
         Random random = new Random();
         int size = random.nextInt(length) + 1;
@@ -135,10 +135,25 @@ public class RandomGenner {
         }
         return new String(text);
     }
-    
+
+    public static Double[][] generateRandomUnifiedMatrix(int m, int n) {
+        Double[][] matrix = generateRandomDoubleMatrix(m, n, 100);
+        // 需要对纵列进行均一化
+        for (int i = 0; i < n; i++) { // 遍历每一个纵列
+            Double sum = 0.0;
+            for (int j = 0; j < m; j++) { // 再遍历每一个value
+                sum += matrix[j][i];
+            }
+            for (int j = 0; j < m; j++) { // 再遍历每一个value
+                matrix[j][i] = matrix[j][i] / sum;
+            }
+        }
+        return matrix;
+    }
+
     public static void main(String[] args) throws Exception {
         System.out.println(generateDNASeries(20));
-        
+
         Integer[] ii = generateRandomTArray(19, 0, 85, Integer.class);
         System.out.println(Arrays.toString(ii));
 
@@ -150,7 +165,7 @@ public class RandomGenner {
 
         BigDecimal[] bb = generateRandomTArray(19, 0, 85, BigDecimal.class);
         System.out.println(Arrays.toString(bb));
-        
+
         System.out.println(Arrays.toString(generateRandomStrings(100, 20)));
     }
 }
