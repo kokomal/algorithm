@@ -25,11 +25,13 @@ public class CutRodAlgo {
     /*--------------------------------------------------1--2--3--4---5---6---7---8---9---10*/
     private static int[] price_table;
     private static int[] recipe;
+    private static int[] solutions;
     
     public static void setRules(final int [] rules) {
         price_table = new int[rules.length];
         System.arraycopy(rules, 0, price_table, 0, rules.length);
         recipe = new int[price_table.length];
+        solutions = new int[price_table.length];
     }
     
     public static int brute(int n) {
@@ -49,15 +51,26 @@ public class CutRodAlgo {
     }
 
     public static int topDpCutWrapper(int n) {
-        cleanRecipe();
-        return topdp(n);
+        cleanContext();
+        int res = topdp(n);
+        printCutRodSolution(n);
+        return res;
     }
 
     public static int bottomDpCutWrapper(int n) {
-        cleanRecipe();
-        return bottomdp(n);
+        cleanContext();
+        int res = bottomdp(n);
+        printCutRodSolution(n);
+        return res;
     }
 
+    private static void printCutRodSolution(int n) {
+        while (n > 0) {
+            System.out.println("CUT " + solutions[n]);
+            n = n - solutions[n];
+        }
+    }
+    
     /**
      * @Title: bottomdp
      * @Description: MEMOIZED_CUT_ROD 自底向上，无递归
@@ -68,19 +81,20 @@ public class CutRodAlgo {
         if (n == 0)
             return 0;
         recipe[0] = 0;
-        int rec = 0;
+        //int rec = 0;
         for (int j = 1; j <= n; j++) {
             int q = Integer.MIN_VALUE;
             for (int i = 1; i <= j; i++) {
                 int candidate = price_table[i - 1] + recipe[j - i];
                 if (q < candidate) {
                     q = candidate;
-                    rec = i;
+                    //rec = i;
+                    solutions[j] = i;
                 }
             }
             recipe[j] = q; // recipe从1递增，因此这里没有递归
         }
-        logger.info("for " + n + " first cut = " + rec);
+        //logger.info("for " + n + " first cut = " + rec);
         return recipe[n];
     }
 
@@ -97,22 +111,24 @@ public class CutRodAlgo {
             return recipe[n];
         }
         int q = Integer.MIN_VALUE;
-        int rec = 0;
+        // int rec = 0;
         for (int i = 1; i <= price_table.length && i <= n; i++) {
             int candidate = price_table[i - 1] + topdp(n - i);
             if (q < candidate) {
                 q = candidate;
-                rec = i;
+                solutions[n] = i;
+                // rec = i;
             }
         }
         recipe[n] = q;
-        logger.info("for " + n + " first cut = " + rec);
+        // logger.info("for " + n + " first cut = " + rec);
         return q;
     }
 
-    private static void cleanRecipe() {
+    private static void cleanContext() {
         for (int i = 0; i < price_table.length; i++) {
             recipe[i] = Integer.MIN_VALUE;
+            solutions[i] = Integer.MIN_VALUE;
         }
     }
 
