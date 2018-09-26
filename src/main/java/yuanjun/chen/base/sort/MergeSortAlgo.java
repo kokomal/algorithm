@@ -42,7 +42,7 @@ public class MergeSortAlgo {
      * @param: @param right
      * @return: Integer []
      */
-    @SuppressWarnings({"rawtypes", "unchecked"})
+    @SuppressWarnings({"rawtypes"})
     private static void merge(Comparable[] arr, int low, int mid, int high, SortOrderEnum order) {
         Comparable[] temp = new Comparable[high - low + 1];
         int i = low;

@@ -25,7 +25,7 @@ public class InsertionSortAlgo {
         inplaceInsertionSort(arr, 0, arr.length - 1, order);
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
+    @SuppressWarnings({"rawtypes"})
     public static void inplaceInsertionSort(Comparable[] arr, int p, int r, SortOrderEnum order) {
         int len = arr.length;
         if (len <= 1 || p >= r) {
@@ -65,7 +65,7 @@ public class InsertionSortAlgo {
     }
 
     /** 二分查找，查找指定区域内不大于（小于）指定tmp的值的位置，如果查不到则返回-1. */
-    @SuppressWarnings({"rawtypes", "unchecked"})
+    @SuppressWarnings({"rawtypes"})
     private static int binarySearch(Comparable[] arr, Comparable tmp, int start, int end, SortOrderEnum order) {
         if (start == end) { // 只有1个元素，则看此元素是否符合要求
             if ((moreeq(arr[end], tmp) && SortOrderEnum.ASC.equals(order))

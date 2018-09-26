@@ -20,7 +20,7 @@ import static yuanjun.chen.base.common.CommonUtils.*;
  */
 public class SelectionSortAlgo {
     /** 原地选择排序. */
-    @SuppressWarnings({"rawtypes", "unchecked"})
+    @SuppressWarnings({"rawtypes"})
     public static void inplaceSelectionSort(Comparable[] arr, SortOrderEnum order) {
         int len = arr.length;
         if (len <= 1) {

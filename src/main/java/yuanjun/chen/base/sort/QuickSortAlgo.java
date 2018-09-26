@@ -91,7 +91,7 @@ public class QuickSortAlgo {
      * @param: r
      * @return: int
      */
-    @SuppressWarnings({"rawtypes", "unchecked"})
+    @SuppressWarnings({"rawtypes"})
     public static int partition(Comparable[] arr, int p, int r) {
         if (p == r) {
             return p;

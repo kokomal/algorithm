@@ -12,8 +12,8 @@ package yuanjun.chen.base.dynamicprogramming;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+// import org.apache.logging.log4j.LogManager;
+// import org.apache.logging.log4j.Logger;
 
 /**
  * @ClassName: InvestmentConselorAlgo
@@ -22,7 +22,7 @@ import org.apache.logging.log4j.Logger;
  * @date: 2018年8月22日 下午1:28:17
  */
 public class InvestmentConselorAlgo {
-    private static final Logger logger = LogManager.getLogger(InvestmentConselorAlgo.class);
+    // private static final Logger logger = LogManager.getLogger(InvestmentConselorAlgo.class);
     private static double[] price_table;
     private static double[] revenue;
     private static int[] solutions;

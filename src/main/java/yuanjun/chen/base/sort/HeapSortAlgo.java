@@ -49,7 +49,7 @@ public class HeapSortAlgo {
      * @param int length 数组影响范围
      * @param SortOrderEnum order 排序方向
      */
-    @SuppressWarnings({"unchecked", "rawtypes"})
+    @SuppressWarnings({"rawtypes"})
     private static void recursiveMaxHeapify(Comparable[] arr, int i, int length, SortOrderEnum order) {
         int maxPos = i;
         int left = 2 * i + 1;
@@ -77,7 +77,7 @@ public class HeapSortAlgo {
      * @param int i maxheapify操作数组的开始序号
      * @param int length 数组影响范围
      */
-    @SuppressWarnings({"rawtypes", "unchecked"})
+    @SuppressWarnings({"rawtypes"})
     public static void nonRecursiveMaxHeapify(Comparable[] arr, int i, int length, SortOrderEnum order) {
         Comparable temp = arr[i]; // 先取出当前元素i
         for (int k = i * 2 + 1; k < length; k = k * 2 + 1) { // 从i结点的左子结点开始，也就是2i+1处开始
