@@ -23,12 +23,13 @@ import org.junit.Test;
  */
 public class MemoizedCutRodTest {
     private static final Logger logger = LogManager.getLogger(MemoizedCutRodTest.class);
-
+    private static int len;
+    
     @BeforeClass
     public static void before() throws Exception {
         // Integer[] arr1 = RandomGenner.generateRandomTArray(100, 1, 100, Integer.class);
         Integer[] arr1 = new Integer[] {1, 5, 8, 9, 10, 17, 17, 20, 24, 30};
-
+        len = 7;
         Arrays.sort(arr1);
         int[] rules = Arrays.stream(arr1).mapToInt(Integer::valueOf).toArray(); // java8
         logger.info("rules -- " + Arrays.toString(rules));
@@ -37,21 +38,18 @@ public class MemoizedCutRodTest {
 
     @Test
     public void testBrute() {
-        int len = 4;
         int maxq = CutRodAlgo.brute(len);
         logger.info("testBrute for len = " + len + " max revenue = " + maxq);
     }
 
     @Test
     public void testTopDP() {
-        int len = 4;
         int maxq = CutRodAlgo.topDpCutWrapper(len);
         logger.info("testTopDP for len = " + len + " max revenue = " + maxq);
     }
 
     @Test
     public void testBottomDownDP() {
-        int len = 4;
         int maxq = CutRodAlgo.bottomDpCutWrapper(len);
         logger.info("testBottomDownDP for len = " + len + " max revenue = " + maxq);
     }

@@ -30,8 +30,8 @@ public class CutRodAlgo {
     public static void setRules(final int [] rules) {
         price_table = new int[rules.length];
         System.arraycopy(rules, 0, price_table, 0, rules.length);
-        recipe = new int[price_table.length];
-        solutions = new int[price_table.length];
+        recipe = new int[price_table.length + 1];
+        solutions = new int[price_table.length + 1];
     }
     
     public static int brute(int n) {
@@ -126,7 +126,7 @@ public class CutRodAlgo {
     }
 
     private static void cleanContext() {
-        for (int i = 0; i < price_table.length; i++) {
+        for (int i = 0; i <= price_table.length; i++) {
             recipe[i] = Integer.MIN_VALUE;
             solutions[i] = Integer.MIN_VALUE;
         }
