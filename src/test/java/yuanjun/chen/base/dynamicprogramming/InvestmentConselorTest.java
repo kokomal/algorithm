@@ -16,10 +16,11 @@ import org.junit.BeforeClass;
 
 /**   
  * @ClassName: InvestmentConselorTest   
- * @Description: 用动态规划（切钢条方法）解决投资顾问的投资包最优问题 
+ * @Description: 用动态规划（切钢条方法）解决投资顾问的投资包最优问题 [暂时未完工]
  * @author: 陈元俊 
  * @date: 2018年9月26日 上午8:48:46  
  */
+@Deprecated
 public class InvestmentConselorTest {
     private static final Logger logger = LogManager.getLogger(InvestmentConselorTest.class);
     private static int totalMoney;
