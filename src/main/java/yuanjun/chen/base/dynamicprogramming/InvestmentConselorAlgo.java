@@ -36,18 +36,11 @@ import java.util.TreeMap;
  * @date: 2018年9月26日 下午1:28:17
  */
 public class InvestmentConselorAlgo {
-    /**   
-     * @Fields BOTTOM_UP_DP : TODO(用一句话描述这个变量表示什么)   
-     */
+
     private static final String BOTTOM_UP_DP = "【自底向上DP法】";
-    /**   
-     * @Fields TOP_DOWN_DP : TODO(用一句话描述这个变量表示什么)   
-     */
     private static final String TOP_DOWN_DP = "【自顶向下DP法】";
-    /**   
-     * @Fields BRUTE : TODO(用一句话描述这个变量表示什么)   
-     */
     private static final String BRUTE = "【暴力法】";
+    
     // private static final Logger logger = LogManager.getLogger(InvestmentConselorAlgo.class);
     private static double[] price_table; // 代价数组
     private static double[] revenue; // 收益，对应每一个金额
