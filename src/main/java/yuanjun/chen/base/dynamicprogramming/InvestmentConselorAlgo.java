@@ -12,23 +12,47 @@ package yuanjun.chen.base.dynamicprogramming;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 // import org.apache.logging.log4j.LogManager;
 // import org.apache.logging.log4j.Logger;
 
 /**
  * @ClassName: InvestmentConselorAlgo
  * @Description: 投资顾问
+ * ---------------------------------------------------------
+ * 爬虫爬取了一些货币基金组合，准投金额连续从1万到n万（n可能会比较小）
+ * 如果客户有m万金额（m相对于n可能会比较大），如何推荐用户投资，使得收益最大？
+ * ---------------------------------------------------------
+ * 注意此处用贪心算法是得不到最优解的，简证如下：
+ * 投资包金额    1        2       3
+ * 投资包收益  0.01    0.8     0.9
+ * 如果用户有5万，按照贪心策略，选2个0.8（因为2号的投资收益最大），剩下0.01，收益为1.61，这个收益是小于
+ * 2号+3号的投资组合收益的
+ * ---------------------------------------------------------
+ * {TODO 1： 如果货币基金组合有空洞怎么办？}
  * @author: 陈元俊
- * @date: 2018年8月22日 下午1:28:17
+ * @date: 2018年9月26日 下午1:28:17
  */
 public class InvestmentConselorAlgo {
+    /**   
+     * @Fields BOTTOM_UP_DP : TODO(用一句话描述这个变量表示什么)   
+     */
+    private static final String BOTTOM_UP_DP = "【自底向上DP法】";
+    /**   
+     * @Fields TOP_DOWN_DP : TODO(用一句话描述这个变量表示什么)   
+     */
+    private static final String TOP_DOWN_DP = "【自顶向下DP法】";
+    /**   
+     * @Fields BRUTE : TODO(用一句话描述这个变量表示什么)   
+     */
+    private static final String BRUTE = "【暴力法】";
     // private static final Logger logger = LogManager.getLogger(InvestmentConselorAlgo.class);
-    private static double[] price_table;
-    private static double[] revenue;
-    private static int[] solutions;
-    private static int fullmoney;
+    private static double[] price_table; // 代价数组
+    private static double[] revenue; // 收益，对应每一个金额
+    private static int[] solutions; // 解决方案
+    private static int fullmoney; // 总金额
 
-    private static Map<Integer, Integer> map = new HashMap<>();
+    private static Map<Integer, Integer> map = new HashMap<>(); // 暴力法的中间最优解寄存map
     
     public static void setRules(final double[] rules, int srcmoney) {
         price_table = new double[rules.length];
@@ -37,6 +61,7 @@ public class InvestmentConselorAlgo {
         fullmoney = srcmoney;
         revenue = new double[fullmoney + 1];
         solutions = new int[fullmoney + 1];
+        map.clear();
     }
 
         /**   
@@ -45,7 +70,7 @@ public class InvestmentConselorAlgo {
      * @param money[可用金额(万)]
      * @return: double最优收益，中间保存了解决方案map      
      */
-    public static double brute(int money) {
+    private static double brute(int money) {
         if (money == 0) {
             return 0;
         }
@@ -62,25 +87,33 @@ public class InvestmentConselorAlgo {
         return q;
     }
 
-    public static void dispBrute(int money) {
+    /** 暴力法的disp方法 */
+    private static void dispBrute(int money) {
         while (money > 0) {
             int choice = map.get(money);
-            System.out.println("【暴力法】选择资产包# " + choice);
+            System.out.println(BRUTE + "选择资产包# " + choice);
             money -= choice;
         }
     }
     
+    public static double bruteWrapper(int money) {
+        cleanContext();
+        double res = brute(money);
+        dispBrute(money);
+        return res;
+    }
+
     public static double topDpCutWrapper(int money) {
         cleanContext();
         double res = topdp(money);
-        printCutRodSolution("【自顶向下DP法】", money);
+        printCutRodSolution(TOP_DOWN_DP, money);
         return res;
     }
 
     public static double bottomDpCutWrapper(int money) {
         cleanContext();
         double res = bottomdp(money);
-        printCutRodSolution("【自底向上DP法】", money);
+        printCutRodSolution(BOTTOM_UP_DP, money);
         return res;
     }
 
@@ -111,7 +144,7 @@ public class InvestmentConselorAlgo {
                     solutions[j] = i;
                 }
             }
-            revenue[j] = q; // recipe从1递增，因此这里没有递归
+            revenue[j] = q; // revenue从1递增，因此这里没有递归
         }
         return revenue[money];
     }
@@ -150,38 +183,80 @@ public class InvestmentConselorAlgo {
     }
 
     private static void expressResult(String method, int money, double rev) {
-        System.out.println(method + "最大收益  " + rev);
+        System.out.printf(method + "最大收益 %2.4f \n", rev);
         double perc = (rev - money) / money;
         System.out.printf(method + "收益率为 %2f%%", perc * 100);
     }
     
+    @SuppressWarnings("resource")
     public static void main(String[] args) throws Exception {
         /*  
          *  ┏━━━━━━┳━━━━━┳━━━━━┳━━━━━┳━━━━━┳━━━━━┳━━━━━┳━━━━━┓
          *  ┃投资金额┃  1  ┃  2  ┃  3  ┃  4  ┃  5  ┃  6  ┃  7  ┃
          *  ┣━━━━━━╋━━━━━╋━━━━━╋━━━━━╋━━━━━╋━━━━━╋━━━━━╋━━━━━┫
-         *  ┃年化收益┃ 9.3%┃ 9.5%┃8.53%┃9.18%┃ 9.6%┃9.33%┃9.51%┃
+         *  ┃年化收益┃ 6.3%┃ 4.5%┃8.53%┃9.18%┃ 9.6%┃9.33%┃9.51%┃
          *  ┣━━━━━━╋━━━━━╋━━━━━╋━━━━━╋━━━━━╋━━━━━╋━━━━━╋━━━━━┫
-         *  ┃预期收益┃1.093┃2.190┃3.256┃4.367┃5.480┃6.560┃7.666┃
+         *  ┃预期收益┃1.063┃2.090┃3.256┃4.367┃5.480┃6.560┃7.666┃
          *  ┗━━━━━━┻━━━━━┻━━━━━┻━━━━━┻━━━━━┻━━━━━┻━━━━━┻━━━━━┛
          */
-        double[] rules = new double[] {1.093, 2.190, 3.256, 4.367, 5.480, 6.560, 7.666 };
-        System.out.println("输入的预期收益为 " + Arrays.toString(rules));
-        int money = 21;
+        double[] yearIncome = new double[] {0.063, 0.045, 0.0853, 0.0918, 0.096, 0.0933, 0.0951};
+        double[] rules = new double[yearIncome.length];
+        for (int i = 0; i < yearIncome.length; i++) {
+            rules[i] = (i + 1) * (1 + yearIncome[i]);
+        }
+        drawTable(yearIncome, rules);
+        
+        int money = 10;
+        System.out.println("客户持有资金 ￥" + money + "万元 ");
+        
         setRules(rules, money);
-        cleanContext();
         
-        double rev = brute(money);
-        dispBrute(money);
-        expressResult("【暴力法】", money, rev);
+        long t1 = System.currentTimeMillis();
+        double rev = bruteWrapper(money);
+        expressResult(BRUTE, money, rev);
+        long t2 = System.currentTimeMillis();
+        System.out.println(BRUTE + "耗时" + (t2 - t1) + "ms");
         
-        System.out.println("\n---------------------------------");
+        System.out.println("---------------------------------");
+        System.out.println("接下来测试" + TOP_DOWN_DP);
+        Scanner input = new Scanner(System.in);
+        input.next();
+        
+        t1 = System.currentTimeMillis();
         rev = topDpCutWrapper(money);
-        expressResult("【自顶向下DP法】", money, rev);
+        expressResult(TOP_DOWN_DP, money, rev);
+        t2 = System.currentTimeMillis();
+        System.out.println(TOP_DOWN_DP + "耗时" + (t2 - t1) + "ms");
         
-        System.out.println("\n---------------------------------");
+        System.out.println("---------------------------------");
+        System.out.println("接下来测试" + BOTTOM_UP_DP);
+        input = new Scanner(System.in);
+        input.next();
+        
+        t1 = System.currentTimeMillis();
         rev = bottomDpCutWrapper(money);
-        expressResult("【自底向上DP法】", money, rev);
+        expressResult(BOTTOM_UP_DP, money, rev);
+        t2 = System.currentTimeMillis();
+        System.out.println(BOTTOM_UP_DP + "耗时" + (t2 - t1) + "ms");
+    }
+
+    private static void drawTable(double[] yearIncome, double[] rules) {
+        StringBuilder table = new StringBuilder();
+        table.append("\n┏━━━━━━┳━━━━━┳━━━━━┳━━━━━┳━━━━━┳━━━━━┳━━━━━┳━━━━━┓");
+        table.append("\n┃投资金额┃  1  ┃  2  ┃  3  ┃  4  ┃  5  ┃  6  ┃  7  ┃");
+        table.append("\n┣━━━━━━╋━━━━━╋━━━━━╋━━━━━╋━━━━━╋━━━━━╋━━━━━╋━━━━━┫");
+        table.append("\n┃年化收益┃");
+        for (int i = 0; i < yearIncome.length; i++) {
+            table.append(String.format("%2.2f%%", yearIncome[i]) + "┃");
+        }
+        table.append("\n┣━━━━━━╋━━━━━╋━━━━━╋━━━━━╋━━━━━╋━━━━━╋━━━━━╋━━━━━┫");
+        table.append("\n┃预期收益┃");
+        for (int i = 0; i < rules.length; i++) {
+            table.append(String.format("%1.3f", rules[i]) + "┃");
+        }
+        table.append("\n┗━━━━━━┻━━━━━┻━━━━━┻━━━━━┻━━━━━┻━━━━━┻━━━━━┻━━━━━┛");
+        
+        System.out.println(table.toString());
     }
 
 }
