@@ -36,7 +36,7 @@ public class PrintNeatTest {
         int maxWordLen = 45;
         String[] nations = RandomGenner.generateRandomStrings(100, maxWordLen); // 初始化100个长度为[1-45]的字符串
         System.out.println("raw words = " + Arrays.toString(nations));
-        PrintNeatlyAlgo.init(" ", legalLen, nations);
+        PrintNeatlyAlgo.init("▮", legalLen, nations);
         int res = PrintNeatlyAlgo.neatly();
         System.out.println("MinQ = " + res);
         StringBuilder splitter = new StringBuilder();
@@ -54,7 +54,7 @@ public class PrintNeatTest {
         int maxWordLen = 80;
         String[] psalms = RandomGenner.generateRandomTibetan(100, maxWordLen); // 初始化100个长度为[1-80]的字符串
         System.out.println("raw words = " + Arrays.toString(psalms));
-        PrintNeatlyAlgo.init("|", legalLen, psalms);
+        PrintNeatlyAlgo.init("◉", legalLen, psalms);
         int res = PrintNeatlyAlgo.neatly();
         System.out.println("MinQ = " + res);
         StringBuilder splitter = new StringBuilder();
