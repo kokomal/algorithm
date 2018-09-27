@@ -199,28 +199,28 @@ public class InvestmentConselorAlgo {
          *  ┃预期收益┃1.063┃2.090┃3.256┃4.367┃5.480┃6.560┃7.666┃
          *  ┗━━━━━━┻━━━━━┻━━━━━┻━━━━━┻━━━━━┻━━━━━┻━━━━━┻━━━━━┛
          */
-        double[] yearIncome = new double[] {0.063, 0.045, 0.0853, 0.0918, 0.096, 0.0933, 0.0951};
+        double[] yearIncome = new double[] {0.0913, 0.0921, 0.0953, 0.0954, 0.0956, 0.0957, 0.0958};
         double[] rules = new double[yearIncome.length];
         for (int i = 0; i < yearIncome.length; i++) {
             rules[i] = (i + 1) * (1 + yearIncome[i]);
         }
         drawTable(yearIncome, rules);
         
-        int money = 10;
+        int money = 22;
         System.out.println("客户持有资金 ￥" + money + "万元 ");
-        
         setRules(rules, money);
-        
-        long t1 = System.currentTimeMillis();
-        double rev = bruteWrapper(money);
-        expressResult(BRUTE, money, rev);
-        long t2 = System.currentTimeMillis();
-        System.out.println(BRUTE + "耗时" + (t2 - t1) + "ms");
-        
+        double rev;
+        long t1, t2;
+        // t1 = System.currentTimeMillis();
+        // rev = bruteWrapper(money);
+        // expressResult(BRUTE, money, rev);
+        // t2 = System.currentTimeMillis();
+        // System.out.println(BRUTE + "耗时" + (t2 - t1) + "ms");
+        //   
         System.out.println("---------------------------------");
         System.out.println("接下来测试" + TOP_DOWN_DP);
         Scanner input = new Scanner(System.in);
-        input.next();
+        //input.next();
         
         t1 = System.currentTimeMillis();
         rev = topDpCutWrapper(money);
@@ -231,7 +231,7 @@ public class InvestmentConselorAlgo {
         System.out.println("---------------------------------");
         System.out.println("接下来测试" + BOTTOM_UP_DP);
         input = new Scanner(System.in);
-        input.next();
+        //input.next();
         
         t1 = System.currentTimeMillis();
         rev = bottomDpCutWrapper(money);
@@ -247,7 +247,7 @@ public class InvestmentConselorAlgo {
         table.append("\n----------------------------------------------------------------");
         table.append("\n┃年化收益┃");
         for (int i = 0; i < yearIncome.length; i++) {
-            table.append(String.format("%2.2f%%", yearIncome[i]) + "┃");
+            table.append(String.format("%2.2f%%", 100 * yearIncome[i]) + "┃");
         }
         table.append("\n----------------------------------------------------------------");
         table.append("\n┃预期收益┃");
