@@ -9,10 +9,13 @@
  */
 package yuanjun.chen.base.dynamicprogramming;
 
-import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Scanner;
+import java.util.Set;
+import java.util.TreeMap;
 // import org.apache.logging.log4j.LogManager;
 // import org.apache.logging.log4j.Logger;
 
@@ -89,11 +92,28 @@ public class InvestmentConselorAlgo {
 
     /** 暴力法的disp方法 */
     private static void dispBrute(int money) {
+        Map<Integer, Integer> packages = new TreeMap<>();
         while (money > 0) {
             int choice = map.get(money);
             System.out.println(BRUTE + "选择资产包# " + choice);
+            if (!packages.containsKey(choice)) {
+                packages.put(choice, 1);
+            } else {
+                packages.put(choice, packages.get(choice) + 1);
+            }
             money -= choice;
         }
+        viewTotalPackage(packages);
+    }
+
+    private static void viewTotalPackage(Map<Integer, Integer> packages) {
+        Iterator<Entry<Integer, Integer>> kv = packages.entrySet().iterator();
+        System.out.println("===========开始汇总资产包的选择===========");
+        while (kv.hasNext()) {
+            Entry<Integer, Integer> v = kv.next();
+            System.out.println("资产包# " + v.getKey() + " 选择" + v.getValue() + "个");
+        }
+        System.out.println("===========汇总资产包的选择完成===========");
     }
     
     public static double bruteWrapper(int money) {
@@ -118,10 +138,17 @@ public class InvestmentConselorAlgo {
     }
 
     private static void printCutRodSolution(String method, int money) {
+        Map<Integer, Integer> packages = new TreeMap<>();
         while (money > 0) {
             System.out.println(method + "选择资产包# " + solutions[money]);
+            if (!packages.containsKey(solutions[money])) {
+                packages.put(solutions[money], 1);
+            } else {
+                packages.put(solutions[money], packages.get(solutions[money]) + 1);
+            }
             money = money - solutions[money];
         }
+        viewTotalPackage(packages);
     }
 
     /**
@@ -199,45 +226,45 @@ public class InvestmentConselorAlgo {
          *  ┃预期收益┃1.063┃2.090┃3.256┃4.367┃5.480┃6.560┃7.666┃
          *  ┗━━━━━━┻━━━━━┻━━━━━┻━━━━━┻━━━━━┻━━━━━┻━━━━━┻━━━━━┛
          */
-        double[] yearIncome = new double[] {0.0913, 0.0921, 0.0953, 0.0954, 0.0956, 0.0957, 0.0958};
+        double[] yearIncome = new double[] {0.0913, 0.0921, 0.0953, 0.0954, 0.0956, 0.0957, 0.0955};
         double[] rules = new double[yearIncome.length];
         for (int i = 0; i < yearIncome.length; i++) {
             rules[i] = (i + 1) * (1 + yearIncome[i]);
         }
         drawTable(yearIncome, rules);
         
-        int money = 22;
+        int money = 32;
         System.out.println("客户持有资金 ￥" + money + "万元 ");
         setRules(rules, money);
         double rev;
         long t1, t2;
-        // t1 = System.currentTimeMillis();
-        // rev = bruteWrapper(money);
-        // expressResult(BRUTE, money, rev);
-        // t2 = System.currentTimeMillis();
-        // System.out.println(BRUTE + "耗时" + (t2 - t1) + "ms");
-        //   
+         t1 = System.currentTimeMillis();
+         rev = bruteWrapper(money);
+         expressResult(BRUTE, money, rev);
+         t2 = System.currentTimeMillis();
+         System.out.println(" 耗时" + (t2 - t1) + "ms");
+           
         System.out.println("---------------------------------");
         System.out.println("接下来测试" + TOP_DOWN_DP);
-        Scanner input = new Scanner(System.in);
+        new Scanner(System.in);
         //input.next();
         
         t1 = System.currentTimeMillis();
         rev = topDpCutWrapper(money);
         expressResult(TOP_DOWN_DP, money, rev);
         t2 = System.currentTimeMillis();
-        System.out.println(TOP_DOWN_DP + "耗时" + (t2 - t1) + "ms");
+        System.out.println(" 耗时" + (t2 - t1) + "ms");
         
         System.out.println("---------------------------------");
         System.out.println("接下来测试" + BOTTOM_UP_DP);
-        input = new Scanner(System.in);
+        new Scanner(System.in);
         //input.next();
         
         t1 = System.currentTimeMillis();
         rev = bottomDpCutWrapper(money);
         expressResult(BOTTOM_UP_DP, money, rev);
         t2 = System.currentTimeMillis();
-        System.out.println(BOTTOM_UP_DP + "耗时" + (t2 - t1) + "ms");
+        System.out.println(" 耗时" + (t2 - t1) + "ms");
     }
 
     private static void drawTable(double[] yearIncome, double[] rules) {
