@@ -47,4 +47,22 @@ public class PrintNeatTest {
         PrintNeatlyAlgo.printTheChapter();
         System.out.println(splitter);// 标杆125行
     }
+    
+    @Test
+    public void testNeatHardTibetan() {
+        int legalLen = 225; // 每行最多125格
+        int maxWordLen = 125;
+        String[] nations = RandomGenner.generateRandomTibetan(100, maxWordLen); // 初始化100个长度为[1-125]的字符串
+        System.out.println("raw words = " + Arrays.toString(nations));
+        PrintNeatlyAlgo.init(legalLen, nations); 
+        int res = PrintNeatlyAlgo.neatly();
+        System.out.println("MinQ = " + res);
+        StringBuilder splitter = new StringBuilder();
+        for (int i = 0; i < legalLen; i++) {
+            splitter.append("=");
+        }
+        System.out.println(splitter);// 标杆125行
+        PrintNeatlyAlgo.printTheChapter();
+        System.out.println(splitter);// 标杆125行
+    }
 }

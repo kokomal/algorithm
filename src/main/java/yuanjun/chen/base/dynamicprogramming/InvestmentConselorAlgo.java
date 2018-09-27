@@ -14,7 +14,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Scanner;
-import java.util.Set;
 import java.util.TreeMap;
 // import org.apache.logging.log4j.LogManager;
 // import org.apache.logging.log4j.Logger;
@@ -96,14 +95,18 @@ public class InvestmentConselorAlgo {
         while (money > 0) {
             int choice = map.get(money);
             System.out.println(BRUTE + "选择资产包# " + choice);
-            if (!packages.containsKey(choice)) {
-                packages.put(choice, 1);
-            } else {
-                packages.put(choice, packages.get(choice) + 1);
-            }
+            collectPackages(packages, choice);
             money -= choice;
         }
         viewTotalPackage(packages);
+    }
+
+    private static void collectPackages(Map<Integer, Integer> packages, int choice) {
+        if (!packages.containsKey(choice)) {
+            packages.put(choice, 1);
+        } else {
+            packages.put(choice, packages.get(choice) + 1);
+        }
     }
 
     private static void viewTotalPackage(Map<Integer, Integer> packages) {
@@ -141,11 +144,7 @@ public class InvestmentConselorAlgo {
         Map<Integer, Integer> packages = new TreeMap<>();
         while (money > 0) {
             System.out.println(method + "选择资产包# " + solutions[money]);
-            if (!packages.containsKey(solutions[money])) {
-                packages.put(solutions[money], 1);
-            } else {
-                packages.put(solutions[money], packages.get(solutions[money]) + 1);
-            }
+            collectPackages(packages, solutions[money]);
             money = money - solutions[money];
         }
         viewTotalPackage(packages);
@@ -238,11 +237,11 @@ public class InvestmentConselorAlgo {
         setRules(rules, money);
         double rev;
         long t1, t2;
-         t1 = System.currentTimeMillis();
-         rev = bruteWrapper(money);
-         expressResult(BRUTE, money, rev);
-         t2 = System.currentTimeMillis();
-         System.out.println(" 耗时" + (t2 - t1) + "ms");
+        t1 = System.currentTimeMillis();
+        rev = bruteWrapper(money);
+        expressResult(BRUTE, money, rev);
+        t2 = System.currentTimeMillis();
+        System.out.println(" 耗时" + (t2 - t1) + "ms");
            
         System.out.println("---------------------------------");
         System.out.println("接下来测试" + TOP_DOWN_DP);

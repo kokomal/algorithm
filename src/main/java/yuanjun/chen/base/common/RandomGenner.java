@@ -123,6 +123,30 @@ public class RandomGenner {
         }
         return res;
     }
+    
+    /** 藏语经书生成器*/
+    public static String[] generateRandomTibetan(int N, int baseLenPerString) {
+        String[] res = new String[N];
+        for (int i = 0; i < N; i++) {
+            res[i] = generateTibetanString(baseLenPerString);
+        }
+        return res;
+    }
+
+    private static final int[] TIBETANSOURCES =
+            new int[] {3954, 3956, 3962, 3964, 3906, 3908, 3909, 3910, 3911, 3913, 3919, 3920, 3921, 3923, 3924, 3925,
+                    3926, 3928, 3929, 3930, 3931, 3933, 3934, 3935, 3936, 3937, 3938, 3939, 3940, 3942, 3943, 3934
+
+            };
+    private static String generateTibetanString(int baseLenPerString) {
+        Random random = new Random();
+        int size = random.nextInt(baseLenPerString) + 1;
+        char[] text = new char[size];
+        for (int i = 0; i < size; i++) {
+            text[i] = (char) TIBETANSOURCES[random.nextInt(TIBETANSOURCES.length)]; // 藏语辅音从3904到3944，元音为3954，3956，3962，3964
+        }
+        return new String(text);
+    }
 
     private static final String SOURCES = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
 
@@ -167,5 +191,7 @@ public class RandomGenner {
         System.out.println(Arrays.toString(bb));
 
         System.out.println(Arrays.toString(generateRandomStrings(100, 20)));
+        
+        System.out.println(Arrays.toString(generateRandomTibetan(100, 20)));
     }
 }
