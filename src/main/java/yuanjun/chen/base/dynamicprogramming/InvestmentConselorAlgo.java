@@ -242,19 +242,19 @@ public class InvestmentConselorAlgo {
 
     private static void drawTable(double[] yearIncome, double[] rules) {
         StringBuilder table = new StringBuilder();
-        table.append("\n┏━━━━━━┳━━━━━┳━━━━━┳━━━━━┳━━━━━┳━━━━━┳━━━━━┳━━━━━┓");
+        table.append("----------------------------------------------------------------");
         table.append("\n┃投资金额┃  1  ┃  2  ┃  3  ┃  4  ┃  5  ┃  6  ┃  7  ┃");
-        table.append("\n┣━━━━━━╋━━━━━╋━━━━━╋━━━━━╋━━━━━╋━━━━━╋━━━━━╋━━━━━┫");
+        table.append("\n----------------------------------------------------------------");
         table.append("\n┃年化收益┃");
         for (int i = 0; i < yearIncome.length; i++) {
             table.append(String.format("%2.2f%%", yearIncome[i]) + "┃");
         }
-        table.append("\n┣━━━━━━╋━━━━━╋━━━━━╋━━━━━╋━━━━━╋━━━━━╋━━━━━╋━━━━━┫");
+        table.append("\n----------------------------------------------------------------");
         table.append("\n┃预期收益┃");
         for (int i = 0; i < rules.length; i++) {
             table.append(String.format("%1.3f", rules[i]) + "┃");
         }
-        table.append("\n┗━━━━━━┻━━━━━┻━━━━━┻━━━━━┻━━━━━┻━━━━━┻━━━━━┻━━━━━┛");
+        table.append("\n----------------------------------------------------------------");
         
         System.out.println(table.toString());
     }
