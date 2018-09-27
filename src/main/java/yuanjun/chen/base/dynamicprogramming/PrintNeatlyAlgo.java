@@ -21,13 +21,15 @@ package yuanjun.chen.base.dynamicprogramming;
  * @date: 2018年9月13日 下午2:22:42
  */
 public class PrintNeatlyAlgo {
+    private static String SPLITTER;
     private static String[] words;
     private static int M;
     private static int[][] cost;
     private static int[][] solutions;
     private static int length;
 
-    public static void init(int srcM, String[] srcWords) {
+    public static void init(String splitter, int srcM, String[] srcWords) {
+        SPLITTER = splitter;
         M = srcM;
         length = srcWords.length;
         words = new String[length];
@@ -88,7 +90,7 @@ public class PrintNeatlyAlgo {
         } else if (Integer.MAX_VALUE == best) {
             StringBuilder sb = new StringBuilder();
             for (int k = i; k <= j; k++) {
-                sb.append(words[k]).append(" ");
+                sb.append(words[k]).append(SPLITTER);
             }
             System.out.println(sb.toString().trim());
         } else {
@@ -111,7 +113,7 @@ public class PrintNeatlyAlgo {
 
     public static void main(String[] args) {
         String[] nations = new String[] {"china", "philipines", "india", "laos", "mongolia", "thailand"};
-        init(10, nations);
+        init(" ", 10, nations);
         int res = neatly();
         System.out.println("MinQ = " + res);
         System.out.println("---The chapter is show below---");

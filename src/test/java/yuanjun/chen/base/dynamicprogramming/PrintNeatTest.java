@@ -23,7 +23,7 @@ public class PrintNeatTest {
     @Test
     public void testNeatEasy() {
         String[] nations = new String[] {"china", "philipines", "india", "laos", "mongolia", "thailand"};
-        PrintNeatlyAlgo.init(10, nations);
+        PrintNeatlyAlgo.init(" ", 10, nations);
         int res = PrintNeatlyAlgo.neatly();
         System.out.println("MinQ = " + res);
         System.out.println("---The chapter is show below---");
@@ -32,18 +32,18 @@ public class PrintNeatTest {
     
     @Test
     public void testNeatHard() {
-        int legalLen = 225; // 每行最多125格
-        int maxWordLen = 125;
-        String[] nations = RandomGenner.generateRandomStrings(100, maxWordLen); // 初始化100个长度为[1-125]的字符串
+        int legalLen = 125; // 每行最多125格
+        int maxWordLen = 45;
+        String[] nations = RandomGenner.generateRandomStrings(100, maxWordLen); // 初始化100个长度为[1-45]的字符串
         System.out.println("raw words = " + Arrays.toString(nations));
-        PrintNeatlyAlgo.init(legalLen, nations); 
+        PrintNeatlyAlgo.init(" ", legalLen, nations);
         int res = PrintNeatlyAlgo.neatly();
         System.out.println("MinQ = " + res);
         StringBuilder splitter = new StringBuilder();
         for (int i = 0; i < legalLen; i++) {
             splitter.append("=");
         }
-        System.out.println(splitter);// 标杆125行
+        System.out.println(splitter);// 标杆45行
         PrintNeatlyAlgo.printTheChapter();
         System.out.println(splitter);// 标杆125行
     }
@@ -51,18 +51,18 @@ public class PrintNeatTest {
     @Test
     public void testNeatHardTibetan() {
         int legalLen = 225; // 每行最多125格
-        int maxWordLen = 125;
-        String[] nations = RandomGenner.generateRandomTibetan(100, maxWordLen); // 初始化100个长度为[1-125]的字符串
-        System.out.println("raw words = " + Arrays.toString(nations));
-        PrintNeatlyAlgo.init(legalLen, nations); 
+        int maxWordLen = 80;
+        String[] psalms = RandomGenner.generateRandomTibetan(100, maxWordLen); // 初始化100个长度为[1-80]的字符串
+        System.out.println("raw words = " + Arrays.toString(psalms));
+        PrintNeatlyAlgo.init("|", legalLen, psalms);
         int res = PrintNeatlyAlgo.neatly();
         System.out.println("MinQ = " + res);
         StringBuilder splitter = new StringBuilder();
         for (int i = 0; i < legalLen; i++) {
             splitter.append("=");
         }
-        System.out.println(splitter);// 标杆125行
+        System.out.println(splitter);// 标杆80行
         PrintNeatlyAlgo.printTheChapter();
-        System.out.println(splitter);// 标杆125行
+        System.out.println(splitter);// 标杆80行
     }
 }
