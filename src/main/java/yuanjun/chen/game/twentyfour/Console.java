@@ -68,7 +68,7 @@ public class Console {
                 System.out.println("Switching to Level: " + localLevel.getDesc());
                 playInteractively(targ, localLevel);
             } else if ("x".equalsIgnoreCase(read)) {
-                System.out.println("START TO CHALLENGE COMPUTER!\nPlease input four digits separated by ��,��:");
+                System.out.println("START TO CHALLENGE COMPUTER!\nPlease input four digits separated by \",\":");
                 String[] inputs;
                 do {
                     read = scan.nextLine().trim();
