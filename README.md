@@ -2,7 +2,7 @@
 本工程涵盖基本算法和容器操作基础 ，部分算法来源于CLRS算法导论相关章节，在此向CLRS等诸位先驱致敬！  
 ---
 
-sort包相关:  
+## sort包相关:  
 根据排序算法的特性，可以分为比较排序（例如冒泡、堆排序、插入排序、归并排序、快速排序、选择排序、希尔排序等）和非比较排序（例如计数排序、基数排序和桶排序）  
 不同的排序，对数据类型和幅值的要求不一，因此应用场合也各有不同  
 
@@ -60,7 +60,7 @@ Knuth对希尔排序的h选择和削减提出了行之有效的优化（3倍递�
 桶排序的难点是对链表进行插入排序，参见leetcode#147，需要构造伪头节点进行遍历和插入   
 
 ---
-find包相关:  
+## find包相关:  
 此包实现基本的顺序序列查找算法  
 ## yuanjun.chen.base.find.FindAlgo.java
 此类实现在序列中单独查找min和max的方法，时间为O[n-1]，也展现了一次遍历同时查找min和max的方法，时间为O[3/2n],即二二步进，每次3次比较  
@@ -69,7 +69,7 @@ randomizedSelectIthMaxWrapper采用了CLRS chapter 9 里面提出的随机快速
 fiveFoldedMidSelectIthMaxWrapper采用了CLRS chapter 9 里面提到的五分组快速选择算法，CLRS并未完整给出其算法细节，只是提示快速排序的partition算法需要锁定pivot实现，此外，CLRS还给出5分组中位数算法，以快速求得某数组的中位数。此算法有诸多小细节需要额外注意，例如改进的partition算法将不得不将尾元素考虑到排序移位上来，并且，需要手动把原pivot与新pivot值交换，否则topK的K将无法精确定位。  
 
 ---
-container包相关:  
+## container包相关:  
 此包涵盖基础的容器类的实现及相应算法  
 ## yuanjun.chen.base.container.MyStack.java
 此类为简易的栈，支持简易的入栈出栈操作，并且支持自动shrink操作，yuanjun.chen.base.container.MyStackTest.java实现了对MyStack的测试  
@@ -77,7 +77,7 @@ container包相关:
 此类为红黑树的经典实现，内置了NIL哨兵常量来避免空指针的边界判断，支持插入、删除等常规红黑树操作，以及层次/中序遍历、打印等观察和验证功能  
 
 ---
-dynamicprogramming包相关：  
+## dynamicprogramming包相关：  
 此包涵盖动态规划相关算法  
 ## CutRodAlgo.java
 为CLRS-3经典的切割钢条算法，如果采用暴力遍历，则效率为O[2^n]的时间复杂度，如果采用辅助的容器来记录子问题的已有答案，则性能及其优秀，时间复杂度O[n^2]，空间复杂度O[n]
@@ -91,7 +91,10 @@ dynamicprogramming包相关：
 为CLRS-3课后的双调欧几里得旅行商[Bently优化版]，其采用DP的方法求出一个逼近最优解的朴素可行解  
 
 ---
+## greedy包相关：  
+此包涵盖贪心算法：  
 
+---
 ## jmh相关  
 mvn clean install -Dmaven.test.skip=true  此命令将打成2个包，其中包括正常的包，和benchmarks.jar包，后者为真正的性能测试jar 
 如果需要执行benchmark测试，只需java -jar benchmarks.jar就可以看到结果，当然也可以在IDE里面执行main方法  
