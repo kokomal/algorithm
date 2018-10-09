@@ -12,6 +12,7 @@ package yuanjun.chen.base.greedy.activityselector;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import yuanjun.chen.base.greedy.MyActivity;
 
 /**
  * @ClassName: ActivitySelectorAlgo
@@ -28,7 +29,7 @@ public class ActivitySelectorAlgo {
         activities = new MyActivity[len + 1];
         System.arraycopy(srcActivities, 0, activities, 1, len);
         activities[0] = new MyActivity(0, 0L, 0L); // 添加一个假的头部
-        Arrays.sort(activities, new MyActivityComparator());
+        Arrays.sort(activities, new MyActivity.MyActivityComparator(true));
         // System.out.println(Arrays.toString(activities)); // after
     }
 
@@ -36,7 +37,7 @@ public class ActivitySelectorAlgo {
         int len = srcActivities.length;
         nonRecurActivities = new MyActivity[len];
         System.arraycopy(srcActivities, 0, nonRecurActivities, 0, len);
-        Arrays.sort(nonRecurActivities, new MyActivityComparator());
+        Arrays.sort(nonRecurActivities, new MyActivity.MyActivityComparator(true));
     }
     
     /**   

@@ -7,7 +7,9 @@
  * @version V1.0
  * @Copyright: 2018 All rights reserved.
  */
-package yuanjun.chen.base.greedy.activityselector;
+package yuanjun.chen.base.greedy;
+
+import java.util.Comparator;
 
 /**
  * @ClassName: MyActivity
@@ -88,6 +90,30 @@ public class MyActivity {
 
     public void setEndTime(Long endTime) {
         this.endTime = endTime;
+    }
+
+    public static class MyActivityComparator implements Comparator<MyActivity> {
+        private boolean usingEndTime;
+
+        public MyActivityComparator(boolean usingEndTime) {
+            this.usingEndTime = usingEndTime;
+        }
+
+        @Override
+        public int compare(MyActivity o1, MyActivity o2) {
+            if (usingEndTime) {
+                if (o1.getEndTime() > o2.getEndTime()) {
+                    return 1;
+                } else if (o1.getEndTime() < o2.getEndTime()) {
+                    return -1;
+                }
+            } else if (o1.getStartTime() > o2.getStartTime()) {
+                return 1;
+            } else if (o1.getStartTime() < o2.getStartTime()) {
+                return -1;
+            }
+            return 0;
+        }
     }
 
 }

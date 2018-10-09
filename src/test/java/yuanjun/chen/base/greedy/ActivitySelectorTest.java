@@ -11,8 +11,6 @@ package yuanjun.chen.base.greedy;
 
 import java.util.Arrays;
 import org.junit.Test;
-import yuanjun.chen.base.greedy.activityselector.MyActivity;
-import yuanjun.chen.base.greedy.activityselector.MyActivityComparator;
 
 /**   
  * @ClassName: ActivitySelectorTest   
@@ -34,11 +32,25 @@ public class ActivitySelectorTest {
             new MyActivity(5, 3L, 9L),
             new MyActivity(6, 5L, 9L),
             new MyActivity(7, 6L, 10L),
-            new MyActivity(8, 8L, 11L),
+            new MyActivity(8, 8L, 11L)
         };
         System.out.println(Arrays.toString(activities)); // before
-        Arrays.sort(activities, new MyActivityComparator());
+        Arrays.sort(activities, new MyActivity.MyActivityComparator(true));
         System.out.println("=====================AFTER SORTING======================");
         System.out.println(Arrays.toString(activities)); // after
+    }
+    
+    @Test
+    public void testTimePojoSort() {
+        TimePojo[] times = new TimePojo[] {
+          new TimePojo(1, 1L, TimeDir.BEGIN),  
+          new TimePojo(2, 2L, TimeDir.BEGIN),   
+          new TimePojo(1, 2L, TimeDir.END),   
+          new TimePojo(2, 5L, TimeDir.END)   
+        };
+        System.out.println(Arrays.toString(times)); // before
+        Arrays.sort(times, new TimePojo.TimePojoComparator());
+        System.out.println("=====================AFTER SORTING======================");
+        System.out.println(Arrays.toString(times)); // after
     }
 }
