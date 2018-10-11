@@ -14,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import yuanjun.chen.base.common.RandomGenner;
 
 /**
  * @ClassName: MemoizedCutRodTest
@@ -27,9 +28,9 @@ public class MemoizedCutRodTest {
     
     @BeforeClass
     public static void before() throws Exception {
-        // Integer[] arr1 = RandomGenner.generateRandomTArray(100, 1, 100, Integer.class);
-        Integer[] arr1 = new Integer[] {1, 5, 8, 9, 10, 17, 17, 20, 24, 30};
-        len = 7;
+        Integer[] arr1 = RandomGenner.generateRandomTArray(100, 1, 300, Integer.class);
+        //Integer[] arr1 = new Integer[] {1, 5, 8, 9, 10, 17, 17, 20, 24, 30};
+        len = 32;
         Arrays.sort(arr1);
         int[] rules = Arrays.stream(arr1).mapToInt(Integer::valueOf).toArray(); // java8
         logger.info("rules -- " + Arrays.toString(rules));

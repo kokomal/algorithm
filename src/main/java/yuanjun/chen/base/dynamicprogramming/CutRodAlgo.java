@@ -24,13 +24,13 @@ public class CutRodAlgo {
     private static final Logger logger = LogManager.getLogger(CutRodAlgo.class);
     /*--------------------------------------------------1--2--3--4---5---6---7---8---9---10*/
     private static int[] price_table;
-    private static int[] recipe;
+    private static int[] revenue;
     private static int[] solutions;
     
     public static void setRules(final int [] rules) {
         price_table = new int[rules.length];
         System.arraycopy(rules, 0, price_table, 0, rules.length);
-        recipe = new int[price_table.length + 1];
+        revenue = new int[price_table.length + 1];
         solutions = new int[price_table.length + 1];
     }
     
@@ -80,22 +80,22 @@ public class CutRodAlgo {
     private static int bottomdp(int n) {
         if (n == 0)
             return 0;
-        recipe[0] = 0;
+        revenue[0] = 0;
         //int rec = 0;
         for (int j = 1; j <= n; j++) {
             int q = Integer.MIN_VALUE;
             for (int i = 1; i <= j; i++) {
-                int candidate = price_table[i - 1] + recipe[j - i];
+                int candidate = price_table[i - 1] + revenue[j - i];
                 if (q < candidate) {
                     q = candidate;
                     //rec = i;
                     solutions[j] = i;
                 }
             }
-            recipe[j] = q; // recipe从1递增，因此这里没有递归
+            revenue[j] = q; // revenue从1递增，因此这里没有递归
         }
         //logger.info("for " + n + " first cut = " + rec);
-        return recipe[n];
+        return revenue[n];
     }
 
     /**   
@@ -107,8 +107,8 @@ public class CutRodAlgo {
     private static int topdp(int n) {
         if (n == 0)
             return 0;
-        if (recipe[n] > Integer.MIN_VALUE) {
-            return recipe[n];
+        if (revenue[n] > Integer.MIN_VALUE) {
+            return revenue[n];
         }
         int q = Integer.MIN_VALUE;
         // int rec = 0;
@@ -120,14 +120,14 @@ public class CutRodAlgo {
                 // rec = i;
             }
         }
-        recipe[n] = q;
+        revenue[n] = q;
         // logger.info("for " + n + " first cut = " + rec);
         return q;
     }
 
     private static void cleanContext() {
         for (int i = 0; i <= price_table.length; i++) {
-            recipe[i] = Integer.MIN_VALUE;
+            revenue[i] = Integer.MIN_VALUE;
             solutions[i] = Integer.MIN_VALUE;
         }
     }

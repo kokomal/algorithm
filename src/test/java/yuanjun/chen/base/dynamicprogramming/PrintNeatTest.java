@@ -50,11 +50,11 @@ public class PrintNeatTest {
     
     @Test
     public void testNeatHardTibetan() {
-        int legalLen = 225; // 每行最多125格
+        int legalLen = 144; // 每行最多144格
         int maxWordLen = 80;
         String[] psalms = RandomGenner.generateRandomTibetan(100, maxWordLen); // 初始化100个长度为[1-80]的字符串
-        System.out.println("raw words = " + Arrays.toString(psalms));
-        PrintNeatlyAlgo.init("◉", legalLen, psalms);
+        System.out.println("raw words = \n" + Arrays.toString(psalms));
+        PrintNeatlyAlgo.init(",", legalLen, psalms);
         int res = PrintNeatlyAlgo.neatly();
         System.out.println("MinQ = " + res);
         StringBuilder splitter = new StringBuilder();
