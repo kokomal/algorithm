@@ -25,7 +25,7 @@ import org.openjdk.jmh.runner.options.OptionsBuilder;
 
 /**   
  * @ClassName: DemoBenchmark   
- * @Description: TODO(这里用一句话描述这个类的作用)   
+ * @Description: 不可以藏身在test包里面的benchmark测试类  
  * @author: 陈元俊 
  * @SpecialThanksTo hjungnitsch
  * @date: 2018年9月10日 下午3:05:28  
