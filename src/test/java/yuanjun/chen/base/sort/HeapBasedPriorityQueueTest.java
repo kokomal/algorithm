@@ -29,10 +29,10 @@ public class HeapBasedPriorityQueueTest {
     @Test
     public void testHeapBasedPriorityQueue() throws Exception {
         Integer[] initArray = RandomGenner.generateRandomTArray(20, 0, 100, Integer.class);
-        HeapBasedPriorityQueue hbpq = new HeapBasedPriorityQueue(initArray, SortOrderEnum.DESC); // 小根堆
+        HeapBasedPriorityQueue<Integer> hbpq = new HeapBasedPriorityQueue<>(initArray, SortOrderEnum.DESC); // 小根堆
         displayBoth1Dand2D(hbpq);
         if (initArray.length > 8) {
-            Integer eighth = hbpq.peekAt(8);
+            Integer eighth = (Integer) hbpq.peekAt(8);
             Integer newEighth = eighth - 40;
             boolean x = hbpq.decreaseKey(8, newEighth);
             logger.info("decrease the eighth val== " + eighth + " to new val== " + newEighth + " and res = " + x);
@@ -47,7 +47,7 @@ public class HeapBasedPriorityQueueTest {
         DispUtil.embed(40, '=', "End Insert== " + keyToBeInserted);
     }
 
-    private void displayBoth1Dand2D(HeapBasedPriorityQueue hbpq) {
+    private void displayBoth1Dand2D(HeapBasedPriorityQueue<?> hbpq) {
         DispUtil.embed(30, '*', "the size = " + hbpq.size());
         hbpq.peakAll2D();
         DispUtil.embed(30, '*', "the flat display is below");
@@ -57,13 +57,13 @@ public class HeapBasedPriorityQueueTest {
     @Test
     public void testPop() throws Exception {
         Integer[] initArray = RandomGenner.generateRandomTArray(18, 0, 100, Integer.class);
-        HeapBasedPriorityQueue hbpq = new HeapBasedPriorityQueue(initArray, SortOrderEnum.DESC); // 小根堆
+        HeapBasedPriorityQueue<Integer> hbpq = new HeapBasedPriorityQueue<>(initArray, SortOrderEnum.DESC); // 小根堆
         DispUtil.embed(40, '=', "Before pop");
         displayBoth1Dand2D(hbpq);
-        Integer pop1 = hbpq.pop();
+        Integer pop1 = (Integer) hbpq.pop();
         DispUtil.embed(30, '*', "after pop val " + pop1);
         displayBoth1Dand2D(hbpq);
-        pop1 = hbpq.pop();
+        pop1 = (Integer) hbpq.pop();
         DispUtil.embed(30, '*', "after pop val " + pop1);
         displayBoth1Dand2D(hbpq);
         DispUtil.embed(40, '=', "End pop");
@@ -72,13 +72,13 @@ public class HeapBasedPriorityQueueTest {
     @Test
     public void testPop2() throws Exception {
         Integer[] initArray = RandomGenner.generateRandomTArray(2, 0, 100, Integer.class);
-        HeapBasedPriorityQueue hbpq = new HeapBasedPriorityQueue(initArray, SortOrderEnum.DESC); // 小根堆
+        HeapBasedPriorityQueue<Integer> hbpq = new HeapBasedPriorityQueue<>(initArray, SortOrderEnum.DESC); // 小根堆
         DispUtil.embed(40, '=', "Before pop");
         displayBoth1Dand2D(hbpq);
-        Integer pop1 = hbpq.pop();
+        Integer pop1 = (Integer) hbpq.pop();
         logger.info("after pop val " + pop1);
         displayBoth1Dand2D(hbpq);
-        Integer pop2 = hbpq.pop();
+        Integer pop2 = (Integer) hbpq.pop();
         logger.info("after pop val " + pop2);
         displayBoth1Dand2D(hbpq);
         DispUtil.embed(40, '=', "End pop");
@@ -87,14 +87,14 @@ public class HeapBasedPriorityQueueTest {
     @Test
     public void testDelete() throws Exception {
         Integer[] initArray = RandomGenner.generateRandomTArray(20, 0, 100, Integer.class);
-        HeapBasedPriorityQueue hbpq = new HeapBasedPriorityQueue(initArray, SortOrderEnum.DESC); // 小根堆
+        HeapBasedPriorityQueue<Integer> hbpq = new HeapBasedPriorityQueue<>(initArray, SortOrderEnum.DESC); // 小根堆
         DispUtil.embed(40, '=', "Before delete");
         displayBoth1Dand2D(hbpq);
-        Integer x = hbpq.deleteKey(3); // 删除第3号元素
+        Integer x = (Integer) hbpq.deleteKey(3); // 删除第3号元素
         DispUtil.split(80, '-');
         logger.info("after delete val " + x);
         displayBoth1Dand2D(hbpq);
-        x = hbpq.deleteKey(3);
+        x = (Integer) hbpq.deleteKey(3);
         DispUtil.split(80, '-');
         logger.info("after delete val " + x);
         displayBoth1Dand2D(hbpq);

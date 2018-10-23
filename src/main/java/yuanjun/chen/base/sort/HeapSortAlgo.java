@@ -42,7 +42,7 @@ public class HeapSortAlgo {
             nonRecursiveMaxHeapify(arr, i, length, order);// 重新对堆进行调整
         }
     }
-
+    
     /**
      * @param int[] arr 原始数组
      * @param int i maxheapify操作数组的开始序号

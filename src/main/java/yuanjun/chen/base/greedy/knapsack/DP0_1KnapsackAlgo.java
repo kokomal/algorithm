@@ -13,7 +13,7 @@ import java.util.Arrays;
 
 /**
  * @ClassName: DPKnapsackAlgo
- * @Description: 动态规划0_1背包算法 ，同一类型的金块唯一
+ * @Description: 动态规划0_1背包算法 ，同一类型的金块唯一，采用1维数组，实现动态的代价更新
  * @author: 陈元俊
  * @date: 2018年10月19日 下午3:35:43
  */
@@ -103,7 +103,7 @@ public class DP0_1KnapsackAlgo {
         goldbars[2] = new GoldBar<Integer>();
         goldbars[2].weight = 6;
         goldbars[2].value = 5;
-
+ 
         goldbars[3] = new GoldBar<Integer>();
         goldbars[3].weight = 5;
         goldbars[3].value = 4;

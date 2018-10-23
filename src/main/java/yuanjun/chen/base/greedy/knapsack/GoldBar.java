@@ -1,7 +1,7 @@
 /**
- * @Title: KnapSack.java
+ * @Title: GoldBar.java
  * @Package: yuanjun.chen.base.greedy.knapsack
- * @Description: TODO(用一句话描述该文件做什么)
+ * @Description: 金条pojo，重量和价值为其2个属性
  * @author: 陈元俊
  * @date: 2018年10月19日 下午3:32:49
  * @version V1.0
@@ -10,8 +10,8 @@
 package yuanjun.chen.base.greedy.knapsack;
 
 /**
- * @ClassName: KnapSack
- * @Description: TODO(这里用一句话描述这个类的作用)
+ * @ClassName: GoldBar
+ * @Description: 金条pojo，重量和价值为其2个属性
  * @author: 陈元俊
  * @date: 2018年10月19日 下午3:32:49
  */

@@ -10,8 +10,10 @@
 package yuanjun.chen.base.container;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import yuanjun.chen.base.common.CommonUtils;
 import yuanjun.chen.base.common.DispUtil;
 import yuanjun.chen.base.common.SortOrderEnum;
 import yuanjun.chen.base.sort.HeapSortAlgo;
@@ -22,10 +24,11 @@ import yuanjun.chen.base.sort.HeapSortAlgo;
  * @author: 陈元俊
  * @date: 2018年7月18日 上午10:05:25
  */
-public class HeapBasedPriorityQueue implements Serializable {
+@SuppressWarnings("unchecked")
+public class HeapBasedPriorityQueue<T extends Comparable<?>> implements Serializable {
     private static final Logger logger = LogManager.getLogger(HeapBasedPriorityQueue.class);
     private static final long serialVersionUID = 1L;
-    private Integer[] arr;
+    private T[] arr;
     private SortOrderEnum order;
     private int cursor;
 
@@ -33,9 +36,9 @@ public class HeapBasedPriorityQueue implements Serializable {
      * @param Integer[] initArray
      * @param SortOrderEnum order
      */
-    public HeapBasedPriorityQueue(final Integer[] initArray, SortOrderEnum order) {
+    public HeapBasedPriorityQueue(final T[] initArray, SortOrderEnum order) {
         this.order = order;
-        this.arr = new Integer[initArray.length * 2];
+        this.arr = (T[]) Array.newInstance(initArray[0].getClass(), initArray.length * 2);
         this.cursor = initArray.length - 1;
         System.arraycopy(initArray, 0, this.arr, 0, initArray.length);
         HeapSortAlgo.buildMaxHeap(this.arr, this.order, initArray.length); // 构建最大堆即可初始化即完成
@@ -92,14 +95,14 @@ public class HeapBasedPriorityQueue implements Serializable {
         return cursor + 1;
     }
 
-    public Integer peek() {
+    public T peek() {
         if (this.cursor < 0) {
             return null;
         }
         return arr[0];
     }
 
-    public Integer peekAt(int idx) {
+    public T peekAt(int idx) {
         if (this.cursor < idx) {
             return null;
         }
@@ -112,10 +115,10 @@ public class HeapBasedPriorityQueue implements Serializable {
      * @comment 2. 新key先以MAX或者MIN插入
      * @comment 3. 调用increaseKey或者decreaseKey进行翻转
      */
-    public void insertKey(int key) {
+    public void insertKey(T key) {
         int len = this.arr.length;
         if (this.cursor + 1 == len) {
-            Integer[] newArr = new Integer[len * 2];
+            T[] newArr = (T[]) Array.newInstance(key.getClass(), len * 2);
             System.arraycopy(arr, 0, newArr, 0, len);
             this.arr = newArr;
         }
@@ -127,11 +130,11 @@ public class HeapBasedPriorityQueue implements Serializable {
      * @comment 弹出最前的元素
      * @comment 末尾元素篡位，然后从头开始maxHeapify
      */
-    public Integer pop() {
+    public T pop() {
         if (cursor < 0) {
             return null;
         } // 空则返回null
-        Integer res = arr[0];
+        T res = arr[0];
         if (cursor >= 0) {
             arr[0] = arr[cursor--];
             HeapSortAlgo.maxheapify(arr, order, true, 0, cursor + 1);
@@ -139,11 +142,11 @@ public class HeapBasedPriorityQueue implements Serializable {
         return res;
     }
 
-    public Integer deleteKey(int pos) {
+    public T deleteKey(int pos) {
         if (this.cursor < pos || pos < 0) {
             return null;
         }
-        int res = this.arr[pos];
+        T res = this.arr[pos];
         this.arr[pos] = this.arr[cursor];
         if (cursor >= 0) {
             cursor--;
@@ -157,8 +160,8 @@ public class HeapBasedPriorityQueue implements Serializable {
      * @comment 如果是最小Queue，或者newVal比原值小，此方法返回false
      * @comment 如果pos越界，也返回false
      */
-    public boolean increaseKey(int pos, int newVal) {
-        if (SortOrderEnum.DESC.equals(this.order) || this.cursor < pos || this.arr[pos] > newVal) {
+    public boolean increaseKey(int pos, T newVal) {
+        if (SortOrderEnum.DESC.equals(this.order) || this.cursor < pos || CommonUtils.more(this.arr[pos], newVal)) {
             return false;
         }
         protoIncDecKey(pos, newVal);
@@ -170,20 +173,20 @@ public class HeapBasedPriorityQueue implements Serializable {
      * @comment 如果是最大Queue，或者newVal比原值大，此方法返回false
      * @comment 如果pos越界，也返回false
      */
-    public boolean decreaseKey(int pos, int newVal) {
-        if (SortOrderEnum.ASC.equals(this.order) || this.cursor < pos || this.arr[pos] < newVal) {
+    public boolean decreaseKey(int pos, T newVal) {
+        if (SortOrderEnum.ASC.equals(this.order) || this.cursor < pos || CommonUtils.less(this.arr[pos], newVal)) {
             return false;
         }
         protoIncDecKey(pos, newVal);
         return true;
     }
 
-    private void protoIncDecKey(int pos, int newVal) {
+    private void protoIncDecKey(int pos, T newVal) {
         this.arr[pos] = newVal;
         while (pos != 0) { // pos为0则跳出，否则死循环
             int parent = pos - 1 >>> 1;
-            boolean shouldGoUp = arr[parent] < newVal && SortOrderEnum.ASC.equals(this.order);
-            shouldGoUp = shouldGoUp || (arr[parent] > newVal && SortOrderEnum.DESC.equals(this.order));
+            boolean shouldGoUp = CommonUtils.less(arr[parent], newVal) && SortOrderEnum.ASC.equals(this.order);
+            shouldGoUp = shouldGoUp || (CommonUtils.more(arr[parent], newVal) && SortOrderEnum.DESC.equals(this.order));
             if (shouldGoUp) {
                 arr[pos] = arr[parent];
                 pos = parent;
