@@ -153,6 +153,7 @@ public class HuffmanCodecAlgo {
 
         initWithRawInputs(LOREM); // 根据正文进行编码
         String loremEncoded = encode(LOREM);
+        System.out.println(LOREM.length());
         System.out.println(loremEncoded);
         System.out.println(loremEncoded.length());
     }
