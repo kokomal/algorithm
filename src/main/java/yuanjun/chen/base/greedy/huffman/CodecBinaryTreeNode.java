@@ -11,7 +11,7 @@ package yuanjun.chen.base.greedy.huffman;
 
 /**
  * @ClassName: CodecBinaryTreeNode
- * @Description: TODO(这里用一句话描述这个类的作用)
+ * @Description: Huffman的节点
  * @author: 陈元俊
  * @date: 2018年10月23日 上午10:01:42
  */
