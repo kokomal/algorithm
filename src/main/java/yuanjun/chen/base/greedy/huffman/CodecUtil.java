@@ -49,6 +49,12 @@ public class CodecUtil {
         return des(note);
     }
 
+    /**   
+     * @Title: des   
+     * @Description: 巧妙的反序列化pre前序遍历的二叉树 
+     * @param note
+     * @return: CodecBinaryTreeNode      
+     */
     private static CodecBinaryTreeNode des(String note) {
         index ++;
         if (note.charAt(index) == NULL) { // 说明是null

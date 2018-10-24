@@ -18,15 +18,14 @@ import yuanjun.chen.base.container.HeapBasedPriorityQueue;
 
 /**
  * @ClassName: HuffmanCodecAlgo
- * @Description: 哈夫曼编解码
+ * @Description: 哈夫曼编解码，不推荐用Lipsum做字典训练，这是因为西塞罗的文本不包含K，W，Z
+ *               这几个有异于拉丁文的字母，所以这几个字母和其他一些字母常常被随机插入去模拟欧洲语言的排印样式，
+ *               这些字在原文中其实并没有。
  * @author: 陈元俊
  * @date: 2018年10月23日 上午9:54:02
  */
 public class HuffmanCodecAlgo {
-    /**   
-     * @Fields UNKNOWN : TODO(用一句话描述这个变量表示什么)   
-     */
-    private static final char UNKNOWN = '✕';
+    // private static final char UNKNOWN = '✕';
     private static final String LOREM =
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse venenatis velit tempus, ultricies lectus non, suscipit diam. Pellentesque nunc felis, pellentesque a finibus non, mattis at urna. Cras erat mi, tincidunt at sodales nec, consectetur eu turpis. Aliquam ornare auctor massa sed posuere. Praesent lobortis lorem in feugiat lobortis. Pellentesque dapibus semper tristique. Aenean accumsan odio eget est efficitur, at lobortis nibh hendrerit."
                     + "Nunc non lacus magna. Duis convallis est quam, vel consequat neque ultricies vel. Mauris fringilla malesuada orci. Curabitur et eros finibus, auctor quam at, dignissim nisi. Phasellus eu ligula feugiat, blandit mi et, tempus odio. Aliquam fringilla sed velit eget finibus. Mauris semper est nulla, id convallis quam sodales a. Donec mollis erat eget lacus consequat, quis aliquam diam porttitor. Etiam fringilla tempus lacus at posuere. In hac habitasse platea dictumst. Etiam eu ligula congue, tempor lacus ac, volutpat nisl. Etiam consectetur tortor in ipsum tempor rhoncus. Nam blandit gravida faucibus. Cras in commodo nibh. Duis lacinia bibendum sodales.";
@@ -35,7 +34,7 @@ public class HuffmanCodecAlgo {
     private Map<Character, String> encodeMap = new HashMap<>(); // 编码对照表
 
     private CodecBinaryTreeNode root;
-    
+
     public String init(char[] chars, Integer[] weights) {
         encodeMap = new HashMap<>();
         int len = chars.length;
@@ -44,18 +43,18 @@ public class HuffmanCodecAlgo {
             CodecBinaryTreeNode cbtn = new CodecBinaryTreeNode(weights[i], chars[i], true);
             huffmanNodes[i] = cbtn;
         }
-        generatePriorityQueue(len);
+        generatePriorityQueue();
 
         root = hbpq.peek();
         traverse(root, new StringBuilder(""));
         System.out.println("EncodeMAP = " + encodeMap); // 输出编码的对照表
-        
+
         return CodecUtil.serialize(root); // 最终输出note
     }
 
-    private void generatePriorityQueue(int len) {
+    private void generatePriorityQueue() {
         hbpq = new HeapBasedPriorityQueue<>(huffmanNodes, SortOrderEnum.DESC); // 建堆
-        for (int i = 0; i < len - 1; i++) { // 执行len-1次构建Huffman树
+        for (int i = 0; i < huffmanNodes.length - 1; i++) { // 执行len-1次构建Huffman树
             CodecBinaryTreeNode first = hbpq.pop();
             CodecBinaryTreeNode second = hbpq.pop();
             CodecBinaryTreeNode combined = new CodecBinaryTreeNode(first.weight + second.weight, null, false);
@@ -131,11 +130,11 @@ public class HuffmanCodecAlgo {
         return raw.toString();
     }
 
-    /**   
-     * @Title: initWithRawInputs   
-     * @Description: 根据大数据来输出Huffman的配方  
+    /**
+     * @Title: initWithRawInputs
+     * @Description: 根据大数据来输出Huffman的配方
      * @param book
-     * @return: String      
+     * @return: String
      */
     public String initWithRawInputs(String book) {
         Map<Character, Integer> wordsCount = new HashMap<>();
@@ -157,17 +156,17 @@ public class HuffmanCodecAlgo {
         }
         return init(chars, wts);
     }
-    
-    /**   
-     * @Title: rebuild   
-     * @Description: 根据配方重建Huffman树 
-     * @param note      
-     * @return: void      
+
+    /**
+     * @Title: rebuild
+     * @Description: 根据配方重建Huffman树
+     * @param note
+     * @return: void
      */
     public void rebuild(String note) {
         root = CodecUtil.deserialize(note);
     }
-    
+
     public String decode(String encrpt) {
         return innerDecode(encrpt);
     }
@@ -192,19 +191,19 @@ public class HuffmanCodecAlgo {
         System.out.println("编码前为:" + LOREM);
         String loremEncoded = algo1.encode(LOREM);
         System.out.println("LOREM编码后:" + loremEncoded);
-        
+
+        /*-----------------------recipe+loremEncoded via network----------------------*/
+
         HuffmanCodecAlgo algo2 = new HuffmanCodecAlgo();
-        
         algo2.rebuild(recipe); // 根据配方重建Huffman树
-        
+
         back = algo2.decode(loremEncoded);
         System.out.println("algo2.LOREM解码后:" + back);
-        
+
         String a2 = algo2.encode("adipiscingwawa"); // LOREM ipsum里面没有w，因此如果待加密的串里面有w会出现找不到字典的key
         System.out.println("a2Encoded = " + a2);
-        
+
         String bk1 = algo1.decode(a2);
-        System.out.println("此时algo1端也能成功解码" + bk1);
-        
+        System.out.println("此时algo1端也能成功解码" + bk1); // 实现双向编解码
     }
 }
