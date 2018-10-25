@@ -12,7 +12,7 @@ package yuanjun.chen.base.greedy.activityselector;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import yuanjun.chen.base.greedy.MyActivity;
+import yuanjun.chen.base.greedy.intervalgraphcolor.MyActivity;
 
 /**
  * @ClassName: ActivitySelectorAlgo

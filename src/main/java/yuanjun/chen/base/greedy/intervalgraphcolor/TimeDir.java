@@ -7,7 +7,7 @@
  * @version V1.0
  * @Copyright: 2018 All rights reserved.
  */
-package yuanjun.chen.base.greedy;
+package yuanjun.chen.base.greedy.intervalgraphcolor;
 
 /**
  * @ClassName: TimeDir

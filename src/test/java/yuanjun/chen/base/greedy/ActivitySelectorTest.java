@@ -11,6 +11,9 @@ package yuanjun.chen.base.greedy;
 
 import java.util.Arrays;
 import org.junit.Test;
+import yuanjun.chen.base.greedy.intervalgraphcolor.MyActivity;
+import yuanjun.chen.base.greedy.intervalgraphcolor.TimeDir;
+import yuanjun.chen.base.greedy.intervalgraphcolor.TimePojo;
 
 /**   
  * @ClassName: ActivitySelectorTest   
