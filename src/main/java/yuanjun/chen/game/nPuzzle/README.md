@@ -6,4 +6,4 @@
 1.是否可解可以参考@https://blog.csdn.net/u010398265/article/details/50987577 的中文介绍；
 2.求解逆序对可以参考归并排序的相关链接@https://www.cnblogs.com/liuzhen1995/p/6511622.html
 3.X,Y轴位置和2D数组是比较别扭的映射关系  
-4.似乎可以考虑cantor映射将序列进行hash，然后进行cache，这样省的每次都去遍历  
+4.似乎可以考虑cantor映射将序列进行hash，然后进行cache，这样省的每次都去遍历，对此采用了带缓存的阶乘FactUtil  

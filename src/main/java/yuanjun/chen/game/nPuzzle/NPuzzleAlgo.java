@@ -11,7 +11,10 @@ package yuanjun.chen.game.nPuzzle;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @ClassName: MainTester
@@ -22,6 +25,17 @@ import java.util.List;
 public class NPuzzleAlgo {
     private List<Integer> rawList;
     private List<Integer> modelList;
+    
+    @Deprecated
+    private Map<String, Integer> manhattanCache = new HashMap<>(); // 用hashmap，暂时不考虑并发
+    @Deprecated
+    private boolean usingCantorCache = false; // 默认不打开cantor的cache
+    @Deprecated
+    private Long modelHash = 0L;
+    @Deprecated
+    public void setUsingCantorCache(boolean usingCantorCache) {
+        this.usingCantorCache = usingCantorCache;
+    }
 
     /** N*n, 且小数位于左上. */
     private int[][] MODEL_GRIDS; // 目标坐标
@@ -37,6 +51,7 @@ public class NPuzzleAlgo {
     private MoveDir[] solutions;
 
     public void generateWithNsizeRawList(List<Integer> rawList) {
+        manhattanCache.clear();
         this.g_found = false;
         this.N = (int) Math.sqrt(rawList.size()); // 请输入完全平方长度的list，0代表空格
         this.grids = new int[N][N];
@@ -59,9 +74,11 @@ public class NPuzzleAlgo {
         dispGrids(this.orig_grids);
         System.out.println("MODEL MAP IS SHOWN AS BELOW");
         dispGrids(this.MODEL_GRIDS);
+        modelHash = CantorUtil.cantor(MODEL_GRIDS);
     }
 
     public void generateRandomGame(int n) {
+        manhattanCache.clear();
         this.g_found = false;
         this.N = n;
         this.grids = new int[N][N];
@@ -89,6 +106,7 @@ public class NPuzzleAlgo {
         dispGrids(this.orig_grids);
         System.out.println("MODEL MAP IS SHOWN AS BELOW");
         dispGrids(this.MODEL_GRIDS);
+        modelHash = CantorUtil.cantor(MODEL_GRIDS);
     }
 
     /** 将初始化的list填入坐标数组中. */
@@ -152,7 +170,7 @@ public class NPuzzleAlgo {
             return;
         }
         g_found = false;
-        bound = manhattan(MODEL_GRIDS, grids);
+        bound = manhattan(usingCantorCache, MODEL_GRIDS, grids);
         System.out.println("bound = " + bound);
         solutions = new MoveDir[100];
         Coordinate initPoint = fetchCoordinate(grids, 0);
@@ -190,7 +208,7 @@ public class NPuzzleAlgo {
     }
 
     private int DFS(Coordinate pt, int depth, MoveDir lastMove) {
-        int manhattan = manhattan(MODEL_GRIDS, grids);
+        int manhattan = manhattan(usingCantorCache, MODEL_GRIDS, grids);
         if (manhattan + depth > bound) {
             return manhattan + depth; // 超了上限，不看了
         }
@@ -258,7 +276,25 @@ public class NPuzzleAlgo {
         return legal;
     }
 
-    public static int manhattan(int[][] MODEL_GRIDS, int[][] grids) {
+    // manhattan似乎是瓶颈,但cantor带来了更复杂的计算，所以得不偿失
+    public int manhattan(boolean cantor, int[][] MODEL_GRIDS, int[][] grids) {
+        if (cantor) {
+            Long grHash = CantorUtil.cantor(grids);
+            String mhtKey = modelHash.toString() + "-" + grHash.toString();
+            if (manhattanCache.containsKey(mhtKey)) {
+                //System.out.println("cache HIT!!!");
+                return manhattanCache.get(mhtKey);
+            }
+            int manhattan = calcManhattan(MODEL_GRIDS, grids);
+            manhattanCache.put(mhtKey, manhattan);
+            return manhattan;
+        } else {
+            int manhattan = calcManhattan(MODEL_GRIDS, grids);
+            return manhattan;
+        }
+    }
+
+    private static int calcManhattan(int[][] MODEL_GRIDS, int[][] grids) {
         int manhattan = 0;
         for (int i = 0; i < MODEL_GRIDS.length; i++) {
             for (int j = 0; j < MODEL_GRIDS[i].length; j++) {
@@ -266,6 +302,8 @@ public class NPuzzleAlgo {
                     Coordinate modelPoint = new Coordinate(j, i);
                     Coordinate other = fetchCoordinate(grids, MODEL_GRIDS[i][j]);
                     manhattan += modelPoint.distance(other);
+                    modelPoint = null; // 迅速gc
+                    other = null;
                 }
             }
         }
@@ -285,10 +323,12 @@ public class NPuzzleAlgo {
     }
 
     public static void main(String[] args) {
-//        NPuzzleAlgo main = new NPuzzleAlgo();
-//        main.generateRandomGame(4);
-//        main.solve();
-        System.out.println(fact(63));
+        NPuzzleAlgo main = new NPuzzleAlgo();
+        main.generateRandomGame(4);
+        main.solve();
+        
+        main.generateRandomGame(5);
+        main.solve();
     }
     
     public static long fact(int n) {
