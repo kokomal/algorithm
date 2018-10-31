@@ -11,7 +11,7 @@ package yuanjun.chen.game.nPuzzle;
 
 /**
  * @ClassName: Coordinate
- * @Description: TODO(这里用一句话描述这个类的作用)
+ * @Description: 坐标
  * @author: 陈元俊
  * @date: 2018年10月29日 上午8:53:13
  */
@@ -49,5 +49,8 @@ public class Coordinate {
     public String toString() {
         return "Coordinate [X=" + X + ", Y=" + Y + "]";
     }
-
+    
+    public static int distance(final Coordinate c1, final Coordinate c2) {
+        return Math.abs(c1.X - c2.X) + Math.abs(c1.Y - c2.Y);
+    }
 }

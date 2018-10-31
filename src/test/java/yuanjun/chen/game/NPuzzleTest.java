@@ -24,7 +24,7 @@ public class NPuzzleTest {
     @Test
     public void testBasic() {
         NPuzzleAlgo main = new NPuzzleAlgo();
-        main.generateRandomGame(12); // 测试随机生成game
+        main.generateRandomGame(12, 5000); // 测试随机生成game
     }
     
     @Test
@@ -53,7 +53,7 @@ public class NPuzzleTest {
     
     @Test
     public void testRawList2() {
-        NPuzzleAlgo main2 = new NPuzzleAlgo(); // 测试带参数生成game
+        NPuzzleAlgo main2 = new NPuzzleAlgo();
         List<Integer> rawList = new ArrayList<>(9);
         rawList.add(5);
         rawList.add(3);
@@ -70,7 +70,7 @@ public class NPuzzleTest {
     
     @Test
     public void testRawList3() {
-        NPuzzleAlgo main2 = new NPuzzleAlgo(); // 测试带参数生成game
+        NPuzzleAlgo main2 = new NPuzzleAlgo();
         List<Integer> rawList = new ArrayList<>(9);
         rawList.add(5);
         rawList.add(3);
@@ -92,41 +92,37 @@ public class NPuzzleTest {
         main.generateRandomGame(4);
         main.setUsingCantorCache(true);
         main.solve();
-    }
+    }*/
     
     @Test
     public void testRandom4DNocache() {
         NPuzzleAlgo main = new NPuzzleAlgo();
-        main.generateRandomGame(4);
+        main.generateRandomGame(4, 36);
         main.solve();
-    }*/
+    }
     
     @Test
-    public void test4DRawUsingCache() {
-        /*|  11 |  15 |   5 |  12 |
-          |   1 |   7 |   4 |   6 |
-          |  13 |   3 |   2 |  14 |
-          |   9 |   8 |  10 |     |*/
+    public void test4DRawUsingCache() { // 58步的hard模式
+        /*15, 7, 0, 1, 12, 3, 13, 2, 5, 4, 9, 8, 11, 14, 10, 6*/
         NPuzzleAlgo main2 = new NPuzzleAlgo();
         List<Integer> rawList = new ArrayList<>(16);
-        rawList.add(11);
         rawList.add(15);
-        rawList.add(5);
-        rawList.add(12);
-        rawList.add(1);
         rawList.add(7);
-        rawList.add(4);
-        rawList.add(6);
-        rawList.add(13);
+        rawList.add(0);
+        rawList.add(1);
+        rawList.add(12);
         rawList.add(3);
+        rawList.add(13);
         rawList.add(2);
-        rawList.add(14);
+        rawList.add(5);
+        rawList.add(4);
         rawList.add(9);
         rawList.add(8);
+        rawList.add(11);
+        rawList.add(14);
         rawList.add(10);
-        rawList.add(0);
+        rawList.add(6);
         main2.generateWithNsizeRawList(rawList);
-        main2.setUsingCantorCache(true); // 很危险，会堆溢出
         main2.solve();
     }
     
@@ -161,7 +157,7 @@ public class NPuzzleTest {
     @Test
     public void testRandom5DNocache() {
         NPuzzleAlgo main = new NPuzzleAlgo();
-        main.generateRandomGame(5);
+        main.generateRandomGame(5, 40); // DANGER
         main.solve();
     }
 }

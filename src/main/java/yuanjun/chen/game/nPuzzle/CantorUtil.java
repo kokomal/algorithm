@@ -11,7 +11,9 @@ package yuanjun.chen.game.nPuzzle;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @ClassName: CantorUtil
@@ -21,6 +23,8 @@ import java.util.List;
  */
 public class CantorUtil {
 
+    private static Map<String, Long> cache = new HashMap<>();
+    
     public static Long cantor(int[][] a) { // n*n才管用
         int len = a.length;
         int[] v = new int[len * len];
@@ -30,6 +34,16 @@ public class CantorUtil {
         return cantor(v); // 康托展开值
     }
 
+    public static Long cantorWithInnerCache(int[] a) {
+        String key = Arrays.toString(a);
+        if (cache.containsKey(key)) {
+            return cache.get(key);
+        }
+        Long cantor = cantor(a);
+        cache.put(key, cantor);
+        return cantor; // 康托展开值
+    }
+    
     public static Long cantor(int[] a) {
         int n = a.length;
         Long cantor = 0L;
