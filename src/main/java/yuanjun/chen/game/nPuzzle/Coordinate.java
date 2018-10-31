@@ -16,8 +16,8 @@ package yuanjun.chen.game.nPuzzle;
  * @date: 2018年10月29日 上午8:53:13
  */
 public class Coordinate {
-    private int X;
-    private int Y;
+    int X;
+    int Y;
 
     public int distance(Coordinate co) {
         return Math.abs(co.X - X) + Math.abs(co.Y - Y);

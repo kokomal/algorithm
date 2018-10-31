@@ -24,6 +24,7 @@ public class NPuzzleEasyAlgo {
     private List<Integer> rawList;
     private List<Integer> modelList;
     private static long time1 = 0L;
+    private static long time2 = 0L;
     private int N;
     /** 全局的寻找flag，找到即可终止所有分支. */
     private boolean g_found;
@@ -89,10 +90,10 @@ public class NPuzzleEasyAlgo {
             System.out.println("TRY GEN LEGALLY & RANDOMLY---");
             Collections.shuffle(this.rawList); // 打乱
             fillInGrids(this.rawList, this.arrGrids);
-        } while (!solvable() || manhattan(N, arrMODEL_GRIDS, arrGrids) >= hard);
+        } while (!solvable() || manhattan() >= hard);
         fillInGrids(this.rawList, this.arrOrig_grids);
         initRealTimeGridMap(len);
-        System.out.println("MANHATTAN=" + manhattan(N, arrMODEL_GRIDS, arrGrids));
+        System.out.println("MANHATTAN=" + manhattan());
         System.out.println("RAWLIST " + rawList);
         System.out.println("INITIAL MAP IS SHOWN AS BELOW");
         // dispGrids(this.grids);
@@ -176,11 +177,11 @@ public class NPuzzleEasyAlgo {
             return;
         }
         g_found = false;
-        bound = manhattan(N, arrMODEL_GRIDS, arrGrids);
+        bound = manhattan();
         System.out.println("bound = " + bound);
         solutions = new MoveDir[100];
         Coordinate initPoint = fetchCoordinate(N, arrGrids, 0);
-        Coordinate dispPoint = new Coordinate(initPoint.getX(), initPoint.getY());
+        Coordinate dispPoint = new Coordinate(initPoint.X, initPoint.Y);
         System.out.println(initPoint);
         System.out.println("DISP " + dispPoint);
         int iter = 0;
@@ -204,7 +205,7 @@ public class NPuzzleEasyAlgo {
         dispGrids(N, arrOrig_grids);
         while (cur != null && i < solutions.length) {
             System.out.println("SPACE MOVE --> " + cur);
-            move(dispPoint, N, arrOrig_grids, cur);
+            move(dispPoint, arrOrig_grids, cur);
             System.out.println("AFTER");
             dispGrids(N, arrOrig_grids);
             System.out.println("NEXT pt=" + dispPoint);
@@ -213,43 +214,40 @@ public class NPuzzleEasyAlgo {
         }
         System.out.println("ALL LEGAL STEPS ARE " + i + " STEPS.");
         System.out.println("ALL CALC Manhattan time is " + time1 + "ms.");
-        // System.out.println("ALL CANTOR Manhattan time is " + time2 + "ms.");
+        System.out.println("ALL MOVE time is " + time2 + "ms.");
     }
 
     private int DFS(Coordinate pt, int depth, MoveDir lastMove) {
-        int manhattan = manhattan(N, arrMODEL_GRIDS, arrGrids);
-        if (manhattan + depth > bound) {
-            return manhattan + depth; // 超了上限，不看了
+        int manhattan = manhattan(); // N, arrMODEL_GRIDS, arrGrids
+        int tryBound = manhattan + depth;
+        if (tryBound > bound) {
+            return tryBound; // 超了上限，不看了
         }
-        if (manhattan == 0) {
+        if (0 == manhattan) {
             g_found = true; // 找到了
             return depth;
         }
         int next_bound = Integer.MAX_VALUE;
         for (MoveDir dir : MoveDir.legalMoves()) {
-            if (dir.reverse().equals(lastMove)) {
+            if (dir.reverse().equals(lastMove) || !legalMove(pt, dir)) { // 回头路和非法路径剪枝
                 continue;
             }
-            if (legalMove(pt, N, dir)) {
-                move(pt, N, arrGrids, dir);
-                // dispGrids(grids);
-                solutions[depth] = dir;
-                int new_bound = DFS(pt, depth + 1, dir);
-                if (g_found) {
-                    return new_bound;
-                }
-                next_bound = Math.min(next_bound, new_bound);
-                move(pt, N, arrGrids, dir.reverse());
+            move(pt, arrGrids, dir);
+            solutions[depth] = dir;
+            int new_bound = DFS(pt, depth + 1, dir);
+            if (g_found) {
+                return new_bound;
             }
+            next_bound = Math.min(next_bound, new_bound);
+            move(pt, arrGrids, dir.reverse());
         }
         return next_bound;
     }
 
-    private void move(Coordinate pt, int N, int[] grids, MoveDir dir) {
-        int x = pt.getX();
-        int y = pt.getY();
-        int nx = x;
-        int ny = y;
+    private void move(Coordinate pt, int[] grids, MoveDir dir) {
+        //long x1 = System.currentTimeMillis();
+        int nx = pt.X;
+        int ny = pt.Y;
         if (MoveDir.UP.equals(dir)) {
             ny--;
         } else if (MoveDir.DOWN.equals(dir)) {
@@ -259,14 +257,9 @@ public class NPuzzleEasyAlgo {
         } else if (MoveDir.RIGHT.equals(dir)) {
             nx++;
         }
-        swap(grids, N, x, y, nx, ny);
-        pt.setX(nx);
-        pt.setY(ny);
-    }
-
-    /* 注意x代表数组的第二维！y代表第一维 */
-    private void swap(int[] grids, int N, int x, int y, int nx, int ny) {
-        int oldIndex = N * y + x;
+        //swap(grids, N, x, y, nx, ny);
+        /* 注意x代表数组的第二维！y代表第一维 */
+        int oldIndex = N * pt.Y + pt.X;
         int newIndex = N * ny + nx;
         int tmp = grids[oldIndex];
         grids[oldIndex] = grids[newIndex];
@@ -278,25 +271,29 @@ public class NPuzzleEasyAlgo {
         tmp = rtMap[oldV]; // grids的映射表也发生了变化
         rtMap[oldV] = rtMap[newV];
         rtMap[newV] = tmp;
+        
+        pt.X = nx;
+        pt.Y = ny;
+        //long x2 = System.currentTimeMillis();
+        //time2 += (x2 - x1); // 统计一下总共花在move的时间，似乎有点影响整体性能
     }
 
-    private static boolean legalMove(final Coordinate pt, int N, MoveDir dir) {
-        int MAX = N - 1;
-        return (!MoveDir.DOWN.equals(dir) || pt.getY() != MAX) && (!MoveDir.UP.equals(dir) || pt.getY() != 0)
-                && (!MoveDir.LEFT.equals(dir) || pt.getX() != 0) && (!MoveDir.RIGHT.equals(dir) || pt.getX() != MAX);
+    private boolean legalMove(final Coordinate pt, MoveDir dir) {
+        return (!MoveDir.DOWN.equals(dir) || pt.Y != N - 1) && (!MoveDir.UP.equals(dir) || pt.Y != 0)
+                && (!MoveDir.LEFT.equals(dir) || pt.X != 0) && (!MoveDir.RIGHT.equals(dir) || pt.X != N - 1);
     }
 
-    // manhattan似乎是瓶颈,但cantor带来了更复杂的计算，所以得不偿失
-    public int manhattan(int N, int[] arrMODEL_GRIDS, int[] arrGrids) {
+    // manhattan似乎是瓶颈
+    public int manhattan() {
         long x1 = System.currentTimeMillis();
         int manhattan = 0;
-        int len = arrMODEL_GRIDS.length;
-        for (int i = 0; i < len; i++) {
-            int arrModelI = arrMODEL_GRIDS[i];
-            if (arrModelI != 0) {
-                int arrI = rtMap[arrModelI];
-                manhattan += Math.abs(i % N - arrI % N) + Math.abs(i / N - arrI / N);
-            }
+        //int len = arrMODEL_GRIDS.length;
+        for (int i = 0; i < arrMODEL_GRIDS.length - 1; i++) { // 少一个迭代，前提是model的最后一个是空格
+            // int arrModelI = arrMODEL_GRIDS[i];
+            // if (arrModelI != 0) {
+            int arrI = rtMap[arrMODEL_GRIDS[i]];
+            manhattan += Math.abs(i % N - arrI % N) + Math.abs(i / N - arrI / N);
+            // }
         }
         long x2 = System.currentTimeMillis();
         time1 += (x2 - x1); // 统计一下总共花在manhattan的时间
