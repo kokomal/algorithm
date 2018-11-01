@@ -10,6 +10,7 @@
 package yuanjun.chen.performance.list;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import org.junit.Test;
@@ -76,6 +77,22 @@ public class ListPerformanceTest {
     public void testLinkedList2() {
         Long t1 = System.currentTimeMillis();
         final List<Integer> lst = new LinkedList<>();
+        for (int i = 0; i < 100000; ++i) {
+            lst.add(i);
+        }
+        long sum = 0;
+        for (int i = 0; i < 100000; ++i) {
+            sum += lst.get(i);
+        }
+        System.out.println("sum = " + sum);
+        Long t2 = System.currentTimeMillis();
+        System.out.println("Time is " + (t2 - t1) + "ms");
+    }
+    
+    @Test
+    public void testArrayList3() {
+        Long t1 = System.currentTimeMillis();
+        final List<Integer> lst = new ArrayList<>(100000);
         for (int i = 0; i < 100000; ++i) {
             lst.add(i);
         }

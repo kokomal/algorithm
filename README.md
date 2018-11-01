@@ -93,8 +93,14 @@ fiveFoldedMidSelectIthMaxWrapper采用了CLRS chapter 9 里面提到的五分组
 ---
 ## greedy包相关：  
 此包涵盖贪心算法：  
-
+包括活动选择，背包问题，找零问题等  
 ---
 ## jmh相关  
 mvn clean install -Dmaven.test.skip=true  此命令将打成2个包，其中包括正常的包，和benchmarks.jar包，后者为真正的性能测试jar 
 如果需要执行benchmark测试，只需java -jar benchmarks.jar就可以看到结果，当然也可以在IDE里面执行main方法  
+
+---
+## game相关
+此包涵盖基础的枚举类型的游戏（猜数字，24点）
+mmorpg描述了在大型随机加点的对战中，选取最优加点数的暴力枚举  
+nPuzzle采用IDA*算法对n数码问题进行解决和简易console展示  

@@ -103,10 +103,10 @@ public class BaseBallVorpAlgo {
         for (int i = 0; i < N; i++) {
             System.out.println(Arrays.toString(PP[i]));
         }*/
-        System.out.println("FINAL TABLEB IS...");
+        /*System.out.println("FINAL TABLEB IS...");
         for (int i = 0; i <= N; i++) {
             System.out.println(Arrays.toString(tableB[i]));
-        }
+        }*/
         int i = N;
         int j = X;
         int C = 0;

@@ -28,9 +28,9 @@ public class MemoizedCutRodTest {
     
     @BeforeClass
     public static void before() throws Exception {
-        Integer[] arr1 = RandomGenner.generateRandomTArray(100, 1, 300, Integer.class);
-        //Integer[] arr1 = new Integer[] {1, 5, 8, 9, 10, 17, 17, 20, 24, 30};
-        len = 32;
+        //Integer[] arr1 = RandomGenner.generateRandomTArray(100, 1, 300, Integer.class);
+        Integer[] arr1 = new Integer[] {1, 5, 8, 9, 10, 17, 17, 20, 24, 30};
+        len = 37; // 对于brute法有点大了
         Arrays.sort(arr1);
         int[] rules = Arrays.stream(arr1).mapToInt(Integer::valueOf).toArray(); // java8
         logger.info("rules -- " + Arrays.toString(rules));
@@ -39,7 +39,7 @@ public class MemoizedCutRodTest {
 
     @Test
     public void testBrute() {
-        int maxq = CutRodAlgo.brute(len);
+        int maxq = CutRodAlgo.bruteCutWrapper(len);
         logger.info("testBrute for len = " + len + " max revenue = " + maxq);
     }
 
