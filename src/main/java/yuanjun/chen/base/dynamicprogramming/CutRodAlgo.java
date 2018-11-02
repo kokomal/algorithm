@@ -136,12 +136,13 @@ public class CutRodAlgo {
 
     public static void main(String[] args) throws Exception {
         Integer[] arr1 = RandomGenner.generateRandomTArray(30, 1, 200, Integer.class);
+        arr1 = new Integer[] {1, 5, 8, 9, 10, 17, 17, 20, 24, 30};
         Arrays.sort(arr1);
         int[] rules= Arrays.stream(arr1).mapToInt(Integer::valueOf).toArray(); // java8
         logger.info("rules -- " + Arrays.toString(rules));
         setRules(rules);
-        int n = 8;
-        int q = brute(n);
+        int n = 31;
+        int q = bruteCutWrapper(n);
         logger.info("brute " + n + " the max revenue is " + q);
         logger.info("------------------------------");
         q = topDpCutWrapper(n);
