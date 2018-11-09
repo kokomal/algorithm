@@ -7,7 +7,7 @@
  * @version V1.0
  * @Copyright: 2018 All rights reserved.
  */
-package yuanjun.chen.advanced.btree;
+package yuanjun.chen.advanced.common;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ import java.util.List;
  * @date: 2018年11月6日 下午2:15:13
  */
 public class BTreeOnePage {
-    int dgr = 0;
+    private int dgr = 0;
     /*
      * --------------------------------------------------------- 
      * pgNo: 100232 
@@ -29,7 +29,7 @@ public class BTreeOnePage {
      * ---------------------------------------------------------
      */
     Long pgNo;
-    Boolean isLeaf;
+    private Boolean isLeaf;
     private String rawKeys;
     private String rawChildren;
     private int n;
@@ -129,8 +129,22 @@ public class BTreeOnePage {
 
     @Override
     public String toString() {
-        return "BTreeOnePage [pgNo=" + pgNo + ", isLeaf=" + isLeaf + ", rawKeys=" + rawKeys + ", rawChildren="
+        return "BTreeOnePage [pgNo=" + pgNo + ", isLeaf=" + getIsLeaf() + ", rawKeys=" + rawKeys + ", rawChildren="
                 + rawChildren + ", n=" + n + ", keys=" + keys + ", children=" + children + "]";
+    }
+
+    /**
+     * @return the dgr
+     */
+    public int getDgr() {
+        return dgr;
+    }
+
+    /**
+     * @param dgr the dgr to set
+     */
+    public void setDgr(int dgr) {
+        this.dgr = dgr;
     }
 
 }

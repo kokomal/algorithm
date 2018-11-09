@@ -7,7 +7,7 @@
  * @version V1.0 
  * @Copyright: 2018 All rights reserved. 
  */
-package yuanjun.chen.advanced.btree;
+package yuanjun.chen.advanced.btreelite;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -27,28 +27,20 @@ import yuanjun.chen.advanced.common.GlobalConfig;
  * @author: 陈元俊 
  * @date: 2018年11月7日 上午11:05:31  
  */
-public class DiskUtil {
-    public static void diskWrite(String tableName, final BTreeNode node) throws Exception {
-        node.setIsLoaded(true);
+public class DiskUtilLite {
+    public static void diskWrite(String tableName, final BTreeNodeLite node) throws Exception {
         BTreeOnePage page = new BTreeOnePage();
         page.setIsLeaf(node.getIsLeaf());
         page.setKeys(node.getKeys());
         page.setN(node.getN());
         page.setPgNo(node.getPageNo());
-        List<BTreeNode> children = node.getChildren(); // 持久化孩子
-        int i = children == null ? 0 : children.size();
-        if (i > 0) {
-            List<Long> longs = new ArrayList<>();
-            for (BTreeNode bt : children) {
-                longs.add(bt.getPageNo());
-            }
-            page.setChildren(longs);
-        }
+        List<Long> children = node.getChildren(); // 持久化孩子
+        page.setChildren(children);
         diskWrite(tableName, page);
     }
     
     public static void diskWrite(String tableName, final BTreeOnePage page) throws Exception {
-        File file = new File(GlobalConfig.BTREE_PATH + tableName + "/"+ page.getPgNo() + ".txt"); // 数据暂时放在d盘,注意编码格式
+        File file = new File(GlobalConfig.BTREELITE_PATH + tableName + "/"+ page.getPgNo() + ".txt"); // 数据暂时放在d盘,注意编码格式
         File dir = file.getParentFile();
         if (!dir.exists()) {
             dir.mkdirs();
@@ -80,11 +72,10 @@ public class DiskUtil {
         bw.close();
     }
     
-    // 分为深拷贝深入读取和浅拷贝读取
-    public static BTreeNode diskRead (String tableName, int degree, Long pgNo) {
+    public static BTreeNodeLite diskRead (String tableName, int degree, Long pgNo) {
         BTreeOnePage onePage = fetchByPgNo(tableName, pgNo); // 没有读到需要抛出异常
         // 此时node只有一个pageNo，isLeaf,keys和children都没有，需要从硬盘里面加载
-        BTreeNode node = new BTreeNode(degree, pgNo, onePage.getIsLeaf(), onePage.getN());
+        BTreeNodeLite node = new BTreeNodeLite(degree, pgNo, onePage.getIsLeaf(), onePage.getN());
         /*
          * 磁盘io
          * 此时文件里面可能是这样的：
@@ -100,11 +91,10 @@ public class DiskUtil {
         node.setChildren(new ArrayList<>());
         if (onePage.getChildren() != null) {
             for (Long x : onePage.getChildren()) {
-                node.getChildren().add(new BTreeNode(degree, x, null, null)); // 此时不知道子页的详细信息，只有page页，默认没有加载
+                node.getChildren().add(x);
             }
         }
         node.setIsLeaf(onePage.getIsLeaf());
-        node.setIsLoaded(true);
         node.setN(onePage.getN());
         return node;
     }
@@ -112,7 +102,7 @@ public class DiskUtil {
     /*根据页面号找到文件，读取里面的数据，并且解析*/
     public static BTreeOnePage fetchByPgNo(String tableName, Long pgNo) {
         BTreeOnePage page = new BTreeOnePage();
-        File file = new File(GlobalConfig.BTREE_PATH + tableName + "/" + pgNo + ".txt");  // 数据暂时放在d盘,注意编码格式
+        File file = new File(GlobalConfig.BTREELITE_PATH + tableName + "/" + pgNo + ".txt");  // 数据暂时放在d盘,注意编码格式
         BufferedReader reader = null;  
         try {  
             reader = new BufferedReader(new FileReader(file));  
@@ -151,7 +141,7 @@ public class DiskUtil {
      * 
      * */
     public static void diskWriteMeta(String tableName, Integer degree, Long pageNo) throws Exception {
-        File file = new File(GlobalConfig.BTREE_PATH + tableName + "/META.txt"); // 数据暂时放在d盘,注意编码格式
+        File file = new File(GlobalConfig.BTREELITE_PATH + tableName + "/META.txt"); // 数据暂时放在d盘,注意编码格式
         File dir = file.getParentFile();
         if (!dir.exists()) {
             dir.mkdirs();
@@ -175,7 +165,7 @@ public class DiskUtil {
     }
     
     public static BTreeOnePage diskReadMeta(String tableName) {
-        File file = new File(GlobalConfig.BTREE_PATH + tableName + "/META.txt");  // 数据暂时放在d盘,注意编码格式
+        File file = new File(GlobalConfig.BTREELITE_PATH + tableName + "/META.txt");  // 数据暂时放在d盘,注意编码格式
         if (!file.exists()) { // 不存在！
             System.out.println("TABLE NAME " + tableName + " META file not exists!");
             return null;
@@ -224,7 +214,7 @@ public class DiskUtil {
     public static void main(String[] args) throws Exception {
         diskWriteMeta("zz", 2, 5666L);
         
-        BTreeOnePage page = diskReadMeta("t_example");
+        BTreeOnePage page = diskReadMeta("zz");
         System.out.println(page);
     }
 }

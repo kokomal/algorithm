@@ -11,6 +11,8 @@ package yuanjun.chen.advanced.btree;
 
 import java.util.ArrayList;
 import java.util.List;
+import yuanjun.chen.advanced.common.BTreeOnePage;
+import yuanjun.chen.advanced.common.GlobalPageNoGen;
 import yuanjun.chen.base.common.CommonUtils;
 
 /**   
@@ -21,7 +23,7 @@ import yuanjun.chen.base.common.CommonUtils;
  */
 public class BTreeHolder {
     private int degree;
-    private BTreeNode root;
+    BTreeNode root;
     private String tableName;
     /**   
      * @Title: init   
@@ -50,11 +52,11 @@ public class BTreeHolder {
         if (page == null) {
             return;
         }
-        this.root = new BTreeNode(page.dgr, page.pgNo, page.isLeaf, page.getN());
-        this.root.isLoaded = true;
-        this.root.keys = page.keys;
+        this.root = new BTreeNode(page.getDgr(), page.getPgNo(), page.getIsLeaf(), page.getN());
+        this.root.setIsLoaded(true);
+        this.root.keys = page.getKeys();
         this.root.children = new ArrayList<>();
-        for (Long childPgNo : page.children) {
+        for (Long childPgNo : page.getChildren()) {
             BTreeOnePage childPage = CacheManager.fetchPageByPgNo(tableName, childPgNo);
             BTreeNode chdNode = convertToNode(childPage);
             this.root.children.add(chdNode);
@@ -63,19 +65,19 @@ public class BTreeHolder {
     
     // 一层拷贝
     private BTreeNode convertToNode(BTreeOnePage page) {
-        BTreeNode node = new BTreeNode(page.dgr, page.pgNo, page.isLeaf, page.getN());
-        node.isLoaded = true;
-        node.keys = page.keys;
+        BTreeNode node = new BTreeNode(page.getDgr(), page.getPgNo(), page.getIsLeaf(), page.getN());
+        node.setIsLoaded(true);
+        node.keys = page.getKeys();
         node.children = new ArrayList<>();
         if (page.getChildren() != null) {
-            for (Long childPgNo : page.children) { // 第二层就先不读取
+            for (Long childPgNo : page.getChildren()) { // 第二层就先不读取
                 CacheManager.deleteNode(childPgNo);
-                BTreeNode chd = new BTreeNode(page.dgr, childPgNo, null, null); // no loaded
+                BTreeNode chd = new BTreeNode(page.getDgr(), childPgNo, null, null); // no loaded
                 node.children.add(chd);
                 CacheManager.putNode(childPgNo, chd);
             }
         }
-        CacheManager.putNode(page.pgNo, node);
+        CacheManager.putNode(page.getPgNo(), node);
         return node;
     }
 
@@ -90,7 +92,7 @@ public class BTreeHolder {
             BTreeNode s = create(); // 新的root
             BTreeNode r = this.root;
             this.root = s;
-            s.isLeaf = false;
+            s.setIsLeaf(false);
             List<BTreeNode> children = new ArrayList<>();
             children.add(r); // 老root退位
             List<String> keys = new ArrayList<>();
@@ -108,7 +110,7 @@ public class BTreeHolder {
     // 不满的插入操作，属于激进型扩张策略
     public void insertNonFull(BTreeNode x, String k) throws Exception {
         int i = x.n;
-        if (x.isLeaf) { // 是叶子节点，直接更改keys即可,因为叶子节点的所有children都是无意义的
+        if (x.getIsLeaf()) { // 是叶子节点，直接更改keys即可,因为叶子节点的所有children都是无意义的
             while (i >= 1 && CommonUtils.less(k, x.getKeyAt(i))) {
                 x.setKeyAt(i + 1, x.getKeyAt(i));
                 i = i - 1;
@@ -121,7 +123,7 @@ public class BTreeHolder {
                 i = i - 1;
             }
             i = i + 1;
-            if (!x.getChildrenAt(i).isLoaded) {
+            if (!x.getChildrenAt(i).getIsLoaded()) {
                 BTreeOnePage iPage = CacheManager.fetchPageByPgNo(tableName, x.getChildrenAt(i).pageNo);
                 x.modifyChildAt(i, convertToNode(iPage)); // 将ith孩子更新
             }
@@ -161,13 +163,13 @@ public class BTreeHolder {
     }
 
     private BTreeNode packZ(BTreeNode y) {
-        BTreeNode z = new BTreeNode(degree, GlobalPageNoGen.genNextPageNo(), y.isLeaf, degree - 1);
+        BTreeNode z = new BTreeNode(degree, GlobalPageNoGen.genNextPageNo(), y.getIsLeaf(), degree - 1);
         z.setKeys(new ArrayList<>());
         for (int j = 1; j < degree; j++) {
             z.getKeys().add(y.getKeyAt(j + degree));
         }
         z.setChildren(new ArrayList<>());
-        if (!y.isLeaf) {
+        if (!y.getIsLeaf()) {
             for (int j = 1; j <= degree; j++) {
                 z.children.add(y.getChildrenAt(j + degree));
             }
@@ -175,7 +177,7 @@ public class BTreeHolder {
         // y只保留前一半，即移到z的不能存在y里面
         for (int j = 1; j <= degree; j++) {
             y.getKeys().remove(degree - 1); // 此外中间的key也不能留，因为被x录用
-            if (!y.isLeaf) {
+            if (!y.getIsLeaf()) {
                 y.getChildren().remove(degree);
             }
         }
@@ -183,24 +185,24 @@ public class BTreeHolder {
     }
     
     public void report(BTreeNode t) {
-        if (t != null && t.isLoaded) {
+        if (t != null && t.getIsLoaded()) {
             System.out.println("REPORT PAGENO." + t.pageNo + ", KEYS " + t.keys);
-            if (!t.isLeaf) {
+            if (!t.getIsLeaf()) {
                 dispChildren(t);
             }
         }
     }
     
     public void reportFull(BTreeNode t) {
-        if (t != null && t.isLoaded) {
+        if (t != null && t.getIsLoaded()) {
             dispLoaded(t);
         } else if (t != null) {
             BTreeOnePage page = CacheManager.fetchPageByPgNo(tableName, t.getPageNo());
             BTreeNode newNode = convertToNode(page);
             t.keys = newNode.keys;
             t.children = newNode.children;
-            t.isLoaded = true;
-            t.isLeaf = newNode.isLeaf;
+            t.setIsLoaded(true);
+            t.setIsLeaf(newNode.getIsLeaf());
             t.n = newNode.n;
             dispLoaded(t);
         }
@@ -208,7 +210,7 @@ public class BTreeHolder {
 
     private void dispLoaded(BTreeNode newNode) {
         System.out.println("REPORT PAGENO." + newNode.pageNo + ", KEYS " + newNode.keys);
-        if (!newNode.isLeaf) {
+        if (!newNode.getIsLeaf()) {
             dispChildrenFull(newNode);
         }
     }
@@ -217,8 +219,8 @@ public class BTreeHolder {
         if (t.children != null) {
             System.out.println("-*-*-FETCH PAGENO " + t.pageNo + " CHILDREN INFO-*-*-");
             for (BTreeNode nd : t.children) {
-                if (nd.isLoaded) {
-                    if (!nd.isLeaf) {
+                if (nd.getIsLoaded()) {
+                    if (!nd.getIsLeaf()) {
                         //System.out.println(nd.pageNo + " -^- " + nd.keys + " -^- " + nd.children);
                         System.out.println("-*-*-PAGE " + t.pageNo + " HAS CHILD " + nd.pageNo + " -^- " + nd.keys + " -^- WITH CHILDREN");
                     } else {
@@ -236,8 +238,8 @@ public class BTreeHolder {
         if (t.children != null) {
             System.out.println("-*-*-");
             for (BTreeNode nd : t.children) {
-                if (nd.isLoaded) {
-                    if (!nd.isLeaf) {
+                if (nd.getIsLoaded()) {
+                    if (!nd.getIsLeaf()) {
                         System.out.println(nd.pageNo + " -^- " + nd.keys + " -^- " + nd.children);
                     } else {
                         System.out.println(nd.pageNo + " -^- " + nd.keys + " -^- LEAF");
@@ -252,14 +254,14 @@ public class BTreeHolder {
 
     public static void main(String[] args) throws Exception {
         BTreeHolder holder = new BTreeHolder();
-//        holder.init("t_example2", 2);
-//        String xx = "FSQKCLHTVWMRNPABXYDZE";
-//        for (char x : xx.toCharArray()) {
-//            holder.insert(String.valueOf(x));
-//        }
-        holder.rebuild("t_example");
-        holder.reportFull(holder.root);
-        System.out.println("==========");
-        holder.reportFull(holder.root);
+         holder.init("t_example2", 2);
+         String xx = "FSQKCLHTVWMRNPABXYDZE";
+         for (char x : xx.toCharArray()) {
+         holder.insert(String.valueOf(x));
+         }
+//        holder.rebuild("t_example");
+//        holder.reportFull(holder.root);
+//        System.out.println("==========");
+//        holder.reportFull(holder.root);
     }
 }

@@ -9,7 +9,6 @@
  */
 package yuanjun.chen.advanced.btree;
 
-import java.util.ArrayList;
 import java.util.List;
 import yuanjun.chen.base.common.CommonUtils;
 
@@ -23,12 +22,12 @@ public class BTreeNode {
     int degree; // 全局的度
     Long pageNo;
 
-    Boolean isLoaded = false;
+    private Boolean isLoaded = false;
     
     public BTreeNode(int degree, Long pageNo, Boolean isLeaf, Integer n) {
         this.degree = degree;
         this.pageNo = pageNo;
-        this.isLeaf = isLeaf;
+        this.setIsLeaf(isLeaf);
         this.n = n;
     }
 
@@ -36,7 +35,7 @@ public class BTreeNode {
         return this.degree * 2 - 1 == this.n;
     }
     
-    protected Boolean isLeaf = true; // 默认是叶子节点
+    private Boolean isLeaf = true; // 默认是叶子节点
     protected Integer n; // 当前关键字个数，度为t的话，那么n介于t-1和2t-1之间
     protected List<String> keys; // Key个数为n∈[t-1,2t-1],对于2-3-4树而言，就是1-2-3个元素
     protected List<BTreeNode> children; // 子节点集合，维度为n+1，那么孩子数目介于t和2t之间，对于2-3-4树而言，就是2-3-4个孩子
@@ -59,7 +58,7 @@ public class BTreeNode {
     }
     
     public static BTreeResult search(String tbName, BTreeNode x, String k) {
-        if (!x.isLoaded) {
+        if (!x.getIsLoaded()) {
             // 说明读写没有成功
             return null;
         }
@@ -69,12 +68,12 @@ public class BTreeNode {
         }
         if (i <= x.n && CommonUtils.eq(k, x.getKeyAt(i))) { // 找到了且位置合法，key相等，则返回
             return new BTreeResult(x, i);
-        } else if (x.isLeaf) { // 没有找到，且已经是leaf
+        } else if (x.getIsLeaf()) { // 没有找到，且已经是leaf
             return null;
         } else {
             // diskread x, ci
             BTreeNode selected = x.getChildrenAt(i);
-            if (!selected.isLoaded) {
+            if (!selected.getIsLoaded()) {
                 selected = DiskUtil.diskRead(tbName, x.degree, selected.pageNo);
             }
             return search(tbName, selected, k);
@@ -89,17 +88,17 @@ public class BTreeNode {
         BTreeNode selected = this.getChildrenAt(i);
         selected.pageNo = modi.pageNo;
         selected.children = modi.children;
-        selected.isLeaf = modi.isLeaf;
+        selected.setIsLeaf(modi.getIsLeaf());
         selected.keys = modi.keys;
-        selected.isLoaded = true;
+        selected.setIsLoaded(true);
         selected.n = modi.n;
     }
     
     public void addChild(final BTreeNode modi) {
-        BTreeNode selected = new BTreeNode(degree, modi.getPageNo(), modi.isLeaf, modi.n);
+        BTreeNode selected = new BTreeNode(degree, modi.getPageNo(), modi.getIsLeaf(), modi.n);
         selected.children = modi.children;
         selected.keys = modi.keys;
-        selected.isLoaded = true;
+        selected.setIsLoaded(true);
         this.children.add(selected);
     }
 
@@ -153,7 +152,7 @@ public class BTreeNode {
 
     @Override
     public String toString() {
-        return "BTreeNode [degree=" + degree + ", pageNo=" + pageNo + ", isLoaded=" + isLoaded + ", isLeaf=" + isLeaf
+        return "BTreeNode [degree=" + degree + ", pageNo=" + pageNo + ", isLoaded=" + getIsLoaded() + ", isLeaf=" + getIsLeaf()
                 + ", n=" + n + ", keys=" + keys + ", children=" + children + "]";
     }
 }
