@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 import yuanjun.chen.advanced.common.BTreeOnePage;
 import yuanjun.chen.advanced.common.GlobalPageNoGen;
+import yuanjun.chen.base.container.BSTnode;
+import yuanjun.chen.base.container.MyQueue;
+import yuanjun.chen.base.exception.QueueOverflowException;
 import static yuanjun.chen.base.common.CommonUtils.*;
 
 /**
@@ -217,6 +220,35 @@ public class BTreeHolderLite {
             }
         }
     }
+    
+    public void dispLevel() throws Exception {
+        if (this.root == null) {
+            System.out.print("#");
+            return;
+        }
+        MyQueue<BTreeNodeLite> curqueue = new MyQueue<>(128); // arrayqueue不可能无限大
+        curqueue.enqueue(this.root);
+        int line = 0;
+        while (!curqueue.isEmpty()) {
+            System.out.printf("==========LEVEL%d===========\n", ++line);
+            MyQueue<BTreeNodeLite> nextqueue = new MyQueue<>(128);
+            while (!curqueue.isEmpty()) {
+                BTreeNodeLite node = curqueue.dequeue();
+                System.out.println(node.keys);
+                List<Long> chlds = node.children;
+                if (chlds != null && chlds.size() > 0) {
+                    for (Long chId : chlds) {
+                        nextqueue.enqueue(PageManager.fetchNodeByPgNo(tableName, chId));
+                    }
+                }
+            }
+            curqueue = nextqueue;
+        }
+    }
+
+    // TODO 删除B树节点
+    public void delete(String k) {
+    }
 
     public static void main(String[] args) throws Exception {
         BTreeHolderLite holder = new BTreeHolderLite();
@@ -225,9 +257,9 @@ public class BTreeHolderLite {
 //        for (char x : xx.toCharArray()) {
 //            holder.insert(String.valueOf(x));
 //        }
-         holder.rebuild("t_example");
+         holder.rebuild("t_example2");
          holder.reportFull(holder.root);
          System.out.println("==========");
-         holder.reportFull(holder.root);
+         holder.dispLevel();
     }
 }
