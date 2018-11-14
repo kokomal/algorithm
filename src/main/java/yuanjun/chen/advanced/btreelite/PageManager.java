@@ -24,13 +24,14 @@ public class PageManager {
     // 这个cache存放了节点编号和数据，全局的pgNo只有一份对应的节点！
     private static Map<String, Map<Long, BTreeNodeLite>> pageCache = new ConcurrentHashMap<>();
 
-    public static BTreeNodeLite fetchNodeByPgNo(String tableName, Long pgNo) {
+    public static BTreeNodeLite fetchNodeByPgNo(int dgr, String tableName, Long pgNo) {
         // System.out.println("FetchPgno " + pgNo);
         // 很简单，如果内存里面有，就捞出来，否则要重新读取并设置状态
         Map<Long, BTreeNodeLite> tableCache = safeGetTableCache(tableName);
         if (!tableCache.containsKey(pgNo)) {
             System.out.println("HAD TO READ THE FILE");
             BTreeOnePage pg = DiskUtilLite.fetchByPgNo(tableName, pgNo);
+            pg.setDgr(dgr); // 注意数据文件没有degree，需要从meta里面导入
             tableCache.put(pgNo, convertToNodeFromPage(pg));
         }
         return tableCache.get(pgNo);

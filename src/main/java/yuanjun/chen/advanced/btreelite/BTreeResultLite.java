@@ -23,4 +23,9 @@ public class BTreeResultLite {
         this.node = node;
         this.index = index;
     }
+
+    @Override
+    public String toString() {
+        return "BTreeResultLite [node=" + node + ", index=" + index + "]";
+    }
 }

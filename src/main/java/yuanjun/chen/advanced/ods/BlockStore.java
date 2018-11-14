@@ -7,7 +7,9 @@ import java.util.List;
  * This class fakes an external memory block storage system.  It's actually implemented as
  * a list of blocks.
  * @author morin
- *
+ * [本人备注]这个类模拟外置块设备（硬盘），实现块的读取和复用，实际的硬盘要考虑扇面寻道的性能，可能会比较慢
+ * List<T> blocks支持按页面查找和修改，以及回收操作
+ * free存放了可用的页地址，可以回收，默认操作arrayList的末尾（避免了大规模的内存拷贝，性能比较优异）
  * @param <T>
  */
 class BlockStore<T> {

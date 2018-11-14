@@ -7,6 +7,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import yuanjun.chen.advanced.btreelite.BTreeNodeLite;
+import yuanjun.chen.base.container.MyQueue;
+import yuanjun.chen.base.exception.QueueOverflowException;
 
 /**
  * An implementation of a B Tree
@@ -269,7 +272,7 @@ public class BTree<T> implements SSet<T> {
 			if (w != null) {  // child was split, w is new child 
 				x = w.remove(0);
 				bs.writeBlock(w.id, w);
-				u.add(x, w.id);
+				u.add(x, w.id); // [本人备注]将新分裂的id添加到节点的child里面
 				bs.writeBlock(u.id, u);
 			}
 		}
@@ -296,25 +299,26 @@ public class BTree<T> implements SSet<T> {
 	 *            the index of the subtree to remove x from
 	 * @return true if x was removed and false otherwise
 	 */
-	protected boolean removeRecursive(T x, int ui) {
-		if (ui < 0) return false;  // didn't find it
-		Node u = bs.readBlock(ui);
-		int i = findIt(u.keys, x);
-		if (i < 0) { // found it
-			i = -(i+1);
-			if (u.isLeaf()) {
-				u.remove(i);
-			} else {
-				u.keys[i] = removeSmallest(u.children[i+1]);
-				checkUnderflow(u, i+1);
-			}
-			return true;  
-		} else if (removeRecursive(x, u.children[i])) {
-			checkUnderflow(u, i);
-			return true;
-		}
-		return false;
-	}
+    protected boolean removeRecursive(T x, int ui) {
+        if (ui < 0)
+            return false; // didn't find it
+        Node u = bs.readBlock(ui);
+        int i = findIt(u.keys, x);
+        if (i < 0) { // found it
+            i = -(i + 1);
+            if (u.isLeaf()) {
+                u.remove(i);
+            } else {
+                u.keys[i] = removeSmallest(u.children[i + 1]);
+                checkUnderflow(u, i + 1);
+            }
+            return true;
+        } else if (removeRecursive(x, u.children[i])) {
+            checkUnderflow(u, i);
+            return true;
+        }
+        return false;
+    }
 
 	/**
 	 * Remove the smallest value in the subtree rooted at the node with index ui
@@ -411,7 +415,6 @@ public class BTree<T> implements SSet<T> {
 		Arrays.fill(v.children, sv-shift+1, sv+1, -1);
 	}
 
-	
 	protected void checkUnderflowZero(Node u, int i) {
 		Node w = bs.readBlock(u.children[i]); // w is child of u
 		if (w.size() < B-1) {  // underflow at w
@@ -607,64 +610,100 @@ public class BTree<T> implements SSet<T> {
 		toString(u.children[i], sb);
 	}
 	
+	public void dispLevel() throws Exception {
+        Node u = bs.readBlock(ri);
+        System.out.println(Arrays.toString(u.keys));
+        MyQueue<Node> curqueue = new MyQueue<>(128); // arrayqueue不可能无限大
+        curqueue.enqueue(u);
+        int line = 0;
+        while (!curqueue.isEmpty()) {
+            System.out.printf("==========LEVEL%d===========\n", ++line);
+            MyQueue<Node> nextqueue = new MyQueue<>(128);
+            while (!curqueue.isEmpty()) {
+                Node node = curqueue.dequeue();
+                System.out.println(Arrays.toString(node.keys));
+                int[] chlds = node.children;
+                if (chlds != null && chlds.length > 0) {
+                    for (int chId : chlds) {
+                        if (chId > 0) {
+                            nextqueue.enqueue(bs.readBlock(chId));
+                        }
+                    }
+                }
+            }
+            curqueue = nextqueue;
+        }
+	}
 
 	/**
 	 * Simple test method
 	 * @param args
+	 * @throws Exception 
 	 */
-	public static void main(String[] args) {
-		int b = 60, n = 100000, c = 10, reps = 500;
-		BTree<Integer> t = new BTree<Integer>(b, Integer.class);
-		SortedSet<Integer> ss = new TreeSet<Integer>();
-		for (int seed = 0; seed < reps; seed++) {
-			System.out.println("Adding " + n + " elements");
-			java.util.Random rand = new java.util.Random(seed);
-			for (int i = 0; i < n; i++) {
-				int x = rand.nextInt(c*n);
-				Utils.myassert(t.add(x) == ss.add(x));
-			}
-			if (n <= 100) {
-				System.out.println(t);
-				for (Integer xx : t)
-					System.out.print(xx + ", ");
-				System.out.println();
-				Iterator<Integer> it = t.iterator(c*n/2); 
-				while (it.hasNext()) {
-					System.out.print(it.next() + ", ");
-				}
-				System.out.println();
-			}
-			System.out.println("ss.size() = " + ss.size());
-			System.out.println("t.size()  = " + t.size());
-			
-			System.out.println("Checking equality");
-			for (int i = 0; i < n; i++) {
-				int x = rand.nextInt(c*n);
-				// System.out.println(t.findLT(x) + " < " + x + " <= " + t.find(x));
-				Utils.myassert(Utils.equals(t.find(x),Utils.findGE(ss, x)));
-				Utils.myassert(Utils.equals(t.findLT(x),Utils.findLT(ss, x)));
-				// System.out.println(t + " (added " + x + ")");
-			}
-	
-			System.out.println("Removing elements");
-			for (int i = 0; i < 10*c*n; i++) {
-				int x = rand.nextInt(c*n);
-				Utils.myassert(t.remove(x) == ss.remove(x));
-				// System.out.println(t + "(removed " + x + ")");
-			}
-
-			System.out.println("Checking equality");
-			for (int i = 0; i < n; i++) {
-				int x = rand.nextInt(c*n);
-				// System.out.println(t.findLT(x) + " < " + x + " <= " + t.find(x));
-				Utils.myassert(Utils.equals(t.find(x),Utils.findGE(ss, x)));
-				Utils.myassert(Utils.equals(t.findLT(x),Utils.findLT(ss, x)));
-				// System.out.println(t + " (added " + x + ")");
-			}
-
-			System.out.println("ss.size() = " + ss.size());
-			System.out.println("t.size()  = " + t.size());
-		}
-
-	}
+    public static void main(String[] args) throws Exception {
+        int b = 3, n = 100000, c = 10, reps = 500;
+        BTree<Integer> t = new BTree<Integer>(b, Integer.class);
+        t.add(2);
+        t.add(5);
+        t.add(23);
+        t.add(1);
+        t.add(3);
+        t.add(8);
+        t.add(17);
+        t.add(34);
+        t.dispLevel();
+        t.remove(2);
+        t.dispLevel();
+//        SortedSet<Integer> ss = new TreeSet<Integer>();
+//        for (int seed = 0; seed < reps; seed++) {
+//            System.out.println("Adding " + n + " elements");
+//            java.util.Random rand = new java.util.Random(seed);
+//            for (int i = 0; i < n; i++) {
+//                int x = rand.nextInt(c * n);
+//                Utils.myassert(t.add(x) == ss.add(x));
+//            }
+//            if (n <= 100) {
+//                System.out.println(t);
+//                for (Integer xx : t)
+//                    System.out.print(xx + ", ");
+//                System.out.println();
+//                Iterator<Integer> it = t.iterator(c * n / 2);
+//                while (it.hasNext()) {
+//                    System.out.print(it.next() + ", ");
+//                }
+//                System.out.println();
+//            }
+//            System.out.println("ss.size() = " + ss.size());
+//            System.out.println("t.size()  = " + t.size());
+//
+//            System.out.println("Checking equality");
+//            for (int i = 0; i < n; i++) {
+//                int x = rand.nextInt(c * n);
+//                // System.out.println(t.findLT(x) + " < " + x + " <= " + t.find(x));
+//                Utils.myassert(Utils.equals(t.find(x), Utils.findGE(ss, x)));
+//                Utils.myassert(Utils.equals(t.findLT(x), Utils.findLT(ss, x)));
+//                // System.out.println(t + " (added " + x + ")");
+//            }
+//
+//            System.out.println("Removing elements");
+//            for (int i = 0; i < 10 * c * n; i++) {
+//                int x = rand.nextInt(c * n);
+//                Utils.myassert(t.remove(x) == ss.remove(x));
+//                // System.out.println(t + "(removed " + x + ")");
+//            }
+//
+//            System.out.println("Checking equality");
+//            for (int i = 0; i < n; i++) {
+//                int x = rand.nextInt(c * n);
+//                // System.out.println(t.findLT(x) + " < " + x + " <= " + t.find(x));
+//                Utils.myassert(Utils.equals(t.find(x), Utils.findGE(ss, x)));
+//                Utils.myassert(Utils.equals(t.findLT(x), Utils.findLT(ss, x)));
+//                // System.out.println(t + " (added " + x + ")");
+//            }
+//
+//            System.out.println("ss.size() = " + ss.size());
+//            System.out.println("t.size()  = " + t.size());
+//        }
+        
+    }
 }

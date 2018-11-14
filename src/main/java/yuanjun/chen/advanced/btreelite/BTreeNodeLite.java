@@ -9,6 +9,7 @@
  */
 package yuanjun.chen.advanced.btreelite;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -32,6 +33,39 @@ public class BTreeNodeLite {
         return this.degree * 2 - 1 == this.n;
     }
 
+    public boolean isCritical() {
+        // System.out.println("DGR=" + this.degree);
+        // System.out.println("n=" + this.n);
+        return this.degree - 1 > this.n;
+    }
+    
+    public boolean isRich() {
+        return this.degree - 1 < this.n;
+    }
+    
+    public boolean isKeyEmpty() {
+        return keys.isEmpty();
+    }
+    
+    public int findChildIndexByPgNo(Long pageNo) {
+        return children.indexOf(pageNo) + 1;
+    }
+    
+    public void addAllKeys(Collection<? extends String> keys) {
+        this.keys.addAll(keys);
+    }
+    
+    public void addAllChildren(Collection<? extends Long> children) {
+        this.children.addAll(children);
+    }
+    
+    public void clearKeys() {
+        this.keys.clear();
+    }
+    
+    public void clearChildren() {
+        this.children.clear();
+    }
     protected Boolean isLeaf = true; // 默认是叶子节点
     protected Integer n; // 当前关键字个数，度为t的话，那么n介于t-1和2t-1之间
     protected List<String> keys; // Key个数为n∈[t-1,2t-1],对于2-3-4树而言，就是1-2-3个元素
@@ -51,6 +85,59 @@ public class BTreeNodeLite {
     Long getChildrenAt(int i) { // 支持[1,n+1]的索引访问Key
         return this.children.get(i - 1);
     }
+    
+    public void insertOneLeftKey(String k) {
+        assert(this.isLeaf);
+        this.keys.add(0, k);
+    }
+    
+    public void insertOneRightKey(String k) {
+        assert(this.isLeaf);
+        this.keys.add(k);
+    }
+
+    public String popTailKey() {
+        assert(this.isLeaf);
+        return keys.remove(this.n - 1);
+    }
+
+    public String popFirstKey() {
+        assert(this.isLeaf);
+        return keys.remove(0);
+    }
+    
+    public String deleteKeyAt(int i) {
+        assert(this.isLeaf);
+        return keys.remove(i - 1);
+    }
+    
+    // 这个时候的n是危险的
+    public Long popTailChild() {
+        if (this.isLeaf) {
+            return null;
+        }
+        Long res = this.children.get(this.n);
+        this.children.remove((int)this.n);
+        return res;
+    }
+    
+    // 这个时候的n是危险的
+    public Long popFirstChild() {
+        if (this.isLeaf) {
+            return null;
+        }
+        Long res = this.children.get(0);
+        this.children.remove(0);
+        return res;
+    }
+    
+    public void updateN() {
+        this.n = this.keys.size();
+    }
+    
+    public void deleteChildAt(int i) {
+        children.remove(i - 1);
+    }
 
     public void modifyChildAt(int i, final Long modi) {
         if (this.getChildren().size() < i) {
@@ -62,6 +149,10 @@ public class BTreeNodeLite {
 
     public void addChild(final Long modi) {
         this.children.add(modi);
+    }
+    
+    public void addChild(int index, final Long modi) {
+        this.children.add(index, modi);
     }
 
     public Long getPageNo() {
@@ -109,4 +200,5 @@ public class BTreeNodeLite {
         return "BTreeNode [degree=" + degree + ", pageNo=" + pageNo + ", isLeaf=" + isLeaf
                 + ", n=" + n + ", keys=" + keys + ", children=" + children + "]";
     }
+
 }
