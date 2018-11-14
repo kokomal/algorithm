@@ -377,7 +377,7 @@ public class BTreeHolderLite {
         leftSibling.updateN();
         node.clearKeys();
         node.addAllKeys(leftSibling.keys);
-        leftSibling.children.addAll(node.children);
+        leftSibling.addAllChildren(node.children);
         node.clearChildren();
         node.addAllChildren(leftSibling.children);
         node.updateN();
@@ -416,7 +416,7 @@ public class BTreeHolderLite {
         int parentPos = parent.findChildIndexByPgNo(node.pageNo); // key & child的索引，从1开始
         String parK = parent.getKeyAt(parentPos);
         node.insertOneRightKey(parK);
-        if (rightSibChld != null) {
+        if (rightSibChld != null) { // 要注意sibling为叶节点的情况，此时叶节点child的Id无效
             node.addChild(rightSibChld);
         }
         node.updateN();

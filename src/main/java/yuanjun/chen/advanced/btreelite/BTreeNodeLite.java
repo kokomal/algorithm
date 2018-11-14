@@ -131,7 +131,7 @@ public class BTreeNodeLite {
         return res;
     }
     
-    public void updateN() {
+    public void updateN() { // 针对keys的变化需要随动n
         this.n = this.keys.size();
     }
     
