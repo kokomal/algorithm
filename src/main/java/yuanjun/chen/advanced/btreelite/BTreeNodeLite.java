@@ -87,27 +87,27 @@ public class BTreeNodeLite {
     }
     
     public void insertOneLeftKey(String k) {
-        assert(this.isLeaf);
+        // assert(this.isLeaf);
         this.keys.add(0, k);
     }
     
     public void insertOneRightKey(String k) {
-        assert(this.isLeaf);
+        // assert(this.isLeaf);
         this.keys.add(k);
     }
 
     public String popTailKey() {
-        assert(this.isLeaf);
+        // assert(this.isLeaf);
         return keys.remove(this.n - 1);
     }
 
     public String popFirstKey() {
-        assert(this.isLeaf);
+        // assert(this.isLeaf);
         return keys.remove(0);
     }
     
     public String deleteKeyAt(int i) {
-        assert(this.isLeaf);
+        // assert(this.isLeaf);
         return keys.remove(i - 1);
     }
     

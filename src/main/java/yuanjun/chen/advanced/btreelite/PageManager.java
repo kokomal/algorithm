@@ -16,7 +16,7 @@ import yuanjun.chen.advanced.common.GlobalPageNoGen;
 
 /**
  * @ClassName: PageManager
- * @Description: TODO(这里用一句话描述这个类的作用)
+ * @Description: 内存页面管理类
  * @author: 陈元俊
  * @date: 2018年11月9日 上午10:27:22
  */
@@ -41,6 +41,12 @@ public class PageManager {
         Map<Long, BTreeNodeLite> tableCache = safeGetTableCache(tableName);
         tableCache.put(node.pageNo, node);
         DiskUtilLite.diskWrite(tableName, node); // 存盘可以异步执行，这里仅作展示刷盘
+    }
+    
+    public static void delete(String tableName, BTreeNodeLite node) {
+        Map<Long, BTreeNodeLite> tableCache = safeGetTableCache(tableName);
+        tableCache.remove(node.pageNo);
+        DiskUtilLite.diskDelete(tableName, node.pageNo); // 存盘可以异步执行，这里仅作展示刷盘
     }
 
     public static BTreeNodeLite newNodeFromPage(BTreeOnePage page) {

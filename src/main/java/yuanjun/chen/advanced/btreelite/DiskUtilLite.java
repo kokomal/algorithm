@@ -39,6 +39,13 @@ public class DiskUtilLite {
         diskWrite(tableName, page);
     }
     
+    public static void diskDelete(String tableName, final Long pageNo) {
+        File file = new File(GlobalConfig.BTREELITE_PATH + tableName + "/"+ pageNo + ".txt"); // 数据暂时放在d盘,注意编码格式
+        if (file.exists()) {
+            file.delete();
+        }
+    }
+    
     public static void diskWrite(String tableName, final BTreeOnePage page) throws Exception {
         File file = new File(GlobalConfig.BTREELITE_PATH + tableName + "/"+ page.getPgNo() + ".txt"); // 数据暂时放在d盘,注意编码格式
         File dir = file.getParentFile();
@@ -212,9 +219,10 @@ public class DiskUtilLite {
     }
     
     public static void main(String[] args) throws Exception {
-        diskWriteMeta("zz", 2, 5666L);
-        
-        BTreeOnePage page = diskReadMeta("zz");
-        System.out.println(page);
+//        diskWriteMeta("zz", 2, 5666L);
+//        
+//        BTreeOnePage page = diskReadMeta("zz");
+//        System.out.println(page);
+        diskDelete("t_example2", 154218816907796L);
     }
 }

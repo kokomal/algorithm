@@ -80,7 +80,7 @@ public class BTreeHolderLite {
             s.setKeys(keys);
             s.setChildren(children);
             splitChild(s, 1); // 分裂第一个child
-            DiskUtilLite.diskWriteMeta(tableName, degree, s.pageNo); // 这里要重新改变table的meta资料
+            persistMeta(); // 将root的信息写入META
             insertNonFull(s, k);
             PageManager.save(tableName, s);
         } else { // 不满则太好了
@@ -285,6 +285,9 @@ public class BTreeHolderLite {
             ndK.node.updateN();
             if (ndK.node.isCritical()) { // 危险了，要重新平衡
                 rebalance(trace);
+            } else {
+                persist(tableName, ndK.node); // 返回前存盘
+                return;
             }
         } else { // 中间节点,则此节点不动，只需改动Key，真正的删除发生在leaf并且会发生重构，那是后面的事情
             // BTreeNodeLite succ = findSucc(ndK.node, ndK.index);
@@ -301,6 +304,9 @@ public class BTreeHolderLite {
         if (trace.peek().isCritical()) {
             System.out.println("CRITICAL!!");
             rebalance(trace);
+        } else {
+            persist(tableName, trace.peek());
+            return;
         }
     }
 
@@ -326,9 +332,11 @@ public class BTreeHolderLite {
         while (!trace.isEmpty()) {
             BTreeNodeLite node = trace.pop();
             if (!node.isCritical()) { // 直接返回
+                persist(tableName, node);
                 return;
             } else if (trace.isEmpty()) { // 理论上不会走到
                 System.out.println("ROOT EMPTY");
+                persist(tableName, node);
                 return; // 说明此时root不平衡，无所谓，只要不是空
             } else {
                 BTreeNodeLite parent = trace.peek();
@@ -337,36 +345,49 @@ public class BTreeHolderLite {
                     BTreeNodeLite rightSibling = fetchRightSibling(parent, node);
                     if (rightSibling == null || !rightSibling.isRich()) {
                         // 抽root进行merge, 小心parent被抽空
-                        merge(parent, rightSibling, leftSibling, node);
+                        merge(tableName, parent, rightSibling, leftSibling, node);
                         if (parent == this.root && parent.isKeyEmpty()) { // 要注意把root掏空的情况
+                            PageManager.delete(tableName, root); // root不需要了
                             this.root = node;
                             System.out.println("NEW ROOT LANDING!");
+                            // root变了要修改META
+                            persistMeta();
                             return;
                         }
                     } else {
                         // 借右兄弟
-                        borrowRightSibling(parent, rightSibling, node);
+                        borrowRightSibling(tableName, parent, rightSibling, node);
                         return;
                     }
                 } else {
                     // 借左兄弟
-                    borrowLeftSibling(parent, leftSibling, node);
+                    borrowLeftSibling(tableName, parent, leftSibling, node);
                     return;
                 }
             }
         }
     }
+    
+    private static void persist(String tableName, BTreeNodeLite...nodes) throws Exception {
+        for (BTreeNodeLite node : nodes) {
+            PageManager.save(tableName, node);
+        }
+    }
+    
+    private void persistMeta() throws Exception {
+        DiskUtilLite.diskWriteMeta(tableName, degree, this.root.pageNo); // 这里要重新改变table的meta资料
+    }
 
-    private static void merge(BTreeNodeLite parent, BTreeNodeLite rightSibling, BTreeNodeLite leftSibling,
-            BTreeNodeLite node) {
+    private static void merge(String tableName, BTreeNodeLite parent, BTreeNodeLite rightSibling, BTreeNodeLite leftSibling,
+            BTreeNodeLite node) throws Exception {
         if (leftSibling != null) { // node就是极左，不得不合并右兄弟
-            mergeLeftSibling(parent, leftSibling, node);
+            mergeLeftSibling(tableName, parent, leftSibling, node);
         } else { // 左右皆critical，默认合并左兄弟
-            mergeRightSibling(parent, rightSibling, node);
+            mergeRightSibling(tableName, parent, rightSibling, node);
         }
     }
 
-    private static void mergeLeftSibling(BTreeNodeLite parent, BTreeNodeLite leftSibling, BTreeNodeLite node) {
+    private static void mergeLeftSibling(String tableName, BTreeNodeLite parent, BTreeNodeLite leftSibling, BTreeNodeLite node) throws Exception {
         int parentPos = parent.findChildIndexByPgNo(leftSibling.pageNo); // key & child的索引，从1开始
         String parK = parent.getKeyAt(parentPos);
         parent.deleteChildAt(parentPos);
@@ -381,9 +402,11 @@ public class BTreeHolderLite {
         node.clearChildren();
         node.addAllChildren(leftSibling.children);
         node.updateN();
+        PageManager.delete(tableName, leftSibling); // 删除leftSibling
+        persist(tableName, parent, node);
     }
 
-    private static void mergeRightSibling(BTreeNodeLite parent, BTreeNodeLite rightSibling, BTreeNodeLite node) {
+    private static void mergeRightSibling(String tableName, BTreeNodeLite parent, BTreeNodeLite rightSibling, BTreeNodeLite node) throws Exception {
         int parentPos = parent.findChildIndexByPgNo(rightSibling.pageNo); // key & child的索引，从1开始
         String parK = parent.getKeyAt(parentPos - 1);
         parent.deleteChildAt(parentPos);
@@ -393,9 +416,11 @@ public class BTreeHolderLite {
         node.addAllKeys(rightSibling.keys);
         node.addAllChildren(rightSibling.children);
         node.updateN();
+        PageManager.delete(tableName, rightSibling); // 删除leftSibling
+        persist(tableName, parent, node);
     }
 
-    private static void borrowLeftSibling(BTreeNodeLite parent, BTreeNodeLite leftSibling, BTreeNodeLite node) {
+    private static void borrowLeftSibling(String tableName, BTreeNodeLite parent, BTreeNodeLite leftSibling, BTreeNodeLite node) throws Exception {
         Long leftSibChld = leftSibling.popTailChild(); // 先修改child，否则n不保
         String leftK = leftSibling.popTailKey();
         leftSibling.updateN();
@@ -407,9 +432,10 @@ public class BTreeHolderLite {
         }
         node.updateN();
         parent.setKeyAt(parentPos, leftK);
+        persist(tableName, parent, leftSibling, node);
     }
 
-    private static void borrowRightSibling(BTreeNodeLite parent, BTreeNodeLite rightSibling, BTreeNodeLite node) {
+    private static void borrowRightSibling(String tableName, BTreeNodeLite parent, BTreeNodeLite rightSibling, BTreeNodeLite node) throws Exception {
         Long rightSibChld = rightSibling.popFirstChild();
         String rightK = rightSibling.popFirstKey();
         rightSibling.updateN();
@@ -421,6 +447,7 @@ public class BTreeHolderLite {
         }
         node.updateN();
         parent.setKeyAt(parentPos, rightK);
+        persist(tableName, parent, rightSibling, node);
     }
 
     /** 获得parent下的右兄弟，可能为null. */
@@ -474,14 +501,15 @@ public class BTreeHolderLite {
 
     public static void main(String[] args) throws Exception {
         BTreeHolderLite holder = new BTreeHolderLite();
-        // holder.init("t_example2", 2);
-        holder.rebuild("t_example2");
-        holder.reportFull(holder.root);
+        holder.init("t_example2", 2);
+        //holder.rebuild("t_example2");
+        //holder.reportFull(holder.root);
         System.out.println("=====DISPLAY B-TREES=====");
         holder.dispLevel();
         String xx = "FSQKCLHTVWMRNPABXYDZE";
         for (char x : xx.toCharArray()) {
-            holder.delete(String.valueOf(x));
+            holder.insert(String.valueOf(x));
+            //holder.delete(String.valueOf(x));
             holder.dispLevel();
         }
 
