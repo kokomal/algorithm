@@ -46,7 +46,7 @@ public class BTreeHolderLite {
         this.tableName = tableName;
         PageManager.save(tableName, root);
         // 这里只存取root的pgNo是不够的，因为root泯然众人，需要有个meta信息来记录表信息
-        DiskUtilLite.diskWriteMeta(tableName, degree, root.pageNo);
+        persistMeta();
     }
 
     /** 从META里面重构数据. */
@@ -134,9 +134,7 @@ public class BTreeHolderLite {
         x.n = x.n + 1; // 扩张
         // persist...
         try {
-            PageManager.save(tableName, x);
-            PageManager.save(tableName, y);
-            PageManager.save(tableName, z);
+            persist(tableName, x, y, z);
         } catch (Exception e) {
         }
     }

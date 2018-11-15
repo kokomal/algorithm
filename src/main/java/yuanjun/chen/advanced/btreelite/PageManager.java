@@ -9,25 +9,28 @@
  */
 package yuanjun.chen.advanced.btreelite;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import yuanjun.chen.advanced.common.BTreeOnePage;
 import yuanjun.chen.advanced.common.GlobalPageNoGen;
+import yuanjun.chen.advanced.common.LRULinkedHashMap;
 
 /**
  * @ClassName: PageManager
- * @Description: 内存页面管理类
+ * @Description: 内存页面管理类，添加LRU特性
  * @author: 陈元俊
  * @date: 2018年11月9日 上午10:27:22
  */
 public class PageManager {
     // 这个cache存放了节点编号和数据，全局的pgNo只有一份对应的节点！
-    private static Map<String, Map<Long, BTreeNodeLite>> pageCache = new ConcurrentHashMap<>();
+    // 这里之所以明确使用LinkedHashMap，是要使用其LRU的特性
+    private static Map<String, LRULinkedHashMap<Long, BTreeNodeLite>> pageCache = new ConcurrentHashMap<>();
 
     public static BTreeNodeLite fetchNodeByPgNo(int dgr, String tableName, Long pgNo) {
         // System.out.println("FetchPgno " + pgNo);
         // 很简单，如果内存里面有，就捞出来，否则要重新读取并设置状态
-        Map<Long, BTreeNodeLite> tableCache = safeGetTableCache(tableName);
+        LRULinkedHashMap<Long, BTreeNodeLite> tableCache = safeGetTableCache(tableName);
         if (!tableCache.containsKey(pgNo)) {
             System.out.println("HAD TO READ THE FILE");
             BTreeOnePage pg = DiskUtilLite.fetchByPgNo(tableName, pgNo);
@@ -65,9 +68,9 @@ public class PageManager {
         return DiskUtilLite.diskReadMeta(tableName);
     }
     
-    private static Map<Long, BTreeNodeLite> safeGetTableCache(String tableName) {
+    private static LRULinkedHashMap<Long, BTreeNodeLite> safeGetTableCache(String tableName) {
         if (!pageCache.containsKey(tableName)) {
-            pageCache.put(tableName, new ConcurrentHashMap<>());
+            pageCache.put(tableName, new LRULinkedHashMap<>());
         }
         return pageCache.get(tableName);
     }

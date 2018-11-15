@@ -18,4 +18,6 @@ package yuanjun.chen.advanced.common;
 public class GlobalConfig {
     public static String BTREE_PATH = "d://data/btree/";
     public static String BTREELITE_PATH = "d://data/btreelite/";
+    
+    public static Integer MAX_PAGES = 40;
 }

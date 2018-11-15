@@ -13,14 +13,22 @@ import java.util.Random;
 
 /**   
  * @ClassName: GlobalPageNoGen   
- * @Description: TODO(这里用一句话描述这个类的作用)   
+ * @Description: 全局id生成器，采用snowflake生成long类型的大致与时间正相关的序列  
  * @author: 陈元俊 
  * @date: 2018年11月6日 下午5:11:25  
  */
 public class GlobalPageNoGen {
     private static Random rd = new Random();
+    private static SnowflakeIdWorker idWorker;
+    static {
+        int dataCenterId = 0;
+        int machineId = 0; // 将来此二配置均可在服务器内进行手动个性化配置
+        idWorker = new SnowflakeIdWorker(dataCenterId, machineId); 
+    }
+    
     public static Long genNextPageNo() {
-        return 100 * System.currentTimeMillis() + rd.nextInt(100);
+        // return 100 * System.currentTimeMillis() + rd.nextInt(100);
+        return idWorker.nextId();
     }
     
     public static void main(String[] args) {
