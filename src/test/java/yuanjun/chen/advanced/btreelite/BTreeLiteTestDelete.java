@@ -11,7 +11,8 @@ package yuanjun.chen.advanced.btreelite;
 
 import java.io.File;
 import org.junit.Test;
-import yuanjun.chen.advanced.common.GlobalConfig;
+import yuanjun.chen.advanced.datastructure.btree.BTreeHolderLite;
+import yuanjun.chen.advanced.datastructure.common.GlobalConfig;
 
 /**
  * @ClassName: BTreeLiteTest
@@ -51,7 +52,7 @@ public class BTreeLiteTestDelete {
         GlobalConfig.BTREELITE_PATH = D_DATA_BTREETEST;
         BTreeHolderLite holder = new BTreeHolderLite();
         holder.rebuild("t_exampley");
-        holder.reportFull(holder.root);
+        holder.reportFull(holder.getRoot());
         String xx = "FSQKCLHTVWMRNPABXY";
         for (char x : xx.toCharArray()) {
             holder.delete(String.valueOf(x));
@@ -70,7 +71,7 @@ public class BTreeLiteTestDelete {
         GlobalConfig.BTREELITE_PATH = D_DATA_BTREETEST;
         BTreeHolderLite holder = new BTreeHolderLite();
         holder.rebuild("t_exampley");
-        holder.reportFull(holder.root);
+        holder.reportFull(holder.getRoot());
     }
     
     /**   

@@ -1,4 +1,4 @@
-package yuanjun.chen.advanced.common;
+package yuanjun.chen.advanced.datastructure.common;
 
 import java.util.Date;
 

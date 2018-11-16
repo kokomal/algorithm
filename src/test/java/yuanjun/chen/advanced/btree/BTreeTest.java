@@ -11,7 +11,8 @@ package yuanjun.chen.advanced.btree;
 
 import java.io.File;
 import org.junit.Test;
-import yuanjun.chen.advanced.common.GlobalConfig;
+import yuanjun.chen.advanced.datastructure.common.GlobalConfig;
+import yuanjun.chen.advanced.datastructure.oldbtree.BTreeHolder;
 
 /**
  * @ClassName: BTreeTest
@@ -48,9 +49,9 @@ public class BTreeTest {
         GlobalConfig.BTREE_PATH = "d://data/btreetest/";
         BTreeHolder holder = new BTreeHolder();
         holder.rebuild("t_examplex");
-        holder.reportFull(holder.root);
+        holder.reportFull(holder.getRoot());
         System.out.println("=====AFTER LOADING=====");
-        holder.reportFull(holder.root);
+        holder.reportFull(holder.getRoot());
     }
     
     /**   

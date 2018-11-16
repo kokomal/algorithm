@@ -7,12 +7,12 @@
  * @version V1.0 
  * @Copyright: 2018 All rights reserved. 
  */
-package yuanjun.chen.advanced.btree;
+package yuanjun.chen.advanced.datastructure.oldbtree;
 
 import java.util.ArrayList;
 import java.util.List;
-import yuanjun.chen.advanced.common.BTreeOnePage;
-import yuanjun.chen.advanced.common.GlobalPageNoGen;
+import yuanjun.chen.advanced.datastructure.common.BTreeOnePage;
+import yuanjun.chen.advanced.datastructure.common.GlobalPageNoGen;
 import yuanjun.chen.base.common.CommonUtils;
 
 /**   
@@ -23,7 +23,7 @@ import yuanjun.chen.base.common.CommonUtils;
  */
 public class BTreeHolder {
     private int degree;
-    BTreeNode root;
+    private BTreeNode root;
     private String tableName;
     /**   
      * @Title: init   
@@ -34,13 +34,13 @@ public class BTreeHolder {
      */
     public void init(String tableName, int dgr) throws Exception {
         this.degree = dgr;
-        this.root = create();
-        this.root.keys = new ArrayList<>();
-        this.root.children = new ArrayList<>();
+        this.setRoot(create());
+        this.getRoot().keys = new ArrayList<>();
+        this.getRoot().children = new ArrayList<>();
         this.tableName = tableName;
-        DiskUtil.diskWrite(tableName, root);
+        DiskUtil.diskWrite(tableName, getRoot());
         // 这里只存取root的pgNo是不够的，因为root泯然众人，需要有个meta信息来记录表信息
-        DiskUtil.diskWriteMeta(tableName, degree, root.pageNo);
+        DiskUtil.diskWriteMeta(tableName, degree, getRoot().pageNo);
     }
     
     /*
@@ -52,14 +52,14 @@ public class BTreeHolder {
         if (page == null) {
             return;
         }
-        this.root = new BTreeNode(page.getDgr(), page.getPgNo(), page.getIsLeaf(), page.getN());
-        this.root.setIsLoaded(true);
-        this.root.keys = page.getKeys();
-        this.root.children = new ArrayList<>();
+        this.setRoot(new BTreeNode(page.getDgr(), page.getPgNo(), page.getIsLeaf(), page.getN()));
+        this.getRoot().setIsLoaded(true);
+        this.getRoot().keys = page.getKeys();
+        this.getRoot().children = new ArrayList<>();
         for (Long childPgNo : page.getChildren()) {
             BTreeOnePage childPage = CacheManager.fetchPageByPgNo(tableName, childPgNo);
             BTreeNode chdNode = convertToNode(childPage);
-            this.root.children.add(chdNode);
+            this.getRoot().children.add(chdNode);
         }
     }
     
@@ -88,10 +88,10 @@ public class BTreeHolder {
     // 将来考虑增加事务
     public void insert(String k) throws Exception {
         System.out.println("INSERTING " + k);
-        if (root.isFull()) { // 满了，注意root可以违背度数的最低number
+        if (getRoot().isFull()) { // 满了，注意root可以违背度数的最低number
             BTreeNode s = create(); // 新的root
-            BTreeNode r = this.root;
-            this.root = s;
+            BTreeNode r = this.getRoot();
+            this.setRoot(s);
             s.setIsLeaf(false);
             List<BTreeNode> children = new ArrayList<>();
             children.add(r); // 老root退位
@@ -102,9 +102,9 @@ public class BTreeHolder {
             DiskUtil.diskWriteMeta(tableName, degree, s.pageNo); // 这里要重新改变root的meta资料
             insertNonFull(s, k);
         } else { // 不满则太好了
-            insertNonFull(root, k);
+            insertNonFull(getRoot(), k);
         }
-        report(root);
+        report(getRoot());
     }
     
     // 不满的插入操作，属于激进型扩张策略
@@ -263,5 +263,19 @@ public class BTreeHolder {
 //        holder.reportFull(holder.root);
 //        System.out.println("==========");
 //        holder.reportFull(holder.root);
+    }
+
+    /**
+     * @return the root
+     */
+    public BTreeNode getRoot() {
+        return root;
+    }
+
+    /**
+     * @param root the root to set
+     */
+    public void setRoot(BTreeNode root) {
+        this.root = root;
     }
 }

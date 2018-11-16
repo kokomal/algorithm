@@ -7,7 +7,7 @@
  * @version V1.0 
  * @Copyright: 2018 All rights reserved. 
  */
-package yuanjun.chen.advanced.btree;
+package yuanjun.chen.advanced.datastructure.oldbtree;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -18,8 +18,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
-import yuanjun.chen.advanced.common.BTreeOnePage;
-import yuanjun.chen.advanced.common.GlobalConfig;
+import yuanjun.chen.advanced.datastructure.common.BTreeOnePage;
+import yuanjun.chen.advanced.datastructure.common.GlobalConfig;
 
 /**   
  * @ClassName: DiskUtil   

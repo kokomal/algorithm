@@ -7,7 +7,7 @@
  * @version V1.0
  * @Copyright: 2018 All rights reserved.
  */
-package yuanjun.chen.advanced.btreelite;
+package yuanjun.chen.advanced.datastructure.btree;
 
 import java.util.Collection;
 import java.util.List;

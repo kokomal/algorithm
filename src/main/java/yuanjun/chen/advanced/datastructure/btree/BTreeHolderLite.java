@@ -7,7 +7,7 @@
  * @version V1.0
  * @Copyright: 2018 All rights reserved.
  */
-package yuanjun.chen.advanced.btreelite;
+package yuanjun.chen.advanced.datastructure.btree;
 
 import static yuanjun.chen.base.common.CommonUtils.eq;
 import static yuanjun.chen.base.common.CommonUtils.less;
@@ -16,8 +16,8 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
-import yuanjun.chen.advanced.common.BTreeOnePage;
-import yuanjun.chen.advanced.common.GlobalPageNoGen;
+import yuanjun.chen.advanced.datastructure.common.BTreeOnePage;
+import yuanjun.chen.advanced.datastructure.common.GlobalPageNoGen;
 
 /**
  * @ClassName: BTreeHolder
@@ -27,7 +27,7 @@ import yuanjun.chen.advanced.common.GlobalPageNoGen;
  */
 public class BTreeHolderLite {
     private int degree;
-    BTreeNodeLite root;
+    private BTreeNodeLite root;
     private String tableName;
 
     /**
@@ -39,11 +39,11 @@ public class BTreeHolderLite {
      */
     public void init(String tableName, int dgr) throws Exception {
         this.degree = dgr;
-        this.root = PageManager.newEmptyLeafNode(tableName, degree);
-        this.root.keys = new ArrayList<>();
-        this.root.children = new ArrayList<>();
+        this.setRoot(PageManager.newEmptyLeafNode(tableName, degree));
+        this.getRoot().keys = new ArrayList<>();
+        this.getRoot().children = new ArrayList<>();
         this.tableName = tableName;
-        PageManager.save(tableName, root);
+        PageManager.save(tableName, getRoot());
         // 这里只存取root的pgNo是不够的，因为root泯然众人，需要有个meta信息来记录表信息
         persistMeta();
     }
@@ -55,23 +55,23 @@ public class BTreeHolderLite {
         if (page == null) {
             return;
         }
-        this.root = PageManager.newNodeFromPage(page);
-        this.degree = this.root.degree;
-        PageManager.save(tableName, root);
+        this.setRoot(PageManager.newNodeFromPage(page));
+        this.degree = this.getRoot().degree;
+        PageManager.save(tableName, getRoot());
     }
 
     /** 将来考虑增加事务. */
     public void insert(String k) throws Exception {
         System.out.println("INSERTING " + k);
-        if (this.root == null) {
+        if (this.getRoot() == null) {
             // 这里不新建tree，因为缺很多基本参数，而且不应该允许非法的建立和插入
             System.out.println("EMPTY TREE ROOT, ABORT!");
             return;
         }
-        if (root.isFull()) { // 满了，注意root可以违背度数的最低number
+        if (getRoot().isFull()) { // 满了，注意root可以违背度数的最低number
             BTreeNodeLite s = PageManager.newEmptyLeafNode(tableName, degree); // 新的root
-            BTreeNodeLite r = this.root;
-            this.root = s;
+            BTreeNodeLite r = this.getRoot();
+            this.setRoot(s);
             s.setIsLeaf(false); // s现在是root，而且有孩子，因此不是Leaf
             List<Long> children = new ArrayList<>();
             children.add(r.pageNo); // 老root退位
@@ -83,9 +83,9 @@ public class BTreeHolderLite {
             insertNonFull(s, k);
             PageManager.save(tableName, s);
         } else { // 不满则太好了
-            insertNonFull(root, k);
+            insertNonFull(getRoot(), k);
         }
-        report(root);
+        report(getRoot());
     }
 
     /** 不满的插入操作，属于激进型扩张策略. */
@@ -229,12 +229,12 @@ public class BTreeHolderLite {
     private static final BTreeNodeLite PAR_SPILITTER = new BTreeNodeLite(100, null, null, 0);
 
     public void dispLevel() throws Exception {
-        if (this.root == null) {
+        if (this.getRoot() == null) {
             System.out.print("#");
             return;
         }
         ArrayDeque<BTreeNodeLite> curqueue = new ArrayDeque<>(128); // arrayqueue不可能无限大
-        curqueue.add(this.root);
+        curqueue.add(this.getRoot());
         int line = 0;
         while (!curqueue.isEmpty()) {
             System.out.printf("==========LEVEL%d===========\n", ++line);
@@ -309,7 +309,7 @@ public class BTreeHolderLite {
 
     public Stack<BTreeNodeLite> traceFromRoot(BTreeNodeLite node) {
         Stack<BTreeNodeLite> stack = new Stack<>();
-        BTreeNodeLite cur = this.root;
+        BTreeNodeLite cur = this.getRoot();
         String nK = node.getKeyAt(1);
         while (cur != node) {
             stack.push(cur);
@@ -343,9 +343,9 @@ public class BTreeHolderLite {
                     if (rightSibling == null || !rightSibling.isRich()) {
                         // 抽root进行merge, 小心parent被抽空
                         merge(tableName, parent, rightSibling, leftSibling, node);
-                        if (parent == this.root && parent.isKeyEmpty()) { // 要注意把root掏空的情况
-                            PageManager.delete(tableName, root); // root不需要了
-                            this.root = node;
+                        if (parent == this.getRoot() && parent.isKeyEmpty()) { // 要注意把root掏空的情况
+                            PageManager.delete(tableName, getRoot()); // root不需要了
+                            this.setRoot(node);
                             System.out.println("NEW ROOT LANDING!");
                             // root变了要修改META
                             persistMeta();
@@ -372,7 +372,7 @@ public class BTreeHolderLite {
     }
     
     private void persistMeta() throws Exception {
-        DiskUtilLite.diskWriteMeta(tableName, degree, this.root.pageNo); // 这里要重新改变table的meta资料
+        DiskUtilLite.diskWriteMeta(tableName, degree, this.getRoot().pageNo); // 这里要重新改变table的meta资料
     }
 
     private static void merge(String tableName, BTreeNodeLite parent, BTreeNodeLite rightSibling, BTreeNodeLite leftSibling,
@@ -478,7 +478,7 @@ public class BTreeHolderLite {
     }
 
     public BTreeResultLite findKey(String k) {
-        return searchKey(root, k);
+        return searchKey(getRoot(), k);
     }
 
     private BTreeResultLite searchKey(BTreeNodeLite targ, String k) {
@@ -520,5 +520,19 @@ public class BTreeHolderLite {
         // System.out.println("FROM STACK " + stack.pop().keys);
         // }
         // System.out.println(holder.findSucc(f.node, f.index));
+    }
+
+    /**
+     * @return the root
+     */
+    public BTreeNodeLite getRoot() {
+        return root;
+    }
+
+    /**
+     * @param root the root to set
+     */
+    public void setRoot(BTreeNodeLite root) {
+        this.root = root;
     }
 }

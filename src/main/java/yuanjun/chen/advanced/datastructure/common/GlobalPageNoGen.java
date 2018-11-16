@@ -7,7 +7,7 @@
  * @version V1.0 
  * @Copyright: 2018 All rights reserved. 
  */
-package yuanjun.chen.advanced.common;
+package yuanjun.chen.advanced.datastructure.common;
 
 import java.util.Random;
 

@@ -7,13 +7,13 @@
  * @version V1.0
  * @Copyright: 2018 All rights reserved.
  */
-package yuanjun.chen.advanced.btreelite;
+package yuanjun.chen.advanced.datastructure.btree;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import yuanjun.chen.advanced.common.BTreeOnePage;
-import yuanjun.chen.advanced.common.GlobalPageNoGen;
-import yuanjun.chen.advanced.common.LRULinkedHashMap;
+import yuanjun.chen.advanced.datastructure.common.BTreeOnePage;
+import yuanjun.chen.advanced.datastructure.common.GlobalPageNoGen;
+import yuanjun.chen.advanced.datastructure.common.LRULinkedHashMap;
 
 /**
  * @ClassName: PageManager
