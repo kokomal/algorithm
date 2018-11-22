@@ -40,11 +40,15 @@ public class FibonacciNode<T extends Comparable<T>> {
     
     public void print() {
         System.out.println("THIS.KEY=" + key + " WITH VAL=" + val);
-        System.out.println("CHILDREN NUM=" + child.size());
-        for (FibonacciNode<T> chd : child) {
-            chd.print();
+        if (child.size() == 0) {
+            System.out.println("KEY: " + key + " IS LEAF");
+        } else {
+            System.out.println("CHILDREN NUM=" + child.size());
+            for (FibonacciNode<T> chd : child) {
+                chd.print();
+            }
         }
-        System.out.println("FINISH PRINT KEY " + key);
+        System.out.println("FINISH PRINTING KEY " + key);
     }
     
     @Override
