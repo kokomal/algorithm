@@ -272,7 +272,7 @@ public class Jdk8Tester {
         int limit = 100;
         Stream<int[]> gain = IntStream.range(1, limit).boxed()
                 .flatMap(a -> IntStream.range(a + 1, limit).filter(b -> qualified(a, b, limit))// 判断斜边是否为整数
-                        .mapToObj(b -> new int[] {a, b, (int) Math.sqrt(a * a + b * b)}));
+                        .mapToObj(z -> new int[] {a, z, (int) Math.sqrt(a * a + z * z)}));
         gain.forEach(t -> System.out.println(t[0] + "," + t[1] + "," + t[2]));
         // 作者：墙角的牵牛花
     }
