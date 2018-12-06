@@ -290,4 +290,11 @@ public class Jdk8Tester {
             return new Person(index, "StormTestUser" + index);
         }
     }
+    
+    @Test
+    public void testFibo() { // 精妙的stream法实现的Fibonacci
+        Stream.iterate(new int[] {0, 1}, t -> new int[] {t[1], t[0] + t[1]}).limit(20).map(t -> t[1])
+                .forEach(System.out::println);
+        // 作者：墙角的牵牛花
+    }
 }
