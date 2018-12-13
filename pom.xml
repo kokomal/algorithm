@@ -25,9 +25,14 @@
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
-			<version>4.5.6</version>
+			<version>4.5.1</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.wanda</groupId>
+			<artifactId>merchant-loan</artifactId>
+			<version>1.0.0</version>
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/commons-lang/commons-lang -->
 		<dependency>
 			<groupId>commons-lang</groupId>
