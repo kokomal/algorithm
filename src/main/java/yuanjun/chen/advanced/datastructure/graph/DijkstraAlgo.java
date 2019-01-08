@@ -37,33 +37,23 @@ public class DijkstraAlgo {
             path.add(new ArrayList<String>());
             path.get(i).add(String.valueOf(i));
         }
-//        for (List<String> pa : path) {
-//            System.out.println(pa);
-//        }
-        //path.get(nodeIdx).add(String.valueOf(nodeIdx));
         while (count < len) {
             // 找dist除mark之外的最小的pos
             int minPos = findMinInDistWithoutMark(dist, mark);
             count++;
-            // System.out.println("Count" + count);
-            
             // 扫荡一下mark，更新自身路径
             for (int i = 0; i < len; i++) {
                 if (mark[i] == 1 && adjacentMatrix[i][minPos] != Integer.MAX_VALUE) {
                     int newDist = dist[i] + adjacentMatrix[i][minPos];
-                    // System.out.println("NEWDIST=" + newDist + ", dist[minPos]=" + dist[minPos]);
                     if (newDist <= dist[minPos]) {
                         dist[minPos] = newDist;
                         List<String> outPosPath = new ArrayList<String>(path.get(i));
                         outPosPath.add(String.valueOf(minPos));
-                        // System.out.println(outPosPath);
                         path.set(minPos, outPosPath);
                     }
                 }
             }
-            
             mark[minPos] = 1;
-            
             // 找到minPos外延的所有pos
             List<Integer> outPoses = findAllOutStretch(minPos, adjacentMatrix[minPos], mark);
             // 遍历更新所有外延的dist
@@ -79,7 +69,6 @@ public class DijkstraAlgo {
         }
         System.out.println("NEW DIST=" + Arrays.toString(dist));
         return path;
-
     }
 
     private static List<Integer> findAllOutStretch(int minPos, int[] minPosRow, int[] mark) {
