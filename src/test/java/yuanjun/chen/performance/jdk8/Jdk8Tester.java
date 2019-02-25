@@ -103,7 +103,9 @@ public class Jdk8Tester {
     @Test
     public void testStreamFilter() { // filter将不符合条件的成员筛除，但元数据仍然存在
         Integer[] sixNums = {1, 2, 3, 4, 5, 6};
-        Integer[] evens = Stream.of(sixNums).filter(n -> n % 2 == 0).toArray(Integer[]::new);
+        Integer[] evens = Stream.of(sixNums).filter(n -> {
+            System.out.println(n); // 说明filter是遍历全部之后才筛选的
+            return n % 2 == 0;}).toArray(Integer[]::new);
         System.out.println("even ones: " + Arrays.toString(evens));
         System.out.println("while old data remains, " + Arrays.toString(sixNums));
 
