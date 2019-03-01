@@ -65,7 +65,9 @@ public class FindAlgo {
         return fiveFoldedMidSelectIthMax(tmp, 0, tmp.length - 1, i);
     }
 
-    /** I从1开始，[1,len]. */
+    /** I从1开始，[1,len]. 
+     * AKA BFPRT
+     * */
     private static <T extends Comparable<T>> T fiveFoldedMidSelectIthMax(T[] tmp, int p, int r, int i) {
         if (tmp.length == 0) {
             return null;
@@ -105,7 +107,7 @@ public class FindAlgo {
         System.arraycopy(arro, 0, arr, 0, arro.length);
         if (r - p + 1 <= interval) { // 如果小于5，则直接排序返回即可
             InsertionSortAlgo.inplaceInsertionSort(arr, p, r, SortOrderEnum.ASC); // 插入排序
-            return arr[p + r >>> 1]; // 取排好的中位数即可， 偶数需要取下限
+            return arr[(p + r) >>> 1]; // 取排好的中位数即可， 偶数需要取下限
         }
         int size = (r - p + 1) / interval;
         int newLen = (r - p + 1) % interval == 0 ? size : size + 1;
@@ -117,7 +119,7 @@ public class FindAlgo {
                 j = r;
             }
             InsertionSortAlgo.inplaceInsertionSort(arr, i, j, SortOrderEnum.ASC);
-            nextArr[idx++] = arr[i + j >>> 1];
+            nextArr[idx++] = arr[(i + j) >>> 1];
         }
         return findMedian(nextArr, 0, newLen - 1, interval);
     }
@@ -146,7 +148,7 @@ public class FindAlgo {
             return null;
         }
         MyPair<T> res = new MyPair<>();
-        if (len % 2 == 1) { // 奇数
+        if ((len & 0x01) == 1) { // 奇数,奇偶判断不要用%2
             res.setMax(arr[0]);
             res.setMin(arr[0]);
             for (int i = 1; i < len; i += 2) { // 每次步进2

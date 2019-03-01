@@ -43,7 +43,8 @@ public class InsertionSortAlgo {
             arr[pre + 1] = tmp; // 终于找到,将tmp塞入
         }
     }
-        /** 插入排序二分查找优化. */
+
+    /** 插入排序二分查找优化. */
     @SuppressWarnings("rawtypes")
     public static void inplaceInsertionSortBinaryWay(Comparable[] arr, SortOrderEnum order) {
         int len = arr.length;

@@ -43,6 +43,23 @@ public class EuclidGCD {
         } while (true);
     }
 
+    // 欧几里德算法迭代实现
+    public static Long getGcdIter(Long a, Long b) {
+        if (a < b) {// 保证a>=b
+            return getGcdIter(b, a);
+        }
+        if (b >= 1) {// 保证b>=1
+            Long temp = 0L;
+            while (b > 0) {
+                temp = a % b;
+                a = b;
+                b = temp;
+            }
+            return a;
+        } else {
+            return -1L;
+        }
+    }
     /**
      * @Title: steinGcd
      * @Description: Stein取余法，递归方式并且采用位移和减法，针对大数效率极高
@@ -75,5 +92,11 @@ public class EuclidGCD {
         Long b = 65536L;
         System.out.printf("GCD of %d & %d is %d\n", a, b, getGcd(a, b));
         System.out.printf("GCD of %d & %d is %d\n", a, b, steinGcd(a, b));
+        System.out.printf("GCD of %d & %d is %d\n", a, b, getGcdIter(a, b));
+        
+        a = 100L;
+        b = 77L;
+        System.out.printf("GCD of %d & %d is %d\n", a, b, getGcdIter(a, b));
+        
     }
 }
