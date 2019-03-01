@@ -23,7 +23,7 @@ public class PrintNeatTest {
     @Test
     public void testNeatEasy() {
         String[] nations = new String[] {"china", "philipines", "usa", "india", "laos", "mongolia", "uk", "thailand"};
-        PrintNeatlyAlgo.init(" ", 12, nations);
+        PrintNeatlyAlgo.init(" ", 16, nations);
         int res = PrintNeatlyAlgo.neatly();
         System.out.println("MinQ = " + res);
         System.out.println("---The chapter is shown below---");

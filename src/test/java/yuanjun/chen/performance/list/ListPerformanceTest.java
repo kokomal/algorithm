@@ -75,12 +75,13 @@ public class ListPerformanceTest {
 
     @Test
     public void testLinkedList2() {
-        Long t1 = System.currentTimeMillis();
+        
         final List<Integer> lst = new LinkedList<>();
         for (int i = 0; i < 100000; ++i) {
             lst.add(i);
         }
         long sum = 0;
+        Long t1 = System.currentTimeMillis();
         for (int i = 0; i < 100000; ++i) {
             sum += lst.get(i);
         }
