@@ -176,7 +176,7 @@ public class TreeNodeBuilder {
             System.out.println("---tree level " + (level++) + " with " + len + " elements---");
             for (int i = 0; i < len; i++) {
                 TreeNode<T> tr = queue.dequeue();
-                System.out.println("node--" + tr.getVal());
+                System.out.print("node--" + tr.getVal() + " ");
                 if (tr.getLeft() != null) {
                     nextQueue.enqueue(tr.getLeft());
                 }
@@ -186,7 +186,19 @@ public class TreeNodeBuilder {
             }
             queue = null;
             queue = nextQueue;
+            System.out.println();
         }
+    }
+    
+    public static <T extends Object> void mirror(TreeNode<T> t) throws Exception {
+        if (t == null) {
+            return;
+        }
+        TreeNode<T> tmp = t.getLeft();
+        t.setLeft(t.getRight());
+        t.setRight(tmp);
+        mirror(t.getLeft());
+        mirror(t.getRight());
     }
 
     public static void main(String[] args) throws Exception {
@@ -204,6 +216,14 @@ public class TreeNodeBuilder {
         LRDtraverseRecursive(t);
         System.out.println("------------begin LRDtraverse------------");
         LRDtraverse(t);
+        System.out.println("------------leveltraverse------------");
+        leveltraverse(t);
+        System.out.println("------------MIRROR------------");
+        mirror(t);
+        System.out.println("------------leveltraverse------------");
+        leveltraverse(t);
+        System.out.println("------------MIRROR BACK------------");
+        mirror(t);
         System.out.println("------------leveltraverse------------");
         leveltraverse(t);
     }
