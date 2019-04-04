@@ -190,7 +190,7 @@ public class TreeNodeBuilder {
         }
     }
     
-    public static <T extends Object> void mirror(TreeNode<T> t) throws Exception {
+    public static <T extends Object> void mirror(TreeNode<T> t) {
         if (t == null) {
             return;
         }
@@ -199,6 +199,11 @@ public class TreeNodeBuilder {
         t.setRight(tmp);
         mirror(t.getLeft());
         mirror(t.getRight());
+    }
+    
+    public static <T extends Object> int depth(TreeNode<T> t) {
+        if (t == null) return 0;
+        return 1 + Math.max(depth(t.getLeft()), depth(t.getRight()));
     }
 
     public static void main(String[] args) throws Exception {
@@ -226,5 +231,6 @@ public class TreeNodeBuilder {
         mirror(t);
         System.out.println("------------leveltraverse------------");
         leveltraverse(t);
+        System.out.println("TREE DEPTH IS " + depth(t));
     }
 }
