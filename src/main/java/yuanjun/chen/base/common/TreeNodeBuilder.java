@@ -206,6 +206,13 @@ public class TreeNodeBuilder {
         return 1 + Math.max(depth(t.getLeft()), depth(t.getRight()));
     }
 
+    /*
+     * 一行解决二叉树深度问题
+     * */
+    public static <T extends Object> int depthOneLine(TreeNode<T> t) {
+        return t == null? 0 : 1 + Math.max(depth(t.getLeft()), depth(t.getRight()));
+    }
+    
     public static void main(String[] args) throws Exception {
         Integer[] tt = new Integer[] {12, 40, 38, 65, 1124, 73, 69};
         TreeNode<Integer> t = buildABinaryTree(tt);
@@ -232,5 +239,6 @@ public class TreeNodeBuilder {
         System.out.println("------------leveltraverse------------");
         leveltraverse(t);
         System.out.println("TREE DEPTH IS " + depth(t));
+        System.out.println("TREE DEPTH IS " + depthOneLine(t));
     }
 }
