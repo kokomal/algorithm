@@ -14,16 +14,16 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class WeightRandom {
 
-    public static Map<String, Integer> servers = new ConcurrentHashMap<String, Integer>();
-    private static Integer sum = 0;
+    public static Map<String, Double> servers = new ConcurrentHashMap<String, Double>();
+    private static Double sum = 0d;
     static {
-        servers.put("192.168.20.101", 4);
-        servers.put("192.168.20.102", 2);
-        servers.put("192.168.20.103", 3);
-        servers.put("192.168.20.104", 1);
+        servers.put("192.168.20.101", 4.5d);
+        servers.put("192.168.20.102", 2d);
+        servers.put("192.168.20.103", 3d);
+        servers.put("192.168.20.104", 1d);
     }
     static {
-        for (Integer i : servers.values()) {
+        for (Double i : servers.values()) {
             sum += i;
         }
     }
@@ -34,14 +34,14 @@ public class WeightRandom {
      * @param sum
      * @return String
      */
-    public static String selectServer(Map<String, Integer> servers, Integer sum) {
+    public static String selectServer(Map<String, Double> servers, Double sum) {
         if (servers == null || servers.size() == 0)
             return null;
-        Set<Map.Entry<String, Integer>> entrySet = servers.entrySet();
-        Integer rand = new Random().nextInt(sum) + 1;
-        for (Map.Entry<String, Integer> entry : entrySet) {
+        Set<Map.Entry<String, Double>> entrySet = servers.entrySet();
+        Double rand = new Random().nextDouble() * sum;
+        for (Map.Entry<String, Double> entry : entrySet) {
             rand -= entry.getValue();
-            if (rand <= 0) {
+            if (rand <= 0d) {
                 return entry.getKey();
             }
         }
