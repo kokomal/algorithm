@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -59,20 +60,24 @@ public class TopologySortAlgo {
     }
 
     public static void solve() {
-        Set<String> output = new HashSet<>();
+        Set<String> output = new LinkedHashSet<>();
         Set<String> input = new HashSet<>();
         dps.keySet().stream().forEach(ele -> input.add(ele));
+        Iterator<String> it = input.iterator();
         while (!input.isEmpty()) {
-            Iterator<String> it = input.iterator();
             String key = it.next();
             Set<String> vals = dps.get(key);
             if (vals.isEmpty() || output.containsAll(vals)) { // 孤单节点 or 安全节点
                 output.add(key);
                 it.remove();
+                it = input.iterator();
                 continue;
             }
         }
-        output.stream().forEach(ele -> System.out.println(ele));
+        for (String ele : output) {
+            System.out.print(ele + "->");
+        }
+        System.out.println();
     }
 
     public static void main(String[] args) {
@@ -100,8 +105,8 @@ public class TopologySortAlgo {
         dependants.put(A4, listA4);
         dependants.put(A5, listA5);
         dependants.put(A6, listA6);
-        init(dependants);
-        solve();
+        //init(dependants);
+        //solve();
 
         System.out.println("=================");
 
