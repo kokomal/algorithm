@@ -11,7 +11,10 @@ package yuanjun.chen.performance.jdk8;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
@@ -29,6 +32,24 @@ import org.junit.Test;
  * @date: 2018年12月6日 上午8:57:27
  */
 public class Jdk8Tester {
+
+    @Test
+    public void strech() {
+        Set<String> A = new HashSet<String>();
+        A.add("A");
+        A.add("B");
+        A.add("C");
+        A.add("D");
+        A.add("E");
+        A.add("F");
+        Map<String, String> B = new HashMap<>();
+        B.put("A", "aaa");
+        B.put("B", "bbb");
+        
+        A.stream().filter(ele -> !B.containsKey(ele)).forEach(ele -> B.put(ele, "X"));
+        System.out.println(B);
+    }
+
     @Test
     public void testStreamIter() { // forEach属于terminal谓词
         IntStream.of(new int[] {1, 2, 3}).forEach(System.out::println); // IntStream为定制的int类型的stream，避免拆箱的性能问题
@@ -61,6 +82,7 @@ public class Jdk8Tester {
         wordList.add("russia");
         List<String> output = wordList.stream().map(String::toUpperCase).collect(Collectors.toList());
         System.out.println("After mapping, " + output);
+        System.out.println("After mapping, " + wordList);
     }
 
     @Test
@@ -105,7 +127,8 @@ public class Jdk8Tester {
         Integer[] sixNums = {1, 2, 3, 4, 5, 6};
         Integer[] evens = Stream.of(sixNums).filter(n -> {
             System.out.println(n); // 说明filter是遍历全部之后才筛选的
-            return n % 2 == 0;}).toArray(Integer[]::new);
+            return n % 2 == 0;
+        }).toArray(Integer[]::new);
         System.out.println("even ones: " + Arrays.toString(evens));
         System.out.println("while old data remains, " + Arrays.toString(sixNums));
 
@@ -212,7 +235,7 @@ public class Jdk8Tester {
                 .collect(Collectors.toList());
         System.out.println(personList2);
     }
-    
+
     @Test
     public void testMax() {
         List<String> raws =
@@ -220,7 +243,7 @@ public class Jdk8Tester {
         int longest = raws.stream().mapToInt(String::length).max().getAsInt();
         System.out.println(longest);
     }
-    
+
     @Test
     public void testDistinct() { // tolower在前，distinct在后，因此IS和Is全部成为is；Big和BIG全部成为big
         List<String> raws = Arrays.asList(new String[] {"China Big Country", "Chistmas Is Coming", "Xmas Is BIG"});
@@ -228,7 +251,7 @@ public class Jdk8Tester {
                 .map(String::toLowerCase).distinct().sorted().collect(Collectors.toList());
         System.out.println(words);
     }
-    
+
     @Test
     public void testMatch() {
         List<String> raws =
@@ -238,28 +261,27 @@ public class Jdk8Tester {
         boolean isBigInvolved = raws.stream().map(String::toLowerCase).anyMatch(p -> p.contains("big"));
         System.out.println("Is big involved? " + isBigInvolved);
     }
-    
+
     @Test
     public void testGenerateStream() {
         Random seed = new Random();
         Supplier<Integer> random = seed::nextInt;
         Stream.generate(random).limit(10).forEach(System.out::println);
-        //Another way
-        IntStream.generate(() -> (int) (System.nanoTime() % 100)).
-        limit(10).forEach(System.out::println);
+        // Another way
+        IntStream.generate(() -> (int) (System.nanoTime() % 100)).limit(10).forEach(System.out::println);
     }
-    
+
     @Test
     public void testSelfGen() {
         Stream.generate(new PersonSupplier()).limit(10)
                 .forEach(p -> System.out.println(p.getName() + ", " + p.getNo()));
     }
-    
+
     @Test
     public void testGenArray() { // 生成等差数列
         Stream.iterate(0, n -> n + 3).limit(10).forEach(x -> System.out.print(x + " "));
     }
-    
+
     @Test
     public void testPythagoras() {
         int a = 9;
@@ -278,21 +300,22 @@ public class Jdk8Tester {
         gain.forEach(t -> System.out.println(t[0] + "," + t[1] + "," + t[2]));
         // 作者：墙角的牵牛花
     }
-    
+
     private static boolean qualified(int a, int b, int x) {
-        double res= Math.sqrt(a * a + b * b);
+        double res = Math.sqrt(a * a + b * b);
         return (res <= x) && (res % 1 == 0);
     }
-    
+
     private class PersonSupplier implements Supplier<Person> {
         private int index = 0;
+
         @Override
         public Person get() {
             index++;
             return new Person(index, "StormTestUser" + index);
         }
     }
-    
+
     @Test
     public void testFibo() { // 精妙的stream法实现的Fibonacci
         Stream.iterate(new int[] {0, 1}, t -> new int[] {t[1], t[0] + t[1]}).limit(20).map(t -> t[1])
