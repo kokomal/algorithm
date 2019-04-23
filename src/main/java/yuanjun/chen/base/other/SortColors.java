@@ -51,6 +51,8 @@ public class SortColors {
         int right = nums.length - 1;
         int i = 0;
         while (i <= right) {
+            System.out.println("-OLD-" + Arrays.toString(nums));
+            System.out.println("I=" + i + " left=" + left + " right=" + right);
             if (nums[i] == 0) {
                 swap(nums, left, i);
                 left++;
@@ -61,6 +63,7 @@ public class SortColors {
                 swap(nums, i, right);
                 right--;
             }
+            System.out.println("-NEW-" + Arrays.toString(nums));
         }
     }
 
