@@ -13,12 +13,14 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 /**
@@ -29,6 +31,9 @@ import java.util.Set;
  */
 public class TopologySortAlgo {
     private static Map<String, Set<String>> dps = new HashMap<>();
+
+    private static Integer[][] adjs = null; // 相邻矩阵
+    private static Map<String, Integer> seqs = new HashMap<>(); // 记录元素序号和值的映射表
 
     public static void init(String filename) {
         dps.clear();
@@ -52,6 +57,34 @@ public class TopologySortAlgo {
         }
 
         whole.stream().filter(ele -> !dps.containsKey(ele)).forEach(ele -> dps.put(ele, new HashSet<>()));
+        /*
+         * 理论上，准备工作已经做完，但这里仍然采用相邻矩阵的方法建模
+         * 
+         */
+        adjs = new Integer[whole.size()][whole.size()];
+        seqs.clear();
+        for (int j = 0; j < whole.size(); j++) {
+            Arrays.fill(adjs[j], 0);
+        }
+        int i = 0;
+        for (String ele : whole) {
+            seqs.put(ele, i);
+            i++;
+        }
+        System.out.println(seqs);
+        for (String ele : whole) {
+            Set<String> vals = dps.get(ele);
+            int start = seqs.get(ele);
+            for (String val : vals) {
+                int end = seqs.get(val);
+                adjs[end][start] += 1;
+            }
+            i++;
+        }
+        for (Integer[] arr : adjs) {
+            System.out.println(Arrays.toString(arr));
+        }
+
     }
 
     public static void init(final Map<String, Set<String>> inputDeps) {
@@ -79,6 +112,52 @@ public class TopologySortAlgo {
         }
         System.out.println();
     }
+    
+    public static void solveGraph() {
+        // 屡次遍历各个列，找出入度为0的，剔除后继续 
+        // adjs[][] 为相邻矩阵，seqs<String Int>为字符串:序列映射表
+        Set<String> output = new LinkedHashSet<>();
+        int iter = seqs.size();
+        while (iter > 0) {
+            String legalOne = findNextInDegreeZeroColumn(output);
+            clearOneLine(seqs.get(legalOne));
+            output.add(legalOne);
+            iter--;
+        }
+        System.out.println(output);
+    }
+
+    private static void clearOneLine(int legalOne) {
+        Arrays.fill(adjs[legalOne], 0);
+    }
+
+    private static String findNextInDegreeZeroColumn(Set<String> exclude) {
+        Set<Entry<String, Integer>> entrySet = seqs.entrySet();
+        Iterator<Entry<String, Integer>> iter = entrySet.iterator();
+        while (iter.hasNext()) {
+            Entry<String, Integer> ent = iter.next();
+            if (!exclude.contains(ent.getKey())) {
+                Integer idx = ent.getValue();
+                if (judgeColumnIsAllZero(idx)) {
+                    return ent.getKey();
+                }
+            }
+        }
+        return null;
+    }
+
+    /* 找到idx所在列是否为0入度 */
+    private static boolean judgeColumnIsAllZero(Integer idx) {
+        int size = adjs[0].length;
+        int i = 0;
+        while (i < size) {
+            if (adjs[i][idx] != 0) {
+                return false;
+            }
+            i++;
+        }
+        return true;
+    }
 
     public static void main(String[] args) {
         Map<String, Set<String>> dependants = new HashMap<>();
@@ -105,12 +184,13 @@ public class TopologySortAlgo {
         dependants.put(A4, listA4);
         dependants.put(A5, listA5);
         dependants.put(A6, listA6);
-        //init(dependants);
-        //solve();
+        // init(dependants);
+        // solve();
 
         System.out.println("=================");
 
         init("deps.txt");
-        solve();
+        // solve();
+        solveGraph();
     }
 }
