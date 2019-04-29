@@ -25,13 +25,20 @@ public class LevenshteinAlgo {
 
     private static Map<String, Integer> cache = new HashMap<>();
 
-    /* 取某字符串的[1-n]尾巴,例如ahead -> head, 输入为空或者仅为1个元素则返回null*/
+    private static Map<String, char[]> cache2 = new HashMap<>();
+    
+    /* 取某字符串的[1-n]尾巴,例如ahead -> head, 输入为空或者仅为1个元素则返回null */
     public static char[] tail(char[] x) {
-        if (x == null || x.length <= 1) {
-            return null;
+        // if (x == null || x.length <= 1) {
+        // return null;
+        // }
+        String key = new String(x);
+        if (cache2.containsKey(key)) {
+            return cache2.get(key);
         }
         char[] dest = new char[x.length - 1];
         System.arraycopy(x, 1, dest, 0, dest.length);
+        cache2.put(key, dest);
         return dest;
     }
 
@@ -39,10 +46,10 @@ public class LevenshteinAlgo {
         if (src == null && targ == null) {
             return 0;
         }
-        if (src == null) {
+        if (src == null || src.length == 0) {
             return targ.length;
         }
-        if (targ == null) {
+        if (targ == null || targ.length == 0) {
             return src.length;
         }
         /* a --> b 如果a[0] == b[0] 比较delete，insert，不变 如果a[0] != b[0] 比较delete，insert，modify */
@@ -77,8 +84,10 @@ public class LevenshteinAlgo {
     }
 
     public static void main(String[] args) {
-        String src = "loremipddqdwqdqwdwqdqwdqwdsudqwdm";
-        String targ = "haksfadqwdqwfqwfqwfqwfqwfqwfsfqw";
+        String src = "";
+        String targ = "";
+        src = "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdef";
+        targ = "bcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefg";
         long t1 = System.currentTimeMillis();
         System.out.println(minEditDistance(src, targ));
         long t2 = System.currentTimeMillis();
