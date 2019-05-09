@@ -69,6 +69,6 @@ public class CreditSqlParser {
 	}
 
 	public static void main(String[] args) throws Exception {
-		parseLogToSQL("credit.log", "d://gen.sql", false);
+		parseLogToSQL("credit.log.txt", "d://gen.sql", false);
 	}
 }
