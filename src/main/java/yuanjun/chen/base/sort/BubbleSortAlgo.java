@@ -1,6 +1,9 @@
 package yuanjun.chen.base.sort;
 
 import static yuanjun.chen.base.common.CommonUtils.*;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import yuanjun.chen.base.common.MyArrayUtils;
 import yuanjun.chen.base.common.SortOrderEnum;
 
@@ -29,5 +32,12 @@ public class BubbleSortAlgo {
 
     public static final boolean isProtectiveSupported() {
         return false;
+    }
+    
+    public static void main(String[] args) {
+        String cc = "10,700.00";
+        NumberFormat nf = new DecimalFormat(",###.00");
+        String propVal = nf.format(new BigDecimal(cc));
+        System.out.println(propVal);
     }
 }

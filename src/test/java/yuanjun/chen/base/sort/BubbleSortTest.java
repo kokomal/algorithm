@@ -1,6 +1,9 @@
 package yuanjun.chen.base.sort;
 
+import java.util.Date;
 import org.junit.Test;
+import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonObjectFormatVisitor;
 import yuanjun.chen.base.common.GenericAlgoTester;
 import yuanjun.chen.base.common.SortOrderEnum;
 
@@ -16,6 +19,19 @@ public class BubbleSortTest {
         testBubbleSortProto(10000, 8000, SortOrderEnum.ASC, Float.class);
     }
 
+    private static class MockDomain {
+        public Date dt;
+        public String name;
+    }
+    
+    @Test
+    public void testDt() {
+        MockDomain mm = new MockDomain();
+        mm.dt = new Date();
+        mm.name = "haha";
+        System.out.println(JSONObject.toJSONString(mm));
+    }
+    
     /**
      * @Title testBucketSortProto
      * @Description 原始测试类
