@@ -1,7 +1,6 @@
 /**
  * @Title: LevenshteinAlgo.java
  * @Package: yuanjun.chen.base.other
- * @Description: TODO(用一句话描述该文件做什么)
  * @author: 陈元俊
  * @date: 2019年4月29日 上午10:22:11
  * @version V1.0
@@ -24,7 +23,6 @@ public class LevenshteinAlgo {
     private static final int INSERT_PRICE = 1;
 
     private static Map<String, Integer> cache = new HashMap<>();
-
     private static Map<String, char[]> cache2 = new HashMap<>();
     
     /* 取某字符串的[1-n]尾巴,例如ahead -> head, 输入为空或者仅为1个元素则返回null */
@@ -86,11 +84,24 @@ public class LevenshteinAlgo {
     public static void main(String[] args) {
         String src = "";
         String targ = "";
-        src = "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdef";
-        targ = "bcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefg";
+        src = "i am a stupid boy";
+        
+        targ = "you see a stupid boy";
         long t1 = System.currentTimeMillis();
-        System.out.println(minEditDistance(src, targ));
+        System.out.println("FROM {" + src + "} TO {" + targ + "}, likelyhood is " + minEditDistance(src, targ));
         long t2 = System.currentTimeMillis();
-        System.out.println("FROM {" + src + "} TO {" + targ + "}, TIME is " + (t2 - t1) + "ms");
+        System.out.println("TIME is " + (t2 - t1) + "ms");
+        
+        targ = "you see a smart boy";
+        t1 = System.currentTimeMillis();
+        System.out.println("FROM {" + src + "} TO {" + targ + "}, likelyhood is " + minEditDistance(src, targ));
+        t2 = System.currentTimeMillis();
+        System.out.println("TIME is " + (t2 - t1) + "ms");
+        
+        targ = "are you a stupid boy";
+        t1 = System.currentTimeMillis();
+        System.out.println("FROM {" + src + "} TO {" + targ + "}, likelyhood is " + minEditDistance(src, targ));
+        t2 = System.currentTimeMillis();
+        System.out.println("TIME is " + (t2 - t1) + "ms");
     }
 }
