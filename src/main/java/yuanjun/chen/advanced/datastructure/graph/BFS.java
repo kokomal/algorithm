@@ -19,7 +19,7 @@ import com.alibaba.fastjson.JSONObject;
 
 /**
  * @ClassName: BFS
- * @Description: 
+ * @Description:
  * @author: 陈元俊
  * @date: 2019年12月28日 上午11:20:31
  */
@@ -29,6 +29,12 @@ public class BFS {
     private static List<TREENODE> nodes = new ArrayList<>(); // set不方便进行随机访问选取，取ArrayList
     private static TREENODE firstNode = null;
     static {
+        init();
+    }
+
+    private static void init() {
+        adjList = new ArrayList<>();
+        nodes = new ArrayList<>();
         TREENODE n1 = new TREENODE(1);
         TREENODE n2 = new TREENODE(2);
         TREENODE n3 = new TREENODE(3);
@@ -73,9 +79,8 @@ public class BFS {
     }
 
     /*
-     * BFS核心思想是从某一个点出发，维护一个FIFO的Queue
-     * BFS可能漏掉节点，如果从出发点不可达的话
-     * */
+     * BFS核心思想是从某一个点出发，维护一个FIFO的Queue BFS可能漏掉节点，如果从出发点不可达的话
+     */
     public static void BFS_algo() {
         Queue<TREENODE> queue = new ArrayBlockingQueue<>(adjList.size());
         firstNode.pre = null;
@@ -91,7 +96,7 @@ public class BFS {
             if (!CollectionUtils.isEmpty(adjs)) {
                 for (int next : adjs) {
                     TREENODE nextNode = nodes.get(next - 1);
-                    if (TREENODE.WHITE.equals(nextNode .color)) {
+                    if (TREENODE.WHITE.equals(nextNode.color)) {
                         nextNode.color = TREENODE.BLACK;
                         nextNode.d = curNode.d + 1;
                         queue.add(nextNode);

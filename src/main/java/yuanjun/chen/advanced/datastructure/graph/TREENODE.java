@@ -14,8 +14,23 @@ public class TREENODE {
     public int d = Integer.MAX_VALUE;
     public int f = Integer.MAX_VALUE;
     
+    public boolean amWhite() {
+        return WHITE.equals(this.color);
+    }
+    
+    public void setWhite() {
+        this.color = WHITE;
+    }
+    
+    public void setBlack() {
+        this.color = BLACK;
+    }
+    
+    public void setGray() {
+        this.color = GRAY;
+    }
+    
     public TREENODE(int idx) {
-        super();
         this.idx = idx;
     }
 
