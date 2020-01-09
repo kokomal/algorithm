@@ -11,6 +11,7 @@ package yuanjun.chen.advanced.datastructure.graph;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -29,11 +30,20 @@ public class DFS {
     private static List<List<Integer>> adjList = new ArrayList<>(); // adj不可以再存一份拷贝，应该只存索引,从1开始
     private static List<TREENODE> nodes = new ArrayList<>(); // set不方便进行随机访问选取，取ArrayList
     private static AtomicInteger timestamp;
+
+    private static StringBuilder expression = new StringBuilder();
+    
+    private static LinkedList<Integer> topoList = new LinkedList<>();
+    
+    private static String LBracket = "(";
+    private static String RBracket = ")";
     static {
         init();
     }
 
     private static void init() {
+        topoList.clear();
+        expression = new StringBuilder();
         rewindClock();
         nodes = new ArrayList<>();
         adjList = new ArrayList<>();
@@ -94,16 +104,33 @@ public class DFS {
 
     private static void recurVisit(TREENODE node) {
         dispVisit(node);
+        appendLBracket(node);
         node.d = incAndGetClock();
         node.setGray();
         TREENODE desc = findFirstWhite(node);
         if (desc != null) { // 有下一个white节点
             desc.pre = Integer.toString(node.idx);
             recurVisit(desc);
+        } else {
+            expression.append(","); // 莫须有，用来区分最简单括号的内容，即(X,X)，而不是(XX)
         }
         node.setBlack();
         node.f = incAndGetClock();
+        buildTopoList(node);
         dispDyeBlack(node);
+        appendRBracket(node);
+    }
+
+    private static void buildTopoList(TREENODE node) {
+        topoList.addFirst(node.idx); // 加在链表头部
+    }
+
+    private static void appendLBracket(TREENODE node) {
+        expression.append(LBracket).append(node.idx);
+    }
+
+    private static void appendRBracket(TREENODE node) {
+        expression.append(node.idx).append(RBracket);
     }
 
     private static void dispVisit(TREENODE node) {
@@ -114,6 +141,13 @@ public class DFS {
         System.out.println("NOW DYE BLACK FOR " + JSONObject.toJSONString(node));
     }
 
+    private static void dispExpression() {
+        System.out.println(expression.toString());
+    }
+    
+    private static void dispTopo() {
+        System.out.println(topoList.toString());
+    }
     /*
      * 采用栈的DFS
      */
@@ -127,11 +161,11 @@ public class DFS {
             }
         }
     }
-    
+
     private static int incAndGetClock() {
         return timestamp.incrementAndGet();
     }
-    
+
     private static void rewindClock() {
         timestamp = new AtomicInteger(0);
     }
@@ -145,6 +179,9 @@ public class DFS {
                 desc.pre = Integer.toString(tr.idx); // 找到第一个白色后继就退出，记录pre，继续while
                 purePush(desc, stack);
             } else {
+                if (!expression.toString().endsWith(RBracket)) {
+                    expression.append(","); // stack的方式比较特殊，但有丑陋的方法来添加逗号
+                }
                 purePop(stack); // 找不到就弹出
             }
         }
@@ -158,6 +195,7 @@ public class DFS {
 
     private static void purePush(TREENODE treenode, Stack<TREENODE> stack) {
         dispVisit(treenode);
+        appendLBracket(treenode);
         treenode.setGray();
         treenode.d = incAndGetClock();
         stack.push(treenode);
@@ -167,6 +205,8 @@ public class DFS {
         TREENODE treenode = stack.pop();
         treenode.f = incAndGetClock();
         treenode.setBlack();
+        buildTopoList(treenode);
+        appendRBracket(treenode);
         dispDyeBlack(treenode);
     }
 
@@ -183,6 +223,8 @@ public class DFS {
         dispAdjList();
         System.out.println("----------------------");
         DFS_Recur_Algo();
+        dispExpression();
+        dispTopo();
         System.out.println("----------------------");
         visitAllNodes();
         System.out.println("============STACK BELOW==========");
@@ -192,7 +234,10 @@ public class DFS {
         dispAdjList();
         System.out.println("----------------------");
         DFS_Stack_Algo();
+        dispExpression();
+        dispTopo();
         System.out.println("----------------------");
         visitAllNodes();
     }
+
 }
