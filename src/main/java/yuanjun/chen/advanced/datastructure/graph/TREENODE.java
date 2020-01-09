@@ -12,7 +12,8 @@ public class TREENODE {
     public String color = WHITE;
     public String pre = null;
     public int d = Integer.MAX_VALUE;
-
+    public int f = Integer.MAX_VALUE;
+    
     public TREENODE(int idx) {
         super();
         this.idx = idx;
