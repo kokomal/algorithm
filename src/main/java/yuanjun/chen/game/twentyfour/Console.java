@@ -1,6 +1,8 @@
 package yuanjun.chen.game.twentyfour;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
@@ -19,6 +21,33 @@ public class Console {
     public static void main(String[] args) {
         // letsGo();
 
+        // playMe();
+        genGames();
+    }
+
+    /**   
+     * @Title: genGames   
+     * @Description: 生成游戏数据      
+     * @return: void      
+     * @throws   
+     */
+    private static void genGames() {
+        List<String> ll = new ArrayList<>();
+        for (int i = 0; i < 20; i++) {
+            Game g = generateRandomPlayableGame(null, 24, Level.CHILD);
+            g.check(24.0, false);
+            ll.add(g.getIntlist().toString());
+        }
+        ll.stream().sorted().forEach(e -> System.out.println(e));
+    }
+
+    /**   
+     * @Title: playMe   
+     * @Description: 游戏主程序      
+     * @return: void      
+     * @throws   
+     */
+    private static void playMe() {
         System.out.println("Please input the target value:");
         @SuppressWarnings("resource")
         Scanner scan = new Scanner(System.in);
@@ -134,8 +163,8 @@ public class Console {
 
     private static Game generateRandomPlayableGame(Game g, double targ, Level lev) {
         do {
-            g = generateRandomGame(g, lev);
-            if (g.check(targ, false).isExecutable()) {
+            g = generateRandomGame(g, lev); // 不要带0，否则太没意思了
+            if (!g.getIntlist().contains(0) && g.check(targ, false).isExecutable()) {
                 return g;
             }
         } while (true);
