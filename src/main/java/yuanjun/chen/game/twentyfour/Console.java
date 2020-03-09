@@ -1,11 +1,11 @@
 package yuanjun.chen.game.twentyfour;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.Set;
 import yuanjun.chen.game.twentyfour.inner.Game;
 import yuanjun.chen.game.twentyfour.inner.Level;
 import yuanjun.chen.game.twentyfour.inner.ResAndRepr;
@@ -32,8 +32,8 @@ public class Console {
      * @throws   
      */
     private static void genGames() {
-        List<String> ll = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
+        Set<String> ll = new HashSet<>();
+        while (ll.size() < 120) {
             Game g = generateRandomPlayableGame(null, 24, Level.CHILD);
             g.check(24.0, false);
             ll.add(g.getIntlist().toString());
