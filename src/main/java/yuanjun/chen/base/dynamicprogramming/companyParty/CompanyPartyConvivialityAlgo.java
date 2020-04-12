@@ -29,7 +29,7 @@ public class CompanyPartyConvivialityAlgo {
     private static List<List<String>> allfinalnames = new LinkedList<>();
 
     public static void init(Map<String, Integer> srcHappiness, EmployeeTreeNode srcBoss) {
-        happiness.clear();
+        happiness = new HashMap<>();
         happiness.putAll(srcHappiness);
         boss = srcBoss;
         allfinalnames.add(new LinkedList<>());
