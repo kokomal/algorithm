@@ -43,8 +43,8 @@ public class LCSTest {
      */
     @Test
     public void test002() {
-        String X = RandomGenner.generateDNASeries(30);
-        String Y = RandomGenner.generateDNASeries(40);
+        String X = RandomGenner.generateDNASeries(70);
+        String Y = RandomGenner.generateDNASeries(90);
         System.out.println("X = " + X);
         System.out.println("Y = " + Y);
         LCSAlgo.lcs_legth(X, Y);
@@ -53,9 +53,9 @@ public class LCSTest {
         System.out.println("----去重之后的结果----[" + allres.size() + "] candidate sequences");
         System.out.println(allres);
 
-        List<String> allres2 = LCSAlgo.print_lcs_list(X, X.length(), Y.length());
-        System.out.println("----没有去重的结果----[" + allres2.size() + "] candidate sequences");
-        System.out.println(allres2);
+//        List<String> allres2 = LCSAlgo.print_lcs_list(X, X.length(), Y.length());
+//        System.out.println("----没有去重的结果----[" + allres2.size() + "] candidate sequences");
+//        System.out.println(allres2);
 
     }
 }
