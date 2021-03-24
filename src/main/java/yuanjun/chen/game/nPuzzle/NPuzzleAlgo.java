@@ -9,12 +9,7 @@
  */
 package yuanjun.chen.game.nPuzzle;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.*;
 
 /**
  * @ClassName: NPuzzleAlgo
@@ -122,16 +117,16 @@ public class NPuzzleAlgo {
     /** TODO 将来可以用制表符进行修饰. */
     private static void dispGrids(final int[][] grids) {
         System.out.println("==============================");
-        for (int i = 0; i < grids.length; i++) {
+        for (int[] grid : grids) {
             System.out.printf("|");
-            for (int x : grids[i]) {
+            for (int x : grid) {
                 if (x != 0) {
                     System.out.printf(" %3d |", x);
                 } else {
                     System.out.printf(" %3s |", "");
                 }
             }
-            System.out.printf("\n");
+            System.out.print("\n");
         }
         System.out.println("==============================");
     }

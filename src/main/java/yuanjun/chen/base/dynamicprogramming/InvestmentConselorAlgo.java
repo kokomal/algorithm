@@ -267,17 +267,17 @@ public class InvestmentConselorAlgo {
         }
         table.append(line);
         table.append("\n┃投资金额┃  1  ┃  2  ┃  3  ┃  4  ┃  5  ┃  6  ┃  7  ┃");
-        table.append("\n" + line);
+        table.append("\n").append(line);
         table.append("\n┃年化收益┃");
         for (int i = 0; i < yearIncome.length; i++) {
-            table.append(String.format("%2.2f%%", 100 * yearIncome[i]) + "┃");
+            table.append(String.format("%2.2f%%", 100 * yearIncome[i])).append("┃");
         }
         table.append("\n" + line);
         table.append("\n┃预期收益┃");
         for (int i = 0; i < rules.length; i++) {
-            table.append(String.format("%1.3f", rules[i]) + "┃");
+            table.append(String.format("%1.3f", rules[i])).append("┃");
         }
-        table.append("\n" + line);
+        table.append("\n").append(line);
         System.out.println(table.toString());
     }
 

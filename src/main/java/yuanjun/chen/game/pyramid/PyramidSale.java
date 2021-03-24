@@ -19,11 +19,11 @@ import java.text.NumberFormat;
  * @date: 2019年3月1日 上午9:44:39
  */
 public class PyramidSale {
-    private static double RATIO = 0.25; // 每一级要上交25%的利润给上级，留75%给自己
-    private static int MAXLEVEL = 6; // 最大level,国家-省-市-区-镇-村
-    private static double PRICE = 1000.00; // 货物单价
-    private static double REVENUE = 0.75; // 货物毛利率，即100元的东西，成本25元，以此类推
-    private static int GANGMEMBERS = 25; // 每一level发展25个下线
+    private static final double RATIO = 0.25; // 每一级要上交25%的利润给上级，留75%给自己
+    private static final int MAXLEVEL = 6; // 最大level,国家-省-市-区-镇-村
+    private static final double PRICE = 1000.00; // 货物单价
+    private static final double REVENUE = 0.75; // 货物毛利率，即100元的东西，成本25元，以此类推
+    private static final int GANGMEMBERS = 25; // 每一level发展25个下线
     private static DecimalFormat df = (DecimalFormat) NumberFormat.getInstance();
 
     public static void main(String[] args) {

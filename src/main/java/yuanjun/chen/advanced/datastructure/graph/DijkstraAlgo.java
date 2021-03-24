@@ -32,9 +32,9 @@ public class DijkstraAlgo {
         int[] mark = new int[len]; // 是否已经标记了的mark
         int count = 1; // 已经找到最短路径的数目
         mark[nodeIdx] = 1; // 自己先标记
-        List<List<String>> path = new ArrayList<List<String>>(len);
+        List<List<String>> path = new ArrayList<>(len);
         for (int i = 0; i < len; i++) {
-            path.add(new ArrayList<String>());
+            path.add(new ArrayList<>());
             path.get(i).add(String.valueOf(i));
         }
         while (count < len) {
@@ -47,7 +47,7 @@ public class DijkstraAlgo {
                     int newDist = dist[i] + adjacentMatrix[i][minPos];
                     if (newDist <= dist[minPos]) {
                         dist[minPos] = newDist;
-                        List<String> outPosPath = new ArrayList<String>(path.get(i));
+                        List<String> outPosPath = new ArrayList<>(path.get(i));
                         outPosPath.add(String.valueOf(minPos));
                         path.set(minPos, outPosPath);
                     }
@@ -61,7 +61,7 @@ public class DijkstraAlgo {
                 int newDistOfOutPos = dist[minPos] + adjacentMatrix[minPos][outPos];
                 if (dist[outPos] > newDistOfOutPos) {
                     dist[outPos] = newDistOfOutPos; // 修正dist
-                    List<String> outPosPath = new ArrayList<String>(path.get(minPos));
+                    List<String> outPosPath = new ArrayList<>(path.get(minPos));
                     outPosPath.add(String.valueOf(outPos));
                     path.set(outPos, outPosPath);
                 }

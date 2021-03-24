@@ -302,13 +302,13 @@ public class BinarySearchTree<Node extends BinarySearchTree.BSTNode<Node,T>, T> 
 	}
 	
 	public String toString() {
-		String s = "[";
+		StringBuilder s = new StringBuilder("[");
 		Iterator<T> it = iterator();
 		while (it.hasNext()) {
-			s += it.next().toString() + (it.hasNext() ? "," : "");
+			s.append(it.next().toString()).append(it.hasNext() ? "," : "");
 		}
-		s += "]";
-		return s;
+		s.append("]");
+		return s.toString();
 	}
 	
 	public Iterator<T> iterator(Node u) {

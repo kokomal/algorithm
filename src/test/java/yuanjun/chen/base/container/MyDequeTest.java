@@ -67,7 +67,7 @@ public class MyDequeTest {
      * @throws Exception
      * @return: MyDeque<T>
      */
-    private <T extends Object> MyDeque<T> genHalfDeque(int size, int bound, Class<T> clazz, DirectionEnum direct)
+    private <T> MyDeque<T> genHalfDeque(int size, int bound, Class<T> clazz, DirectionEnum direct)
             throws Exception {
         T[] arr1 = RandomGenner.generateRandomTArray(size, 0, bound, clazz);
         logger.info("before enqueue orig data " + Arrays.toString(arr1));

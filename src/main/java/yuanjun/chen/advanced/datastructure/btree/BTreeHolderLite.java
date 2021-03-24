@@ -284,7 +284,6 @@ public class BTreeHolderLite {
                 rebalance(trace);
             } else {
                 persist(tableName, ndK.node); // 返回前存盘
-                return;
             }
         } else { // 中间节点,则此节点不动，只需改动Key，真正的删除发生在leaf并且会发生重构，那是后面的事情
             // BTreeNodeLite succ = findSucc(ndK.node, ndK.index);
@@ -303,7 +302,6 @@ public class BTreeHolderLite {
             rebalance(trace);
         } else {
             persist(tableName, trace.peek());
-            return;
         }
     }
 

@@ -39,7 +39,7 @@ public class LinearHashTable<T> implements USet<T> {
 	@SuppressWarnings("unchecked")
 	public LinearHashTable(T nil) {
 		this.del = nil;
-		f = new Factory<T>((Class<T>)nil.getClass());
+		f = new Factory<>((Class<T>)nil.getClass());
 		d = 1;
 		t = f.newArray(1<<d);
 	}
@@ -183,7 +183,7 @@ public class LinearHashTable<T> implements USet<T> {
 				t[iprev] = del;
 				n--;
 			}
-		};
+		}
 		return new IT();
 	}
 	
@@ -192,8 +192,8 @@ public class LinearHashTable<T> implements USet<T> {
 	 */
 	public static void main(String[] args) {
 		Random rand = new Random(1);
-		USet<Integer> lht = new LinearHashTable<Integer>(-1);
-		Set<Integer> s = new HashSet<Integer>();
+		USet<Integer> lht = new LinearHashTable<>(-1);
+		Set<Integer> s = new HashSet<>();
 		int n = 1000000;
 		System.out.println("Adding");
 		for (int i = 0; i < n; i++) {

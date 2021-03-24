@@ -37,7 +37,7 @@ public class ScapegoatTree<T>
 	 * @param q
 	 * @return the ceiling of log_{3/2}(q)
 	 */
-	protected static final int log32(int q) {
+	protected static int log32(int q) {
 		final double log23 = 2.4663034623764317;
 		return (int)Math.ceil(log23*Math.log(q));
 	}

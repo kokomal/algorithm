@@ -19,21 +19,20 @@ import java.util.Arrays;
  */
 public class DP0_1KnapsackAlgo {
     private static GoldBar<Integer>[] goldbars; // 待塞入背包的奇形怪状的金块列表
-    private static Integer CAPACITY; // 背包容量
     private static int[] weight_value_table; // 容量为CAPACITY
     private static int[] best_choice;
 
     public static void init(final GoldBar<Integer>[] bars, Integer capacity) {
         goldbars = bars;
-        CAPACITY = capacity;
-        weight_value_table = new int[CAPACITY + 1]; // 注意权重size
-        best_choice = new int[CAPACITY];
+        // 背包容量
+        weight_value_table = new int[capacity + 1]; // 注意权重size
+        best_choice = new int[capacity];
         int nGoldBars = goldbars.length;
-        for (int idx = 0; idx < nGoldBars; idx++) {
-            int weight = goldbars[idx].weight;
-            int value = goldbars[idx].value;
-            
-            for (int k = CAPACITY; k >= 1; k--) {
+        for (GoldBar<Integer> goldbar : goldbars) {
+            int weight = goldbar.weight;
+            int value = goldbar.value;
+
+            for (int k = capacity; k >= 1; k--) {
                 if (weight <= k) { // 单体直接撑破，无视之
                     int challenger = weight_value_table[k - weight] + value;
                     if (weight_value_table[k] < challenger) {
@@ -48,9 +47,9 @@ public class DP0_1KnapsackAlgo {
         System.out.println("FINALLY WEIGHT_VALUE ARRAY: " + Arrays.toString(weight_value_table));
         System.out.println("BEST CHOICE ARRAY: " + Arrays.toString(best_choice));
 
-        int wt = getChoiceAtIndex(CAPACITY);
-        System.out.println("MAX VALUE is " + weight_value_table[CAPACITY]);
-        int cur = CAPACITY; // 目前重量
+        int wt = getChoiceAtIndex(capacity);
+        System.out.println("MAX VALUE is " + weight_value_table[capacity]);
+        int cur = capacity; // 目前重量
         while (wt > 0) {
             System.out.println("CHOOSE WT." + wt + " AND VALUE is " + findValueByWeight(wt));
             cur = cur - wt;
@@ -81,9 +80,9 @@ public class DP0_1KnapsackAlgo {
 
     static int findValueByWeight(int wt) { // 低效了一点，存hashmap稍微好一点，但空间就多了
         int nGoldBars = goldbars.length;
-        for (int idx = 0; idx < nGoldBars; idx++) {
-            if (wt == goldbars[idx].weight) {
-                return goldbars[idx].value;
+        for (GoldBar<Integer> goldbar : goldbars) {
+            if (wt == goldbar.weight) {
+                return goldbar.value;
             }
         }
         return 0;
@@ -92,23 +91,23 @@ public class DP0_1KnapsackAlgo {
     @SuppressWarnings("unchecked")
     public static void main(String[] args) {
         GoldBar<Integer>[] goldbars = new GoldBar[5];
-        goldbars[0] = new GoldBar<Integer>();
+        goldbars[0] = new GoldBar<>();
         goldbars[0].weight = 2;
         goldbars[0].value = 6;
 
-        goldbars[1] = new GoldBar<Integer>();
+        goldbars[1] = new GoldBar<>();
         goldbars[1].weight = 2;
         goldbars[1].value = 3;
 
-        goldbars[2] = new GoldBar<Integer>();
+        goldbars[2] = new GoldBar<>();
         goldbars[2].weight = 6;
         goldbars[2].value = 5;
  
-        goldbars[3] = new GoldBar<Integer>();
+        goldbars[3] = new GoldBar<>();
         goldbars[3].weight = 5;
         goldbars[3].value = 4;
 
-        goldbars[4] = new GoldBar<Integer>();
+        goldbars[4] = new GoldBar<>();
         goldbars[4].weight = 4;
         goldbars[4].value = 6;
 

@@ -47,7 +47,7 @@ public class DispUtil {
         }
     }
     
-    public static <T extends Object> void showMatrixForCopy(final T[][] matrix) {
+    public static <T> void showMatrixForCopy(final T[][] matrix) {
         StringBuilder sb = new StringBuilder("\n");
         logger.info("Matrix len = " + matrix.length + " * " + matrix[0].length);
         for (T[] line : matrix) {

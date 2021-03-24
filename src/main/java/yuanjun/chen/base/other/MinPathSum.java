@@ -55,8 +55,8 @@ public class MinPathSum {
 
     private static void dispMatrix(int[][] price) {
         int len = price.length;
-        for (int i = 0; i < len; i++) {
-            System.out.println(Arrays.toString(price[i]));
+        for (int[] ints : price) {
+            System.out.println(Arrays.toString(ints));
         }
     }
     

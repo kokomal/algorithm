@@ -36,7 +36,7 @@ public class MyRBTree<T extends Comparable<T>> {
             return new StringBuilder("NIL[BLACK]->");
         }
         StringBuilder res = inorderTraverse(rt.left);
-        res = res.append(rt.val).append("[" + rt.color + "]").append("->");
+        res = res.append(rt.val).append("[").append(rt.color).append("]").append("->");
         res.append(inorderTraverse(rt.right));
         return res;
     }
@@ -77,23 +77,22 @@ public class MyRBTree<T extends Comparable<T>> {
      *        β     γ          α    β
      */
     public void leftRotate(RBTnode<T> node) {
-        RBTnode<T> cur = node;
         RBTnode<T> y = right(node);
         if (y == NIL) { // 左旋的话，右侧需要有意义
             return;
         }
-        cur.right = y.left; // 把原来y的左子女β移交给x的右子女
-        left(y).parent = cur; // β的父亲变成x
-        y.parent = parent(cur); // y的父亲变成x的父亲
-        if (parent(cur) == NIL) { // 如果影响到root，则变更
+        node.right = y.left; // 把原来y的左子女β移交给x的右子女
+        left(y).parent = node; // β的父亲变成x
+        y.parent = parent(node); // y的父亲变成x的父亲
+        if (parent(node) == NIL) { // 如果影响到root，则变更
             this.root = y;
-        } else if (cur == left(parent(cur))) { // x的父亲与y父亲的子女交接
-            cur.parent.left = y;
+        } else if (node == left(parent(node))) { // x的父亲与y父亲的子女交接
+            node.parent.left = y;
         } else {
-            cur.parent.right = y;
+            node.parent.right = y;
         }
-        y.left = cur;
-        cur.parent = y;
+        y.left = node;
+        node.parent = y;
     }
     
     /**
@@ -105,23 +104,22 @@ public class MyRBTree<T extends Comparable<T>> {
      *   α     β                   β     γ         
      */
     public void rightRotate(RBTnode<T> node) {
-        RBTnode<T> cur = node;
         RBTnode<T> y = left(node);
         if (y == NIL) { // 右旋的话，左侧需要有意义
             return;
         }
-        cur.left = y.right; // 把原来y的右子女β移交给x的左子女
-        right(y).parent = cur; // β的父亲变成x
-        y.parent = parent(cur); // y的父亲变成x的父亲
-        if (parent(cur) == NIL) { // 如果影响到root，则变更
+        node.left = y.right; // 把原来y的右子女β移交给x的左子女
+        right(y).parent = node; // β的父亲变成x
+        y.parent = parent(node); // y的父亲变成x的父亲
+        if (parent(node) == NIL) { // 如果影响到root，则变更
             this.root = y;
-        } else if (cur == left(parent(cur))) { // x的父亲与y父亲的子女交接
-            cur.parent.left = y;
+        } else if (node == left(parent(node))) { // x的父亲与y父亲的子女交接
+            node.parent.left = y;
         } else {
-            cur.parent.right = y;
+            node.parent.right = y;
         }
-        y.right = cur;
-        cur.parent = y;
+        y.right = node;
+        node.parent = y;
     }
 
     /* NEED TRANSPLANT */

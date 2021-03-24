@@ -34,8 +34,7 @@ public class DFS {
     private static StringBuilder expression = new StringBuilder();
     
     private static LinkedList<Integer> topoList = new LinkedList<>();
-    
-    private static String LBracket = "(";
+
     private static String RBracket = ")";
     static {
         init();
@@ -126,6 +125,7 @@ public class DFS {
     }
 
     private static void appendLBracket(TREENODE node) {
+        String LBracket = "(";
         expression.append(LBracket).append(node.idx);
     }
 
@@ -190,7 +190,7 @@ public class DFS {
     private static TREENODE findFirstWhite(TREENODE tr) {
         List<Integer> adjs = adjList.get(tr.idx - 1);
         return CollectionUtils.isEmpty(adjs) ? null
-                : adjs.stream().map(x -> nodes.get(x - 1)).filter(e -> e.amWhite()).findFirst().orElse(null);
+                : adjs.stream().map(x -> nodes.get(x - 1)).filter(TREENODE::amWhite).findFirst().orElse(null);
     }
 
     private static void purePush(TREENODE treenode, Stack<TREENODE> stack) {

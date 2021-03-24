@@ -37,7 +37,7 @@ public class OSTree<T> {
     public void insert(int key, T value) {
         Node<T> y = nil;
         Node<T> x = root;
-        Node<T> z = new Node<T>(key, value);
+        Node<T> z = new Node<>(key, value);
         // x、y双指针移动
         while (x != nil) {
             y = x;

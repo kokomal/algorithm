@@ -25,28 +25,27 @@ public class CutStringAlgo {
     private static Integer[][] weightMap; // n*n的权重map
     private static Integer[][] solution; // n*n的权重map
     private static Integer[] lenArray; // 输入的string长度，n维度，成员均大于0
-    private static Integer N;
     private static Integer[][] spanCache; // n*n的距离缓存
 
     public static void init(Integer[] inputArray) {
-        N = inputArray.length;
-        lenArray = new Integer[N];
-        System.arraycopy(inputArray, 0, lenArray, 0, N);
-        weightMap = new Integer[N][N];
-        solution = new Integer[N][N];
-        spanCache = new Integer[N][N];
-        for (int i = 1; i <= N; i++) {
-            for (int j = 1; j <= N; j++) {
+        Integer n = inputArray.length;
+        lenArray = new Integer[n];
+        System.arraycopy(inputArray, 0, lenArray, 0, n);
+        weightMap = new Integer[n][n];
+        solution = new Integer[n][n];
+        spanCache = new Integer[n][n];
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= n; j++) {
                 setWeightAt(i, j, Integer.MIN_VALUE);
                 setSolutionAt(i, j, Integer.MIN_VALUE);
                 setSpanCacheAt(i, j, Integer.MIN_VALUE);
             }
         }
-        for (int i = 1; i <= N; i++) {
+        for (int i = 1; i <= n; i++) {
             setWeightAt(i, i, 0);
         }
-        for (int gap = 1; gap <= N - 1; gap++) {
-            for (int i = 1; i <= N - gap; i++) {
+        for (int gap = 1; gap <= n - 1; gap++) {
+            for (int i = 1; i <= n - gap; i++) {
                 int j = i + gap;
                 int minWeight = Integer.MAX_VALUE;
                 int wtSpanAtIJ = getWtSpanAtIJ(i, j); // 获得i，j区间的总和
@@ -63,16 +62,16 @@ public class CutStringAlgo {
             }
         }
 
-        for (int i = 0; i < N; i++) {
+        for (int i = 0; i < n; i++) {
             logger.info(Arrays.toString(weightMap[i]));
         }
 
-        for (int i = 0; i < N; i++) {
+        for (int i = 0; i < n; i++) {
             logger.info(Arrays.toString(solution[i]));
         }
 
-        logger.info("TOTAL COST = " + getWeightAt(1, N));
-        displaySolution(1, N);
+        logger.info("TOTAL COST = " + getWeightAt(1, n));
+        displaySolution(1, n);
 
     }
 

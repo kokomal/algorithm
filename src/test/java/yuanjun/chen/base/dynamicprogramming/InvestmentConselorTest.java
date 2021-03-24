@@ -23,12 +23,11 @@ import org.junit.BeforeClass;
 @Deprecated
 public class InvestmentConselorTest {
     private static final Logger logger = LogManager.getLogger(InvestmentConselorTest.class);
-    private static int totalMoney;
-    
+
     @BeforeClass
     public static void before() throws Exception {
         Integer[] arr1 = new Integer[] {1, 5, 8, 9, 10, 17, 17, 20, 24, 30};
-        totalMoney = 7000;
+        int totalMoney = 7000;
         Arrays.sort(arr1);
         int[] rules = Arrays.stream(arr1).mapToInt(Integer::valueOf).toArray(); // java8
         logger.info("rules -- " + Arrays.toString(rules));

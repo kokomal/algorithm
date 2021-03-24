@@ -26,11 +26,11 @@ public class BubbleSortAlgo {
         }
     }
 
-    public static final boolean isInplaceSupported() {
+    public static boolean isInplaceSupported() {
         return true;
     }
 
-    public static final boolean isProtectiveSupported() {
+    public static boolean isProtectiveSupported() {
         return false;
     }
     

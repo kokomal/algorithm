@@ -17,7 +17,7 @@ package yuanjun.chen.base.container.RBTree;
  */
 public class RBTnode<T extends Comparable<T>> {
     public enum COLOR {
-        RED, BLACK;
+        RED, BLACK
     }
 
     protected T val;

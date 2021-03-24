@@ -1,23 +1,14 @@
 package yuanjun.chen.advanced.ml.pageRank;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import com.sun.image.codec.jpeg.JPEGCodec;
+import com.sun.image.codec.jpeg.JPEGImageEncoder;
+
+import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.text.DecimalFormat;
-import java.time.Period;
-import java.time.YearMonth;
-import java.time.temporal.ChronoUnit;
-import java.util.Set;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
-import com.sun.image.codec.jpeg.JPEGCodec;
-import com.sun.image.codec.jpeg.JPEGImageEncoder;
 
 /*
  * code by 邦柳 画图类
@@ -91,8 +82,8 @@ public class Draw {
         double diameter = 2000;
         double w = 3000;
         double h = 3000;
-        double x[] = new double[len + 1];
-        double y[] = new double[len + 1];
+        double[] x = new double[len + 1];
+        double[] y = new double[len + 1];
 
         for (int i = 0; i < len; i++) {
             double ii = 0.36 * i;
@@ -110,8 +101,7 @@ public class Draw {
             }
         }
         for (int i = 0; i < len; i++) {
-            int point = i;
-            drawPoint(i + 1, page.v[i], x[point], y[point]);
+            drawPoint(i + 1, page.v[i], x[i], y[i]);
             // 找到那一点的坐标标上i+1
         }
         over();

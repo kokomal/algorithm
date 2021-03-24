@@ -35,14 +35,14 @@ public class AdjacencyMatrix implements Graph {
 	}
 
 	public List<Integer> outEdges(int i) {
-		List<Integer> edges = new ArrayList<Integer>();
+		List<Integer> edges = new ArrayList<>();
 		for (int j = 0; j < n; j++) 
 			if (a[i][j]) edges.add(j);
 		return edges;
 	}
 
 	public List<Integer> inEdges(int i) {
-		List<Integer> edges = new ArrayList<Integer>();
+		List<Integer> edges = new ArrayList<>();
 		for (int j = 0; j < n; j++)
 			if (a[j][i]) edges.add(j);
 		return edges;

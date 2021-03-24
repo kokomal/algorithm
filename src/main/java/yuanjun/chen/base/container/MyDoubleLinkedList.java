@@ -4,7 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /** 双向链表. */
-public class MyDoubleLinkedList<T extends Object> {
+public class MyDoubleLinkedList<T> {
     private static final Logger logger = LogManager.getLogger(MyDoubleLinkedList.class);
 
     private Node<T> dummy = new Node<T>(null, null, null);
@@ -24,7 +24,7 @@ public class MyDoubleLinkedList<T extends Object> {
         return new DLLReverseIterator<T>(this.dummy);
     }
     
-    public static class DLLIterator<T extends Object> {
+    public static class DLLIterator<T> {
         public DLLIterator(Node<T> cur) {
             this.cur = cur;
             this.dummy = cur;
@@ -48,7 +48,7 @@ public class MyDoubleLinkedList<T extends Object> {
         }
     }
 
-    public static class DLLReverseIterator<T extends Object> {
+    public static class DLLReverseIterator<T> {
         public DLLReverseIterator(Node<T> cur) {
             this.cur = cur;
             this.dummy = cur;

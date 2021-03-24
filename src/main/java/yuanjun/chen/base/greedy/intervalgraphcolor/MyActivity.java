@@ -49,11 +49,8 @@ public class MyActivity {
         if (index != other.index)
             return false;
         if (startTime == null) {
-            if (other.startTime != null)
-                return false;
-        } else if (!startTime.equals(other.startTime))
-            return false;
-        return true;
+            return other.startTime == null;
+        } else return startTime.equals(other.startTime);
     }
 
     public MyActivity(int index, Long startTime, Long endTime) {

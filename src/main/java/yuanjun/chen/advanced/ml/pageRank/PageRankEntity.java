@@ -3,13 +3,13 @@ package yuanjun.chen.advanced.ml.pageRank;
 import java.util.ArrayList;
 
 public class PageRankEntity {
-    public double num[][]; // 邻接矩阵
-    public double A_T[][]; // 概论矩阵
-    public double v[]; // pagerank向量
+    public double[][] num; // 邻接矩阵
+    public double[][] A_T; // 概论矩阵
+    public double[] v; // pagerank向量
 
     private double d; // 阻尼因子
     private int length; // 数据长度
-    private double e[]; // E向量
+    private double[] e; // E向量
 
     public double getD() {
         return d;
@@ -45,8 +45,8 @@ public class PageRankEntity {
         this.e = new double[len + 1];
 
         for (int i = 0; i < len + 1; i++) {
-            v[i] = (double) (1.0 / len);
-            e[i] = (double) (1.0 / len);
+            v[i] = 1.0 / len;
+            e[i] = 1.0 / len;
         }
         for (int i = 0; i < len + 1; i++) {
             for (int j = 0; j < len + 1; j++)
@@ -77,7 +77,7 @@ public class PageRankEntity {
             for (int j = 0; j < length; j++) {
                 System.out.print(num[i][j] + " ");
             }
-            System.out.println("");
+            System.out.println();
         }
     }
 
@@ -86,13 +86,13 @@ public class PageRankEntity {
             for (int j = 0; j < length; j++) {
                 System.out.print(A_T[i][j] + " ");
             }
-            System.out.println("");
+            System.out.println();
         }
     }
 
     // 计算pageRank的值
     public void alg() {
-        double tmp_V[] = new double[length];
+        double[] tmp_V = new double[length];
         double sum_aNV = 0;
         double sum_aE = 0;
         double sum_tmp = 100;
@@ -122,7 +122,7 @@ public class PageRankEntity {
 
     public void show_V(ArrayList<WebEntity> retList) {
         for (int i = 0; i < length - 2; i++) {
-            System.out.print(retList.get(i).Url.toString() + "  PageRank:");
+            System.out.print(retList.get(i).Url + "  PageRank:");
             System.out.println(v[i]);
         }
     }

@@ -51,8 +51,6 @@ public class TREENODE {
         if (getClass() != obj.getClass())
             return false;
         TREENODE other = (TREENODE) obj;
-        if (idx != other.idx)
-            return false;
-        return true;
+        return idx == other.idx;
     }
 }

@@ -54,11 +54,11 @@ public class SubSetNoDup {
         List<List<Integer>> res = subSetNoDup2(nums, 0);
         List<List<Integer>> resX = new ArrayList<>();
         Set<String> fullSet = new HashSet<>();
-        for (int i = 0; i < res.size(); i++) {
-            Collections.sort(res.get(i));
-            if (!fullSet.contains(res.get(i).toString())) {
-                resX.add(res.get(i));
-                fullSet.add(res.get(i).toString());
+        for (List<Integer> re : res) {
+            Collections.sort(re);
+            if (!fullSet.contains(re.toString())) {
+                resX.add(re);
+                fullSet.add(re.toString());
             }
         }
         return resX;

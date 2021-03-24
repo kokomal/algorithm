@@ -11,10 +11,9 @@ package yuanjun.chen.game.mmorpgpoints;
 
 /**   
  * @ClassName: SkillEnum   
- * @Description: TODO(这里用一句话描述这个类的作用)   
- * @author: 陈元俊 
+ * @author: 陈元俊
  * @date: 2018年10月12日 上午9:22:10  
  */
 public enum SkillEnum {
-    SWORD, CROSSBOW, SPEAR, RIFLE;//, PISTOL, MACHETE, MACHINEGUN;
+    SWORD, CROSSBOW, SPEAR, RIFLE//, PISTOL, MACHETE, MACHINEGUN;
 }

@@ -1,11 +1,11 @@
 package yuanjun.chen.base.sort;
 
-import java.util.Date;
-import org.junit.Test;
 import com.alibaba.fastjson.JSONObject;
-import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonObjectFormatVisitor;
+import org.junit.Test;
 import yuanjun.chen.base.common.GenericAlgoTester;
 import yuanjun.chen.base.common.SortOrderEnum;
+
+import java.util.Date;
 
 /** 冒泡排序测试. */
 public class BubbleSortTest {

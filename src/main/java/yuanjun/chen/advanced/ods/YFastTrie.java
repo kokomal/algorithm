@@ -77,11 +77,7 @@ public class YFastTrie<T> implements SSet<T> {
 	
 	public YFastTrie(Integerizer<T> itx) {
 		this.it = itx;
-		Integerizer<Pair<T>> it2 = new Integerizer<Pair<T>>() {
-			public int intValue(Pair<T> p) {
-				return p.x;
-			}
-		};
+		Integerizer<Pair<T>> it2 = p -> p.x;
 		xft = new XFastTrie<Node<T>,Pair<T>>(new Node<T>(), it2);
 		xft.add(new Pair<T>(0xffffffff, new STreap<T>()));
 		rand = new Random(0);   // FIXME - for debugging only
@@ -109,11 +105,7 @@ public class YFastTrie<T> implements SSet<T> {
 	}
 
 	public Comparator<? super T> comparator() {
-		return new Comparator<T>() {
-			public int compare(T a, T b) {
-				return it.intValue(a) - it.intValue(b);
-			}
-		};
+		return (Comparator<T>) (a, b) -> it.intValue(a) - it.intValue(b);
 	}
 
 	public T find(T x) {

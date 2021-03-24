@@ -86,7 +86,7 @@ public class BaseBallVorpAlgo {
                 SMALL_LOOP: for (int k = 1; k <= P; k++) { // 逐一遍历第i职位的每一个候选人
                     int playerSignCost = players[i - 1][k - 1].getSignCost(); // 看第k个候选人的签约费
                     if (j < playerSignCost) { // 此时预算小于候选人的签约费，直接pass，否则下面的tableB寻址会报错
-                        continue SMALL_LOOP;
+                        continue;
                     }
                     // 这是算法的核心，背包问题，看看自己塞入和不塞入，哪种方案最优，不断替换q并记录候选人的号码
                     int candidate = tableB[i - 1][j - playerSignCost] + players[i - 1][k - 1].getVorp();

@@ -24,7 +24,7 @@ public class VEBTree {
 	 * @param w
 	 * @return ceiling(w/2)
 	 */
-	protected final static int auxW(int w) {
+	protected static int auxW(int w) {
 		return (w+1)/2;
 	}
 
@@ -33,7 +33,7 @@ public class VEBTree {
 	 * @param w
 	 * @return floor(w/2)
 	 */
-	protected final static int childW(int w) {
+	protected static int childW(int w) {
 		return w/2;
 	}
 	
@@ -43,11 +43,11 @@ public class VEBTree {
 	 * @param w
 	 * @return
 	 */
-	protected final static int hibits(int x, int w) {
+	protected static int hibits(int x, int w) {
 		return x >>> childW(w);
 	}
 	
-	protected final static int lobits(int x, int w) {
+	protected static int lobits(int x, int w) {
 		return x & ((1<<childW(w)) - 1);
 	}
 

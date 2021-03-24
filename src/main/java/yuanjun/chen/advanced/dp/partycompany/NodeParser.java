@@ -16,7 +16,7 @@ public class NodeParser {
     private void parseOneLine(String line) {
         // 岳云鹏,400,孔云龙,刘筱亭|尚筱菊|徐筱竹
         if (StringUtils.isNoneBlank(line)) {
-            String[] contents = line.split("\\,", -1);
+            String[] contents = line.split(",", -1);
             String keyName = contents[0];
             int power = Integer.parseInt(contents[1]);
             EmployeeTreeNode mainNode = getOrNew(keyName);
@@ -51,7 +51,7 @@ public class NodeParser {
 
     public void buildRelationshipFromCsv(String csv) {
         this.nodeMaps = new HashMap<>();
-        CsvReader.readCsv(csv).forEach(line -> parseOneLine(line));
+        CsvReader.readCsv(csv).forEach(this::parseOneLine);
     }
 
     public String callGraphDrawer(String fn, boolean highlight) {

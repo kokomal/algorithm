@@ -46,7 +46,7 @@ public class HuffmanCodecAlgo {
         generatePriorityQueue();
 
         root = hbpq.peek();
-        traverse(root, new StringBuilder(""));
+        traverse(root, new StringBuilder());
         System.out.println("EncodeMAP = " + encodeMap); // 输出编码的对照表
 
         return CodecUtil.serialize(root); // 最终输出note
@@ -90,7 +90,7 @@ public class HuffmanCodecAlgo {
      */
     public String encode(String raw) {
         if (encodeMap == null || encodeMap.isEmpty()) {
-            traverse(root, new StringBuilder(""));
+            traverse(root, new StringBuilder());
         }
         StringBuilder encrpyt = new StringBuilder();
         for (char x : raw.toCharArray()) {

@@ -24,7 +24,6 @@ public class NPuzzleEasyAlgo {
     private List<Integer> rawList;
     private List<Integer> modelList;
     private static long time1 = 0L;
-    private static long time2 = 0L;
     private int N;
     /** 全局的寻找flag，找到即可终止所有分支. */
     private boolean g_found;
@@ -124,7 +123,7 @@ public class NPuzzleEasyAlgo {
         }
         System.out.println(sb.toString());
         for (int i = 0; i < N; i++) {
-            System.out.printf("|");
+            System.out.print("|");
             for (int j = i * N; j < N + N * i; j++) {
                 if (grids[j] != 0) {
                     System.out.printf(" %3d |", grids[j]);
@@ -132,7 +131,7 @@ public class NPuzzleEasyAlgo {
                     System.out.printf(" %3s |", "");
                 }
             }
-            System.out.printf("\n");
+            System.out.print("\n");
         }
         System.out.println(sb.toString());
     }
@@ -214,6 +213,7 @@ public class NPuzzleEasyAlgo {
         }
         System.out.println("ALL LEGAL STEPS ARE " + i + " STEPS.");
         System.out.println("ALL CALC Manhattan time is " + time1 + "ms.");
+        long time2 = 0L;
         System.out.println("ALL MOVE time is " + time2 + "ms.");
     }
 

@@ -9,22 +9,20 @@
  */
 package yuanjun.chen.game.magiccube;
 
-import java.util.Arrays;
-
 /**
  * @ClassName: MagicCube
- * @Description: TODO(这里用一句话描述这个类的作用)
+ * @Description: 魔方demo类
  * @author: 陈元俊
  * @date: 2019年1月9日 下午3:01:54
  */
 public class MagicCube {
 
     public static enum Axis {
-        X, Y, Z;
+        X, Y, Z
     }
 
     public static enum Color{
-        WHITE, GREEN, BLUE, RED, YELLOW, ORANGE;
+        WHITE, GREEN, BLUE, RED, YELLOW, ORANGE
     }
     
     private int n;

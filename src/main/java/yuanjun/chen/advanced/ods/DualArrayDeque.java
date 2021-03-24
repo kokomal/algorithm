@@ -128,17 +128,17 @@ public class DualArrayDeque<T> extends AbstractList<T> {
     public static void main(String args[]) {
         List<Integer> l = new DualArrayDeque<Integer>(Integer.class);
         for (int i = 0; i < 20; i++) {
-            l.add(new Integer(i));
+            l.add(i);
         }
         System.out.println(l);
         for (int i = -1; i > -20; i--) {
-            l.add(0, new Integer(i));
+            l.add(0, i);
         }
         System.out.println(l);
 
         Integer n = 1000;
         Integer x = 20;
-        List<Integer> q = new DualArrayDeque<Integer>(Integer.class);
+        List<Integer> q = new DualArrayDeque<>(Integer.class);
         for (int i = 0; i < n; i++) {
             q.add(i);
         }

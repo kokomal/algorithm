@@ -10,8 +10,6 @@
 package yuanjun.chen.game.mmorpgpoints;
 
 import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

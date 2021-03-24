@@ -212,11 +212,7 @@ public class BinaryTrie<Node extends BinaryTrie.Nöde<Node,T>, T> implements SSe
 	 * TODO: We can still implement this
 	 */
 	public Comparator<? super T> comparator() {
-		return new Comparator<T>() {
-			public int compare(T a, T b) {
-				return it.intValue(a) - it.intValue(b);
-			}
-		};
+		return (Comparator<T>) (a, b) -> it.intValue(a) - it.intValue(b);
 	}
 
 	public T findGE(T x) {

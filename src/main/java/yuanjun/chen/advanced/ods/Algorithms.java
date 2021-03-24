@@ -10,7 +10,7 @@ public class Algorithms {
 	protected static Random rand = new Random();
 	
 	public static <T extends Comparable<T>> void mergeSort(T[] a) {
-		mergeSort(a, new DefaultComparator<T>());
+		mergeSort(a, new DefaultComparator<>());
 	}
 	
 	public static <T> void mergeSort(T[] a, Comparator<T> c) {
@@ -29,7 +29,7 @@ public class Algorithms {
 	 */
 	public static void bfs(Graph g, int r) {
 		boolean[] seen = new boolean[g.nVertices()];
-		Queue<Integer> q = new SLList<Integer>();
+		Queue<Integer> q = new SLList<>();
 		q.add(r);
 		seen[r] = true;
 		while (!q.isEmpty()) {
@@ -45,7 +45,7 @@ public class Algorithms {
 
 	public static void bfsZ(Graph g, int r) {
 		boolean[] seen = new boolean[g.nVertices()];
-		Queue<Integer> q = new SLList<Integer>();
+		Queue<Integer> q = new SLList<>();
 		q.add(r);
 		seen[r] = true;
 		while (!q.isEmpty()) {
@@ -108,7 +108,7 @@ public class Algorithms {
 	 */
 	public static void dfs2(Graph g, int r) {
 		byte[] c = new byte[g.nVertices()];
-		Stack<Integer> s = new Stack<Integer>();
+		Stack<Integer> s = new Stack<>();
 		s.push(r);
 		while (!s.isEmpty()) {
 			int i = s.pop();
@@ -159,8 +159,7 @@ public class Algorithms {
 	 */
 	public static int[] countingSort(int[] a, int k) {
 		int c[] = new int[k];
-		for (int i = 0; i < a.length; i++)
-			c[a[i]]++;
+		for (int value : a) c[value]++;
 		for (int i = 1; i < k; i++)
 			c[i] += c[i-1];
 		int b[] = new int[a.length];
@@ -183,8 +182,7 @@ public class Algorithms {
 			int c[] = new int[1<<d];
 			// the next three for loops implement counting-sort
 			b = new int[a.length];
-			for (int i = 0; i < a.length; i++)
-				c[(a[i] >> d*p)&((1<<d)-1)]++;
+			for (int value : a) c[(value >> d * p) & ((1 << d) - 1)]++;
 			for (int i = 1; i < 1<<d; i++)
 				c[i] += c[i-1];
 			for (int i = a.length-1; i >= 0; i--)
@@ -196,7 +194,7 @@ public class Algorithms {
 
 
 	public static <T extends Comparable<T>> void quickSort(T[] a) {
-		quickSort(a, new DefaultComparator<T>());
+		quickSort(a, new DefaultComparator<>());
 	}
 
 	public static <T> void quickSort(T[] a, Comparator<T> c) {
@@ -205,7 +203,7 @@ public class Algorithms {
 
 	
 	public static <T extends Comparable<T>> void heapSort(T[] a) {
-		BinaryHeap.sort(a, new DefaultComparator<T>());
+		BinaryHeap.sort(a, new DefaultComparator<>());
 	}
 
 	public static <T> void heapSort(T[] a, Comparator<T> c) {
@@ -213,7 +211,7 @@ public class Algorithms {
 	}
 
 	
-	protected final static <T> void  swap(T[] a, int i, int j) {
+	protected static <T> void  swap(T[] a, int i, int j) {
 		T t = a[i];
 		a[i] = a[j];
 		a[j] = t;

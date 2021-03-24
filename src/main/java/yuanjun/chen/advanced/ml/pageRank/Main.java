@@ -13,8 +13,7 @@ public class Main {
         Draw draw = new Draw();
         Spider spider = new Spider();
         // 获取地址集
-        ArrayList<WebEntity> retList = new ArrayList<WebEntity>();
-        retList.addAll(spider.getWebList(url));
+        ArrayList<WebEntity> retList = new ArrayList<>(spider.getWebList(url));
 
         int len = retList.size();
 

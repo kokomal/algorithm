@@ -62,7 +62,7 @@ public class ChainedHashTable<T> implements USet<T> {
 	protected List<T>[] allocTable(int s) {
 		List<T>[] tab = new ArrayList[s];
 		for (int i = 0; i < s; i++) {
-			tab[i] = new ArrayList<T>();
+			tab[i] = new ArrayList<>();
 		}
 		return tab;
 	}
@@ -76,8 +76,8 @@ public class ChainedHashTable<T> implements USet<T> {
         n = 0;
 		List<T>[] oldTable = t;
 		t = allocTable(1<<d);
-		for (int i = 0; i < oldTable.length; i++) {
-			for (T x : oldTable[i]) {
+		for (List<T> ts : oldTable) {
+			for (T x : ts) {
 				add(x);
 			}
 		}
@@ -177,14 +177,14 @@ public class ChainedHashTable<T> implements USet<T> {
 	 */
 	public static void main(String[] args) {
 		int n = 100000;
-		ChainedHashTable<Integer> t = new ChainedHashTable<Integer>();
+		ChainedHashTable<Integer> t = new ChainedHashTable<>();
 		for (int i = 0; i < n; i++) {
 			t.add(i*2);
 		}
 		for (int i = 0; i < 2*n; i++) {
 			Integer x = t.find(i);
 			if (i % 2 == 0) {
-				assert(x.intValue() == i);
+				assert(x == i);
 			} else {
 				assert(x == null);
 			}

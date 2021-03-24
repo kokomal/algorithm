@@ -98,7 +98,7 @@ public class GuessGame {
 				char ai = read.charAt(i);
 				if (targ.charAt(i) == ai) {
 					Acount++;
-				} else if (targ.indexOf(String.valueOf(ai)) != -1) {
+				} else if (targ.contains(String.valueOf(ai))) {
 					Bcount++;
 				}
 			}
@@ -111,7 +111,7 @@ public class GuessGame {
 	}
 
 	private static String getRandomString(int length, int span, char start) {
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		Set<Integer> s = new HashSet<>();
 		for (int i = 0; i < length; i++) {
 			while (true) {

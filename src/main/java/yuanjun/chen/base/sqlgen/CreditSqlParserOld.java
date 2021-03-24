@@ -33,21 +33,21 @@ public class CreditSqlParserOld {
 					break;
 				}
 				if (!line.isEmpty()) {
-					String pack = ENTER + CREATE_TABLE + line + ENTER + "(" + ENTER;
+					StringBuilder pack = new StringBuilder(ENTER + CREATE_TABLE + line + ENTER + "(" + ENTER);
 					boolean isFirst = true;
 					do {
 						String next = br.readLine();
 						if (next == null || next.isEmpty()) { // 下一行为空，说明到底了
 							int pos = pack.lastIndexOf(COMMA);
-							pack = pack.substring(0, pos);
-							pack += ENTER + ");" + ENTER;
+							pack = new StringBuilder(pack.substring(0, pos));
+							pack.append(ENTER + ");" + ENTER);
 							break;
 						}
 						if (isFirst) { // 是不是第一个ID字段?如果是，则要加primary key声明
-							pack += next + VARCHAR + PRIMARY + COMMA + ENTER;
+							pack.append(next).append(VARCHAR).append(PRIMARY).append(COMMA).append(ENTER);
 							isFirst = false;
 						} else {
-							pack += next + VARCHAR + COMMA + ENTER;
+							pack.append(next).append(VARCHAR).append(COMMA).append(ENTER);
 						}
 
 					} while (true);

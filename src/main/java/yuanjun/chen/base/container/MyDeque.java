@@ -18,7 +18,7 @@ import yuanjun.chen.base.exception.QueueUnderflowException;
  * @author: 陈元俊
  * @date: 2018年7月30日 上午8:35:44
  */
-public class MyDeque<T extends Object> extends MyQueue<T> {
+public class MyDeque<T> extends MyQueue<T> {
     public MyDeque() {
     }
 

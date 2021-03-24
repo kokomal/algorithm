@@ -11,10 +11,9 @@ package yuanjun.chen.base.greedy.intervalgraphcolor;
 
 /**
  * @ClassName: TimeDir
- * @Description: TODO(这里用一句话描述这个类的作用)
  * @author: 陈元俊
  * @date: 2018年10月9日 上午8:54:49
  */
 public enum TimeDir {
-    BEGIN, END;
+    BEGIN, END
 }

@@ -50,7 +50,7 @@ public class Utils {
 	 *            an integer
 	 * @return the floor of the square root of x
 	 */
-	public static final int intSqrt(int x) {
+	public static int intSqrt(int x) {
 		int z = (int)Math.sqrt(x);
 		while (z*z > x) z--;
 		while ((z+1)*(z+1) <= x) z++;
@@ -71,11 +71,11 @@ public class Utils {
 		}
 		for (Integer x : a)
 			System.out.print("" + x + ",");
-		System.out.println("");
+		System.out.println();
 		BinaryHeap.sort(a);
 		for (Integer x : a)
 			System.out.print("" + x + ",");
-		System.out.println("");
+		System.out.println();
 
 	}
 

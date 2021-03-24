@@ -19,10 +19,10 @@ public class Sha256Util {
     }
 
     private static String byte2Hex(final byte[] bytes) {
-        StringBuffer stringBuffer = new StringBuffer();
+        StringBuilder stringBuffer = new StringBuilder();
         String temp = null;
-        for (int i = 0; i < bytes.length; i++) {
-            temp = Integer.toHexString(bytes[i] & 0xFF);
+        for (byte aByte : bytes) {
+            temp = Integer.toHexString(aByte & 0xFF);
             if (temp.length() == 1) {
                 // 1得到一位的进行补0操作
                 stringBuffer.append("0");

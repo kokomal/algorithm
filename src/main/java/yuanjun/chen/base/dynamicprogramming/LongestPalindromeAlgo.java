@@ -57,7 +57,7 @@ public class LongestPalindromeAlgo {
                     matrix[i][j] = 2 + preLen;
                     if (maxLen <= matrix[i][j]) {
                         maxLen = matrix[i][j];
-                        StringBuilder sb = new StringBuilder("");
+                        StringBuilder sb = new StringBuilder();
                         switch (preLen) {
                             case 1:
                                 sb.append(str.charAt(i));

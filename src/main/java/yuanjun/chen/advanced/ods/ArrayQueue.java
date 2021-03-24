@@ -133,7 +133,7 @@ public class ArrayQueue<T> extends AbstractQueue<T> {
         int m = 10000, n = 50;
         Queue<Integer> q = new ArrayQueue<Integer>(Integer.class);
         for (int i = 0; i < m; i++) {
-            q.add(new Integer(i));
+            q.add(i);
             if (q.size() > n) {
                 Integer x = q.remove();
                 assert (x == i - n);

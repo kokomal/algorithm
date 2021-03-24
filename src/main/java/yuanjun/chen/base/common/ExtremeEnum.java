@@ -16,5 +16,5 @@ package yuanjun.chen.base.common;
  * @date: 2018年7月26日 上午10:22:22
  */
 public enum ExtremeEnum {
-    MIN, MAX;
+    MIN, MAX
 }

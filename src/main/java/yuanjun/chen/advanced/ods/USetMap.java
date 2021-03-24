@@ -66,6 +66,6 @@ public class USetMap<K,V> extends AbstractMap<K,V> {
 	}
 	
 	public Set<Map.Entry<K, V>> entrySet() {
-		return new USetSet<Map.Entry<K, V>>(s);
+		return new USetSet<>(s);
 	}
 }

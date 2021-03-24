@@ -19,7 +19,7 @@ import java.util.concurrent.CountDownLatch;
  */
 public class GenerateRandomPlayerTask implements Runnable {
     private CountDownLatch couter;
-    private Player[] massive;
+    private final Player[] massive;
     private int i;
     private int maxSkillPoints;
 

@@ -1,10 +1,10 @@
 package yuanjun.chen.base.dynamicprogramming;
 
+import yuanjun.chen.base.common.RandomGenner;
+
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
-import yuanjun.chen.base.common.RandomGenner;
 
 /** CLRS-3原版LCS算法 这里新开辟一个类，避免和其他算法公用相同的静态变量导致冲突. */
 public class LCSAlgo {
@@ -85,7 +85,7 @@ public class LCSAlgo {
     public static List<String> print_lcs_list(String X, int i, int j) {
         if (i == 0 || j == 0) {
             List<String> ll = new LinkedList<>();
-            ll.add(new String());
+            ll.add("");
             return ll;
         }
         if (b[i][j] == '↖') {
@@ -104,9 +104,7 @@ public class LCSAlgo {
         } else { // x
             List<String> old1 = print_lcs_list(X, i - 1, j);
             List<String> old2 = print_lcs_list(X, i, j - 1);
-            for (String x : old2) {
-                old1.add(x);
-            }
+            old1.addAll(old2);
             return old1;
         }
     }
@@ -115,7 +113,7 @@ public class LCSAlgo {
         List<String> res;
         if (i == 0 || j == 0) {
             List<String> ll = new LinkedList<>();
-            ll.add(new String());
+            ll.add("");
             return ll;
         }
         if (b[i][j] == '↖') {

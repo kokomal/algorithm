@@ -16,5 +16,5 @@ package yuanjun.chen.advanced.datastructure.common;
  * @date: 2018年11月8日 上午11:23:23  
  */
 public enum NodePersistStatus {
-    FRESH, STINK; // 新鲜，臭了
+    FRESH, STINK // 新鲜，臭了
 }

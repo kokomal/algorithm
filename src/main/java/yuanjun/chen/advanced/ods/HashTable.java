@@ -71,9 +71,7 @@ public class HashTable<T> extends AbstractCollection<T> {
 		List<T>[] oldTable = t;
 		t = allocTable(1<<d);
 		for (int i = 0; i < oldTable.length; i++) {
-			for (T x : oldTable[i]) {
-				add(x);
-			}
+			this.addAll(oldTable[i]);
 		}
 	}
 	
@@ -231,7 +229,7 @@ public class HashTable<T> extends AbstractCollection<T> {
 		for (int i = 0; i < 2*n; i++) {
 			Integer x = t.find(i);
 			if (i % 2 == 0) {
-				assert(x.intValue() == i);
+				assert(x == i);
 			} else {
 				assert(x == null);
 			}

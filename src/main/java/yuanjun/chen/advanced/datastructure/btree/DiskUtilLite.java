@@ -9,22 +9,17 @@
  */
 package yuanjun.chen.advanced.datastructure.btree;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import yuanjun.chen.advanced.datastructure.common.BTreeOnePage;
 import yuanjun.chen.advanced.datastructure.common.GlobalConfig;
 
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+
 /**   
  * @ClassName: DiskUtil   
- * @Description: TODO(这里用一句话描述这个类的作用)   
- * @author: 陈元俊 
+ * @author: 陈元俊
  * @date: 2018年11月7日 上午11:05:31  
  */
 public class DiskUtilLite {
@@ -110,9 +105,7 @@ public class DiskUtilLite {
     public static BTreeOnePage fetchByPgNo(String tableName, Long pgNo) {
         BTreeOnePage page = new BTreeOnePage();
         File file = new File(GlobalConfig.BTREELITE_PATH + tableName + "/" + pgNo + ".txt");  // 数据暂时放在d盘,注意编码格式
-        BufferedReader reader = null;  
-        try {  
-            reader = new BufferedReader(new FileReader(file));  
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String tempString = reader.readLine();
             long x = Long.parseLong(tempString);
             page.setPgNo(x);
@@ -122,18 +115,11 @@ public class DiskUtilLite {
             page.setRawKeys(tempString);
             tempString = reader.readLine().trim();
             page.setRawChildren(tempString);
-            reader.close();  
+            reader.close();
             page.parse();
-        } catch (Exception e) {  
+        } catch (Exception e) {
             System.out.println("WRONG FETCH PAGENO " + e);
-        } finally {  
-            if (reader != null) {  
-                try {  
-                    reader.close();  
-                } catch (IOException e1) {  
-                }  
-            }  
-        }  
+        }
         return page;
     }
 
@@ -179,9 +165,7 @@ public class DiskUtilLite {
         }
         int degree = 0;
         Long rootId = 0L;
-        BufferedReader reader = null;  
-        try {  
-            reader = new BufferedReader(new FileReader(file));  
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String tempString = reader.readLine();
             if ("DGR".equalsIgnoreCase(tempString)) {
                 tempString = reader.readLine().trim();
@@ -201,21 +185,14 @@ public class DiskUtilLite {
                 System.out.println("ROOTID-" + tempString);
                 rootId = Long.parseLong(tempString);
             }
-            reader.close();  
+            reader.close();
             BTreeOnePage page = fetchByPgNo(tableName, rootId);
             page.setDgr(degree); // 把度传回来
             return page;
-        } catch (Exception e) {  
+        } catch (Exception e) {
             System.out.println("WRONG READ META" + e);
             return null;
-        } finally {  
-            if (reader != null) {  
-                try {  
-                    reader.close();  
-                } catch (IOException e1) {  
-                }  
-            }  
-        }  
+        }
     }
     
     public static void main(String[] args) throws Exception {

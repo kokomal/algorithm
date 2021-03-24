@@ -19,14 +19,14 @@ import java.util.Set;
  * @date: 2018年10月25日 上午8:53:06
  */
 public class MakeChangeAlgo {
-    private int[] numCoins; // 代表i金额需要的最小硬币数 v+1维
-    private int[] choice; // 结果数组 v维
-    
+
     /* coinsSet为零钱集合， v为待凑金额总额 */
     public int solve(Set<Integer> coinsSet, int v) {
         Set<Integer> uniques = new HashSet<>();
-        numCoins = new int[v + 1];
-        choice = new int[v + 1];
+        // 代表i金额需要的最小硬币数 v+1维
+        int[] numCoins = new int[v + 1];
+        // 结果数组 v维
+        int[] choice = new int[v + 1];
         for (int i = 1; i <= v; i++) {
             int bestCoin = -1;
             int bestNum = Integer.MAX_VALUE;

@@ -16,5 +16,5 @@ package yuanjun.chen.base.dynamicprogramming.baseball;
  * @date: 2018年9月28日 上午10:53:44
  */
 public enum BaseBallPos {
-    Pitcher, Catcher, FirstBaseMan, SecondBaseMan, ThirdBaseMan, ShortStop, LeftFielder, CenterFielder, RightFielder;
+    Pitcher, Catcher, FirstBaseMan, SecondBaseMan, ThirdBaseMan, ShortStop, LeftFielder, CenterFielder, RightFielder
 }

@@ -40,8 +40,7 @@ public class RootishArrayStack<T> extends AbstractList<T> {
      */
     protected static int i2b(int i) {
         double db = (-3.0 + Math.sqrt(9 + 8 * i)) / 2.0;
-        int b = (int) Math.ceil(db);
-        return b;
+        return (int) Math.ceil(db);
     }
 
     protected void grow() { // [本人备注]增长的方式很另类，即根据序号扩大其容量

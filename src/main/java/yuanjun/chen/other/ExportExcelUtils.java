@@ -72,7 +72,7 @@ public class ExportExcelUtils {
                 int cellIndex = 0;
                 for (String str : m) {
                     HSSFCell cell = row.createCell((short) cellIndex);
-                    cell.setCellValue(str.toString());
+                    cell.setCellValue(str);
                     cellIndex++;
                 }
                 index++;

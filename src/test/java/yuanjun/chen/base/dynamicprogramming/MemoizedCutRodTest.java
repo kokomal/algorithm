@@ -9,12 +9,12 @@
  */
 package yuanjun.chen.base.dynamicprogramming;
 
-import java.util.Arrays;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import yuanjun.chen.base.common.RandomGenner;
+
+import java.util.Arrays;
 
 /**
  * @ClassName: MemoizedCutRodTest

@@ -17,7 +17,7 @@ package yuanjun.chen.base.dynamicprogramming.companyParty;
  */
 public class EmployeeTreeNode {
     public static enum ENTER_TYPE{
-        IN, NOTIN, WHATEVER;
+        IN, NOTIN, WHATEVER
     }
     
     private static final Integer INIT_VALUE = Integer.MIN_VALUE;

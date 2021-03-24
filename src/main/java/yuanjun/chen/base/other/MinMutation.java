@@ -9,25 +9,17 @@
  */
 package yuanjun.chen.base.other;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @ClassName: MinMutation
- * @Description: TODO(这里用一句话描述这个类的作用)
  * @author: 陈元俊
  * @date: 2019年5月9日 下午3:01:16
  */
 public class MinMutation {
     public static int minMutation(String start, String end, String[] bank) {
         Set<String> sbank = new HashSet<>();
-        for (String b : bank) {
-            sbank.add(b);
-        }
+        sbank.addAll(Arrays.asList(bank));
         int val = minMutation(start, end, sbank);
         return  val == Integer.MAX_VALUE ? -1 : val;
     }

@@ -38,7 +38,7 @@ public class Console {
             g.check(24.0, false);
             ll.add(g.getIntlist().toString());
         }
-        ll.stream().sorted().forEach(e -> System.out.println(e));
+        ll.stream().sorted().forEach(System.out::println);
     }
 
     /**   
@@ -101,7 +101,7 @@ public class Console {
                 String[] inputs;
                 do {
                     read = scan.nextLine().trim();
-                    inputs = read.split("\\,");
+                    inputs = read.split(",");
                     if (inputs == null || inputs.length != 4) {
                         System.out.println("Please input exactly 4 digits!");
                     } else {

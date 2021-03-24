@@ -8,7 +8,7 @@ import java.util.LinkedList;
  * 爬虫的队列
  */
 public class WebQueue {
-    private LinkedList<Object> queue = new LinkedList<Object>();
+    private LinkedList<Object> queue = new LinkedList<>();
 
     public void enQueue(Object t) {
         queue.addLast(t);

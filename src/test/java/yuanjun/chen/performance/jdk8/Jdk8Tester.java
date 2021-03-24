@@ -9,16 +9,7 @@
  */
 package yuanjun.chen.performance.jdk8;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Random;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -35,7 +26,7 @@ public class Jdk8Tester {
 
     @Test
     public void strech() {
-        Set<String> A = new HashSet<String>();
+        Set<String> A = new HashSet<>();
         A.add("A");
         A.add("B");
         A.add("C");
@@ -52,7 +43,10 @@ public class Jdk8Tester {
 
     @Test
     public void testStreamIter() { // forEach属于terminal谓词
-        IntStream.of(new int[] {1, 2, 3}).forEach(System.out::println); // IntStream为定制的int类型的stream，避免拆箱的性能问题
+        // IntStream为定制的int类型的stream，避免拆箱的性能问题
+        for (int i : new int[]{1, 2, 3}) {
+            System.out.println(i);
+        }
         IntStream.range(1, 3).forEach(System.out::println); // [1,3)
         IntStream.rangeClosed(1, 3).forEach(System.out::println); // [1,3]
     }
@@ -70,7 +64,7 @@ public class Jdk8Tester {
 
         List<String> list = Arrays.asList(strArray);
         stream = list.stream(); // list内嵌stream
-        String str = stream.collect(Collectors.joining()).toString();
+        String str = stream.collect(Collectors.joining());
         System.out.println("Combination is " + str); // join
     }
 
@@ -100,8 +94,8 @@ public class Jdk8Tester {
 
     @Test
     public void testStreamFlatMap() { // flatMap用于将流的元素全部归并
-        Stream<List<Integer>> inputStream = Stream.of(Arrays.asList(1), Arrays.asList(2, 3), Arrays.asList(4, 5, 6));
-        Stream<Integer> outputStream = inputStream.flatMap((childList) -> childList.stream());
+        Stream<List<Integer>> inputStream = Stream.of(Collections.singletonList(1), Arrays.asList(2, 3), Arrays.asList(4, 5, 6));
+        Stream<Integer> outputStream = inputStream.flatMap(Collection::stream);
         Integer[] combinated = outputStream.toArray(Integer[]::new);
         System.out.println("After combination, " + Arrays.toString(combinated));
     }
@@ -111,14 +105,14 @@ public class Jdk8Tester {
         List<NoblePerson> persons = new ArrayList<>();
         NoblePerson A = new NoblePerson();
         A.name = "Joseph Statlin";
-        A.hobbyList = Arrays.asList(new Hobby[] {Hobby.Play, Hobby.Eat});
+        A.hobbyList = Arrays.asList(Hobby.Play, Hobby.Eat);
         persons.add(A);
         NoblePerson B = new NoblePerson();
         B.name = "Winston Churchill";
-        B.hobbyList = Arrays.asList(new Hobby[] {Hobby.Sleep, Hobby.Eat, Hobby.Drink});
+        B.hobbyList = Arrays.asList(Hobby.Sleep, Hobby.Eat, Hobby.Drink);
         persons.add(B);
         Set<Hobby> hobbySet = persons.parallelStream().flatMap(p -> p.getHobbyList().stream())
-                .collect(Collectors.toCollection(() -> new TreeSet<Hobby>((h1, h2) -> h1.name().compareTo(h2.name()))));
+                .collect(Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(Enum::name))));
         System.out.println(hobbySet); // 这里用flatMap把每一个元素的list的stream合体成一个，然后组成一个treeset
     }
 
@@ -134,7 +128,7 @@ public class Jdk8Tester {
 
         // 分词，去掉标点
         List<String> raws =
-                Arrays.asList(new String[] {"haha it is a good place", "new founded land!", "old continent?"});
+                Arrays.asList("haha it is a good place", "new founded land!", "old continent?");
         String REGEXP = "\\W+";
         List<String> output = raws.stream().flatMap(line -> Stream.of(line.split(REGEXP)))
                 .filter(word -> word.length() > 0).collect(Collectors.toList());
@@ -144,7 +138,7 @@ public class Jdk8Tester {
     @Test
     public void testForEach() { // forEach只能使用1次，peek可以多次
         List<Integer> nums = Arrays.asList(1, 2, 3, 4);
-        nums.stream().forEach(p -> System.out.println(p));
+        nums.forEach(System.out::println);
         // nums.stream().forEach(System::out::println); // WRONG!!
         List<?> ll = Stream.of("one", "two", "three", "four").filter(e -> e.length() > 3)
                 .peek(e -> System.out.println("Filtered value: " + e)).map(String::toUpperCase)
@@ -177,11 +171,11 @@ public class Jdk8Tester {
         return Optional.ofNullable(text).map(String::length).orElse(-1);
         // Pre-Java 8
         // return if (text != null) ? text.length() : -1;
-    };
+    }
 
     @Test
     public void testReduce() {
-        List<Integer> ll = Arrays.asList(new Integer[] {1, 2, 3, 4, 5});
+        List<Integer> ll = Arrays.asList(1, 2, 3, 4, 5);
         Integer sum = ll.stream().reduce(0, Integer::sum);// reduce需要有一个初始化的值来进行计算或者比较
         System.out.println("Sum of " + ll + " is " + sum);
 
@@ -219,7 +213,7 @@ public class Jdk8Tester {
             Person person = new Person(i, "name" + i);
             persons.add(person);
         }
-        List<Person> personList3 = persons.stream().sorted((p1, p2) -> p1.getName().compareTo(p2.getName())).limit(2)
+        List<Person> personList3 = persons.stream().sorted(Comparator.comparing(Person::getName)).limit(2)
                 .collect(Collectors.toList());
         System.out.println(personList3);
     }
@@ -231,7 +225,7 @@ public class Jdk8Tester {
             Person person = new Person(i, "name" + i);
             persons.add(person);
         }
-        List<Person> personList2 = persons.stream().limit(2).sorted((p1, p2) -> p1.getName().compareTo(p2.getName()))
+        List<Person> personList2 = persons.stream().limit(2).sorted(Comparator.comparing(Person::getName))
                 .collect(Collectors.toList());
         System.out.println(personList2);
     }
@@ -239,14 +233,14 @@ public class Jdk8Tester {
     @Test
     public void testMax() {
         List<String> raws =
-                Arrays.asList(new String[] {"haha it is a good place", "new founded land!", "old continent?"});
+                Arrays.asList("haha it is a good place", "new founded land!", "old continent?");
         int longest = raws.stream().mapToInt(String::length).max().getAsInt();
         System.out.println(longest);
     }
 
     @Test
     public void testDistinct() { // tolower在前，distinct在后，因此IS和Is全部成为is；Big和BIG全部成为big
-        List<String> raws = Arrays.asList(new String[] {"China Big Country", "Chistmas Is Coming", "Xmas Is BIG"});
+        List<String> raws = Arrays.asList("China Big Country", "Chistmas Is Coming", "Xmas Is BIG");
         List<String> words = raws.stream().flatMap(line -> Stream.of(line.split(" "))).filter(word -> word.length() > 0)
                 .map(String::toLowerCase).distinct().sorted().collect(Collectors.toList());
         System.out.println(words);
@@ -255,7 +249,7 @@ public class Jdk8Tester {
     @Test
     public void testMatch() {
         List<String> raws =
-                Arrays.asList(new String[] {"China is a Big Country", "Chistmas Is Coming to ChinA", "Xmas Is BIG"});
+                Arrays.asList("China is a Big Country", "Chistmas Is Coming to ChinA", "Xmas Is BIG");
         boolean isAllChina = raws.stream().map(String::toLowerCase).allMatch(p -> p.contains("china"));
         System.out.println("All are China? " + isAllChina);
         boolean isBigInvolved = raws.stream().map(String::toLowerCase).anyMatch(p -> p.contains("big"));

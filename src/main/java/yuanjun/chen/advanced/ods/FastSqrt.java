@@ -44,7 +44,7 @@ public class FastSqrt {
 	 * @param x
 	 * @return the floor of the base-2 logarithm of x
 	 */
-	public static final int log(int x) {
+	public static int log(int x) {
 		if (x >= halfint)
 			return 16 + logtab[x>>>16];
 		return logtab[x];
@@ -57,7 +57,7 @@ public class FastSqrt {
 	 * @param x
 	 * @return the floor of the square root of x
 	 */
-	public static final int sqrt(int x) {
+	public static int sqrt(int x) {
 		int rp = log(x);
 		int upgrade = ((r-rp)/2) * 2;
 		int xp = x << upgrade;  // xp has r or r-1 bits
@@ -66,7 +66,7 @@ public class FastSqrt {
 		return s;
 	}
 
-	public static final int sqrt(int x, int r) {
+	public static int sqrt(int x, int r) {
 		int s = sqrtab[x>>r/2];
 		while ((s+1)*(s+1) <= x) s++; // executes at most twice
 		return s;

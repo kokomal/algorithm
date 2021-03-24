@@ -31,7 +31,6 @@ public class FibonacciNode<T extends Comparable<T>> {
         if (this.child == null) {
             this.child = new ArrayList<>();
             this.child.add(nd);
-            return;
         }
         else {
             this.child.add(nd);

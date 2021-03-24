@@ -8,7 +8,7 @@ import yuanjun.chen.base.exception.QueueUnderflowException;
 /**
  * @author 陈元俊 tail 为虚， head为实
  */
-public class MyQueue<T extends Object> {
+public class MyQueue<T> {
     private static final Logger logger = LogManager.getLogger(MyQueue.class);
     protected T[] vals;
     protected int head;
@@ -35,7 +35,10 @@ public class MyQueue<T extends Object> {
     public int size() {
         return (tail - head + vals.length) % vals.length;
     }
-    /** Enqueue影响tail，并且tail永远保持一个虚的占位. */
+
+    /**
+     * Enqueue影响tail，并且tail永远保持一个虚的占位.
+     */
     public void enqueue(T item) throws QueueOverflowException {
         if (isFull()) {
             throw new QueueOverflowException("queue full");
@@ -45,7 +48,9 @@ public class MyQueue<T extends Object> {
         // tellHeadAndTail();
     }
 
-    /** Dequeue仅影响head，head实打实. */
+    /**
+     * Dequeue仅影响head，head实打实.
+     */
     public T dequeue() throws QueueUnderflowException {
         if (isEmpty()) {
             throw new QueueUnderflowException("queue underflow");

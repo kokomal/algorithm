@@ -77,7 +77,7 @@ public class Testum {
 		for (List<Integer> l : cl) {
 			l.clear();
 			for (int i = 0; i < n; i++)
-				l.add(new Integer(i));
+				l.add(i);
 			Utils.myassert(l.size() == n);
 			for (int i = 0; i < n; i++)
 				Utils.myassert (i == l.get(i));
@@ -90,11 +90,11 @@ public class Testum {
 			
 			// get/set
 			for (int i = 0; i < n; i++)
-				l.add(new Integer(i));
+				l.add(i);
 			for (int i = 0; i < n; i++)
 				l.set(i, i*3231);
 			for (int i = 0; i < n; i++)
-				Utils.myassert(i*3231 == l.get(i).intValue());
+				Utils.myassert(i*3231 == l.get(i));
 
 			// addition at front
 			l.clear();
@@ -116,9 +116,9 @@ public class Testum {
 			for (int i = 0; i < n/2; i++) 
 				l.remove(n/4);
 			for (int i = 0; i < n/4; i++)
-				Utils.myassert(i == l.get(i).intValue());
+				Utils.myassert(i == l.get(i));
 			for (int i = n/4; i < n/2; i++) 
-				Utils.myassert(i+n/2 == l.get(i).intValue());
+				Utils.myassert(i+n/2 == l.get(i));
 			l.clear();
 		}
 
@@ -483,7 +483,7 @@ public class Testum {
 		System.out.println();
 	}
 	
-	public static void main(String args[]) {
+	public static void main(String[] args) {
 		int n = 1000000;
 		
 		Collection<List<Integer>> cl = new ArrayList<List<Integer>>();

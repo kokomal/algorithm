@@ -92,16 +92,16 @@ public class SortedSSet<T> extends AbstractSet<T> implements SortedSet<T> {
 //		css.add(new SortedSSet<Integer>(new ScapegoatTree<Integer>()));
 //		css.add(new SortedSSet<Integer>(new SkiplistSSet<Integer>()));
 		{ 
-			class N<T> extends XFastTrie.Nöde<N<T>,T> {};
+			class N<T> extends XFastTrie.Nöde<N<T>,T> {}
 			class I implements Integerizer<Integer> { 
 				public int intValue(Integer i) { return i; }
 			}
 			class BT<T> extends BinaryTrie<N<T>,T> { 
 				public BT(Integerizer<T> it) { super(new N<T>(), it); }
-			};
+			}
 			class XFT<T> extends XFastTrie<N<T>,T> { 
 				public XFT(Integerizer<T> it) { super(new N<T>(), it); }
-			};
+			}
 			css.add(new SortedSSet<Integer>(new BT<Integer>(new I())));
 			css.add(new SortedSSet<Integer>(new XFT<Integer>(new I())));
 			css.add(new SortedSSet<Integer>(new YFastTrie<Integer>(new I())));

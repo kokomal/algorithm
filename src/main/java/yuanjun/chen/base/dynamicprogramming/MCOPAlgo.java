@@ -1,8 +1,5 @@
 package yuanjun.chen.base.dynamicprogramming;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 /**
  * Matrix chain multiplication, MCOP
  */

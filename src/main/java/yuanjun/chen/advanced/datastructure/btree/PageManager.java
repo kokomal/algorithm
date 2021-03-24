@@ -59,8 +59,7 @@ public class PageManager {
     }
     
     public static BTreeNodeLite newEmptyLeafNode(String tableName, int degree) throws Exception {
-        BTreeNodeLite nd = new BTreeNodeLite(degree, GlobalPageNoGen.genNextPageNo(), true, 0);
-        return nd;
+        return new BTreeNodeLite(degree, GlobalPageNoGen.genNextPageNo(), true, 0);
     }
     
     public static BTreeOnePage readMeta(String tableName){

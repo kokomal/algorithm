@@ -29,7 +29,7 @@ public class Node<T> {
         if (this == o) {
             return true;
         }
-        if (o == null || !(o instanceof Node<?>)) {
+        if (!(o instanceof Node<?>)) {
             return false;
         }
         Node<T> ent;

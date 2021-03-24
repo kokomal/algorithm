@@ -33,9 +33,7 @@ public class ArrayStack<T> extends AbstractList<T> {
      */
     protected void resize() {
         T[] b = f.newArray(Math.max(n * 2, 1));
-        for (int i = 0; i < n; i++) {
-            b[i] = a[i];
-        }
+        if (n >= 0) System.arraycopy(a, 0, b, 0, n);
         a = b;
     }
 
@@ -44,9 +42,7 @@ public class ArrayStack<T> extends AbstractList<T> {
      */
     protected void resize(int nn) {
         T[] b = f.newArray(nn);
-        for (int i = 0; i < n; i++) {
-            b[i] = a[i];
-        }
+        if (n >= 0) System.arraycopy(a, 0, b, 0, n);
         a = b;
     }
 
@@ -84,8 +80,7 @@ public class ArrayStack<T> extends AbstractList<T> {
             throw new IndexOutOfBoundsException();
         if (n + 1 > a.length)
             resize();
-        for (int j = n; j > i; j--)
-            a[j] = a[j - 1];
+        if (n - i >= 0) System.arraycopy(a, i, a, i + 1, n - i);
         a[i] = x;
         n++;
     }
@@ -94,8 +89,7 @@ public class ArrayStack<T> extends AbstractList<T> {
         if (i < 0 || i > n - 1)
             throw new IndexOutOfBoundsException();
         T x = a[i];
-        for (int j = i; j < n - 1; j++)
-            a[j] = a[j + 1];
+        if (n - 1 - i >= 0) System.arraycopy(a, i + 1, a, i, n - 1 - i);
         n--;
         if (a.length >= 3 * n)
             resize();
@@ -127,8 +121,7 @@ public class ArrayStack<T> extends AbstractList<T> {
         int k = c.size();
         if (n + k > a.length)
             resize(2 * (n + k));
-        for (int j = n + k - 1; j >= i + k; j--)
-            a[j] = a[j - k];
+        if (n + k - i + k >= 0) System.arraycopy(a, i + k - k, a, i + k, n + k - i + k);
         for (T x : c)
             a[i++] = x;
         n += k;

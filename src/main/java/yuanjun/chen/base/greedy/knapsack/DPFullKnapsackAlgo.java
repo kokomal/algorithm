@@ -19,21 +19,20 @@ import java.util.Arrays;
  */
 public class DPFullKnapsackAlgo {
     private static GoldBar<Integer>[] goldbars; // 待塞入背包的奇形怪状的金块列表
-    private static Integer CAPACITY; // 背包容量
     private static int[] weight_value_table; // 容量为CAPACITY
     private static int[] best_choice;
     
     public static void init(final GoldBar<Integer>[] bars, Integer capacity) {
         goldbars = bars;
-        CAPACITY = capacity;
-        weight_value_table = new int[CAPACITY];
-        best_choice = new int[CAPACITY];
+        // 背包容量
+        weight_value_table = new int[capacity];
+        best_choice = new int[capacity];
         int nGoldBars = goldbars.length;
-        for (int idx = 0; idx < nGoldBars; idx++) {
-            int weight = goldbars[idx].weight;
-            int value = goldbars[idx].value;
-            
-            if (weight > CAPACITY) { // 单体直接撑破，无视之
+        for (GoldBar<Integer> goldbar : goldbars) {
+            int weight = goldbar.weight;
+            int value = goldbar.value;
+
+            if (weight > capacity) { // 单体直接撑破，无视之
                 continue;
             }
             // challenge table
@@ -42,7 +41,7 @@ public class DPFullKnapsackAlgo {
                 setValueAtIndex(weight, value);
                 setChoiceAtIndex(weight, weight); // 某个weight上的选择是自己
             }
-            for (int k = weight + 1; k <= CAPACITY; k++) {
+            for (int k = weight + 1; k <= capacity; k++) {
                 int s = k - weight;
                 int challenger = getValueAtIndex(s) + value;
                 if (challenger > getValueAtIndex(k)) {
@@ -55,9 +54,9 @@ public class DPFullKnapsackAlgo {
         System.out.println("WEIGHT_VALUE ARRAY: " +Arrays.toString(weight_value_table));
         System.out.println("BEST CHOICE ARRAY: " + Arrays.toString(best_choice));
         
-        int wt = getChoiceAtIndex(CAPACITY);
-        System.out.println("MAX VALUE is " + getValueAtIndex(CAPACITY));
-        int cur = CAPACITY; // 目前重量
+        int wt = getChoiceAtIndex(capacity);
+        System.out.println("MAX VALUE is " + getValueAtIndex(capacity));
+        int cur = capacity; // 目前重量
         while(wt > 0) {
             System.out.println("CHOOSE WT." + wt + " AND VALUE is " + findValueByWeight(wt));
             cur = cur - wt;
@@ -86,9 +85,9 @@ public class DPFullKnapsackAlgo {
     
     static int findValueByWeight(int wt) { // 低效了一点，存hashmap稍微好一点，但空间就多了
         int nGoldBars = goldbars.length;
-        for (int idx = 0; idx < nGoldBars; idx++) {
-            if (wt == goldbars[idx].weight) {
-                return goldbars[idx].value;
+        for (GoldBar<Integer> goldbar : goldbars) {
+            if (wt == goldbar.weight) {
+                return goldbar.value;
             }
         }
         return 0;
@@ -97,15 +96,15 @@ public class DPFullKnapsackAlgo {
     @SuppressWarnings("unchecked")
     public static void main(String[] args) {
         GoldBar<Integer>[] goldbars = new GoldBar[3];
-        goldbars[0] = new GoldBar<Integer>();
+        goldbars[0] = new GoldBar<>();
         goldbars[0].value = 300;
         goldbars[0].weight = 14;
         
-        goldbars[1] = new GoldBar<Integer>();
+        goldbars[1] = new GoldBar<>();
         goldbars[1].value = 98;
         goldbars[1].weight = 5;
         
-        goldbars[2] = new GoldBar<Integer>();
+        goldbars[2] = new GoldBar<>();
         goldbars[2].value = 20;
         goldbars[2].weight = 1;
         

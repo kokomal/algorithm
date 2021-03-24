@@ -21,8 +21,7 @@ public class SortedArrayToBST {
 
 	public static TreeNode aux(int[] nums, int start, int end) {
 		if (start == end) {
-			TreeNode node = new TreeNode(nums[start]);
-			return node;
+			return new TreeNode(nums[start]);
 		} else {
 			int mid = (start + end) >> 1;
 			if (mid == start) {

@@ -13,15 +13,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 
 /**
  * @ClassName: TopologySortAlgo
@@ -95,7 +88,7 @@ public class TopologySortAlgo {
     public static void solve() {
         Set<String> output = new LinkedHashSet<>();
         Set<String> input = new HashSet<>();
-        dps.keySet().stream().forEach(ele -> input.add(ele));
+        input.addAll(dps.keySet());
         Iterator<String> it = input.iterator();
         while (!input.isEmpty()) {
             String key = it.next();

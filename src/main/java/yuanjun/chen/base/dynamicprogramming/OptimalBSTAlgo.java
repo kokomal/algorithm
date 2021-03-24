@@ -85,8 +85,8 @@ public class OptimalBSTAlgo {
 
     public static void buildWrap() {
         System.out.println("===Display root first===");
-        for (int i = 0; i < root.length; i++) {
-            System.out.println(Arrays.toString(root[i]));
+        for (Integer[] integers : root) {
+            System.out.println(Arrays.toString(integers));
         }
         System.out.println("===Display tree next===");
         TreeNode<String> tr = buildTree(1, n);

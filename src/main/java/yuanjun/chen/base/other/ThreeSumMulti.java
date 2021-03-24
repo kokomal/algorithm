@@ -11,9 +11,9 @@ public class ThreeSumMulti {
 	public static void init(int[] A) {
 		for (int i : A) {
 			if (rec.containsKey(i)) {
-				rec.put(i, rec.get(i) + 1l);
+				rec.put(i, rec.get(i) + 1L);
 			} else {
-				rec.put(i, 1l);
+				rec.put(i, 1L);
 			}
 		}
 	}
@@ -31,7 +31,7 @@ public class ThreeSumMulti {
 	private static long find3(int[] A, int idx, int target, Map<Integer, Long> rec) {
 		if (idx > A.length - 1)
 			return 0;
-		long sum = 0l;
+		long sum = 0L;
 		for (int j = idx; j < A.length;) {
 			int next = (int) (j + rec.get(A[j]));
 			if (rec.get(A[j]) > 2) { // 有三个及以上
@@ -59,7 +59,7 @@ public class ThreeSumMulti {
 	private static long find1(int[] A, int idx, int target, Map<Integer, Long> rec) {
 		if (idx > A.length - 1)
 			return 0;
-		long sum = 0l;
+		long sum = 0L;
 		for (int j = idx; j < A.length; j++) {
 			if (A[j] == target)
 				sum++;
@@ -70,7 +70,7 @@ public class ThreeSumMulti {
 	public static long find2(int[] A, int idx, int target, Map<Integer, Long> rec) {
 		if (idx > A.length - 1)
 			return 0;
-		long sum = 0l;
+		long sum = 0L;
 		for (int j = idx; j < A.length;) {
 			int next = (int) (j + rec.get(A[j]));
 			if (rec.get(A[j]) >= 2) { // 有2个及以上

@@ -184,7 +184,7 @@ public class BTree<T> implements SSet<T> {
         }
 
 		public String toString() {
-			StringBuffer sb = new StringBuffer();
+			StringBuilder sb = new StringBuilder();
 			sb.append("[");
 			for (int i = 0; i < b; i++) {
 				sb.append("(" + (children[i] < 0 ? "." : children[i]) + ")");

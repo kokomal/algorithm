@@ -21,8 +21,6 @@ import java.util.List;
  * @date: 2018年10月8日 下午5:55:26
  */
 public class IntervalGraphColorProblemAlgo {
-    /** N维度. */
-    private static MyActivity[] activities;
     /** 2n维度. */
     private static TimePojo[] times;
 
@@ -33,7 +31,8 @@ public class IntervalGraphColorProblemAlgo {
         freeset = new ArrayList<>();
         busyset = new ArrayList<>();
         int len = srcActivities.length;
-        activities = new MyActivity[len];
+        /** N维度. */
+        MyActivity[] activities = new MyActivity[len];
         times = new TimePojo[2 * len];
         System.arraycopy(srcActivities, 0, activities, 0, len);
         int idx = 0;

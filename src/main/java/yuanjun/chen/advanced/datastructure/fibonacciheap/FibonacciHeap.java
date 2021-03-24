@@ -37,7 +37,7 @@ public class FibonacciHeap<T extends Comparable<T>> {
     }
 
     public void fibHeapInsert(int key, T val) {
-        FibonacciNode<T> cc = new FibonacciNode<T>();
+        FibonacciNode<T> cc = new FibonacciNode<>();
         cc.key = key;
         cc.val = val;
         fibHeapInsert(cc);
@@ -163,8 +163,7 @@ public class FibonacciHeap<T extends Comparable<T>> {
     }
 
     private int calcD() {
-        int d = (int) Math.floor(Math.log(this.n) / logPhi);
-        return d;
+        return (int) Math.floor(Math.log(this.n) / logPhi);
     }
     
     public void printAll() {
@@ -206,7 +205,7 @@ public class FibonacciHeap<T extends Comparable<T>> {
     private void cascadingCut(FibonacciNode<T> y) {
         FibonacciNode<T> z = y.parent;
         if (z != null) {
-            if (z.mark == false) { // mark=true触发条件有3，即1-root，2-child，3-一个孩子被切掉
+            if (!z.mark) { // mark=true触发条件有3，即1-root，2-child，3-一个孩子被切掉
                 z.mark = true;
             } else { // 如果到这里，z.mark=true的状态，说明有2个孩子被切掉了
                 cut(y, z);

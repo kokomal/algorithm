@@ -34,17 +34,17 @@ public class CreditSqlParser {
                     break;
                 }
                 if (!line.isEmpty()) {
-                    String pack = ENTER + CREATE_TABLE + line + ENTER + LEFT_BR + ENTER + "rowkey" + VARCHAR + PRIMARY
-                            + COMMA + ENTER;
+                    StringBuilder pack = new StringBuilder(ENTER + CREATE_TABLE + line + ENTER + LEFT_BR + ENTER + "rowkey" + VARCHAR + PRIMARY
+                            + COMMA + ENTER);
                     do {
                         String next = br.readLine();
                         if (next == null || next.isEmpty()) { // 下一行为空，说明到底了
-                            int pos = pack.lastIndexOf(',');
-                            pack = pack.substring(0, pos);
-                            pack += ENTER + ");" + ENTER;
+                            int pos = pack.toString().lastIndexOf(',');
+                            pack = new StringBuilder(pack.substring(0, pos));
+                            pack.append(ENTER + ");" + ENTER);
                             break;
                         }
-                        pack += QUOTA + next + QUOTA + VARCHAR + COMMA + ENTER;
+                        pack.append(QUOTA).append(next).append(QUOTA).append(VARCHAR).append(COMMA).append(ENTER);
 
                     } while (true);
                     mainSql.append(pack);

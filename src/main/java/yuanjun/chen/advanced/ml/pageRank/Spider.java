@@ -42,9 +42,8 @@ public class Spider {
             System.out.println("CODE=" + code);
             if (code == 200) {
                 HttpEntity httpEntity = resp.getEntity();
-                String content = EntityUtils.toString(httpEntity);
                 // System.out.println("CONTENT=" + content);
-                return content;
+                return EntityUtils.toString(httpEntity);
             }
             return "400";
         } catch (Exception e) {
@@ -58,8 +57,8 @@ public class Spider {
     public ArrayList<WebEntity> getWebList(String url) {
         int times = 0;
 
-        ArrayList<WebEntity> retList = new ArrayList<WebEntity>();
-        ArrayList<String> webUrlList = new ArrayList<String>();
+        ArrayList<WebEntity> retList = new ArrayList<>();
+        ArrayList<String> webUrlList = new ArrayList<>();
         // init
         SpiderQueue queue = new SpiderQueue();
 
@@ -94,12 +93,12 @@ public class Spider {
 
     // 获取web中的url
     public ArrayList<String> getWebUrl(String content, String reg) {
-        ArrayList<String> urlList = new ArrayList<String>();
+        ArrayList<String> urlList = new ArrayList<>();
 
         Pattern p = Pattern.compile(reg);
         Matcher m = p.matcher(content);
         while (m.find()) {
-            if (m.group(1).indexOf("http") >= 0) {
+            if (m.group(1).contains("http")) {
                 urlList.add(m.group(1));
                 // System.out.println("spider(97) get:"+m.group(1));
             } else {

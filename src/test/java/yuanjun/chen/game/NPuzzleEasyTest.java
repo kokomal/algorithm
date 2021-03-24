@@ -9,11 +9,11 @@
  */
 package yuanjun.chen.game;
 
+import org.junit.Test;
+import yuanjun.chen.game.nPuzzle.NPuzzleEasyAlgo;
+
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.Test;
-import yuanjun.chen.game.nPuzzle.NPuzzleAlgo;
-import yuanjun.chen.game.nPuzzle.NPuzzleEasyAlgo;
 
 /**   
  * @ClassName: NPuzzleTest   

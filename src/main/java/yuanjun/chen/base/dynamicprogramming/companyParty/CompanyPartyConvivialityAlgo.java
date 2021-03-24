@@ -162,9 +162,7 @@ public class CompanyPartyConvivialityAlgo {
         List<List<String>> res = new LinkedList<>();
         for (List<String> ll : names) {
             List<String> r = new LinkedList<>();
-            for (String l : ll) {
-                r.add(l);
-            }
+            r.addAll(ll);
             res.add(r);
         }
         return res;
