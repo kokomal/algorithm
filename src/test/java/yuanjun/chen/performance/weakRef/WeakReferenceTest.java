@@ -13,7 +13,7 @@ import java.lang.ref.WeakReference;
 import org.junit.Test;
 
 /**
- * @ClassName: WeakRefernceTest
+ * @ClassName: WeakReferenceTest
  * @Description: 弱引用测试
  * @author: 陈元俊
  * @date: 2018年9月5日 下午3:37:44
