@@ -73,8 +73,8 @@ public class CountingSortAlgo {
     }
 
     public static void main(String[] args) throws Exception {
-        int size = 65536 * 3;
-        int bound = 4000;
+        int size = 128 * 3;
+        int bound = 100;
         Integer[] arr = RandomGenner.generateRandomTArray(size, 0, bound, Integer.class);
         logger.info("before--" + Arrays.toString(arr));
         Integer[] res1 = countingSort(arr, bound - 1, SortOrderEnum.DESC);

@@ -12,6 +12,7 @@ package yuanjun.chen.base.greedy.activityselector;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import yuanjun.chen.base.greedy.intervalgraphcolor.MyActivity;
 
 /**
@@ -30,7 +31,7 @@ public class ActivitySelectorAlgo {
         System.arraycopy(srcActivities, 0, activities, 1, len);
         activities[0] = new MyActivity(0, 0L, 0L); // 添加一个假的头部
         Arrays.sort(activities, new MyActivity.MyActivityComparator(true));
-        // System.out.println(Arrays.toString(activities)); // after
+        System.out.println(Arrays.toString(activities)); // after
     }
 
     public static void nonRecursiveInit(final MyActivity[] srcActivities) {
@@ -39,21 +40,21 @@ public class ActivitySelectorAlgo {
         System.arraycopy(srcActivities, 0, nonRecurActivities, 0, len);
         Arrays.sort(nonRecurActivities, new MyActivity.MyActivityComparator(true));
     }
-    
-    /**   
-     * @Title: recursiveWrapper   
-     * @Description: 递归法        
-     * @return: void      
+
+    /**
+     * @Title: recursiveWrapper
+     * @Description: 递归法
+     * @return: void
      */
     public static void recursiveWrapper() {
         List<MyActivity> res = recursiveActivitySelect(0, activities.length - 1);
         System.out.println(res);
     }
-    
-    /**   
-     * @Title: greedyNonRecursiveSelectWrapper   
-     * @Description: 贪心单调迭代法        
-     * @return: void      
+
+    /**
+     * @Title: greedyNonRecursiveSelectWrapper
+     * @Description: 贪心单调迭代法
+     * @return: void
      */
     public static void greedyNonRecursiveSelectWrapper() {
         int len = nonRecurActivities.length;
@@ -68,7 +69,7 @@ public class ActivitySelectorAlgo {
         }
         System.out.println(res);
     }
-    
+
     // 在k和n之间寻找下一个合法的起始值
     public static List<MyActivity> recursiveActivitySelect(int k, int n) {
         int m = k + 1;
@@ -78,6 +79,7 @@ public class ActivitySelectorAlgo {
         System.out.printf("For k = %d AND n = %d, the m is %d\n", k, n, m);
         if (m <= n) {
             List<MyActivity> res = new ArrayList<>();
+            System.out.println(activities[m]);
             res.add(activities[m]);
             res.addAll(recursiveActivitySelect(m, n));
             return res;
@@ -85,24 +87,24 @@ public class ActivitySelectorAlgo {
             return new ArrayList<>();
         }
     }
-    
+
     public static void main(String[] args) {
-        MyActivity[] activities = new MyActivity[] {
+        MyActivity[] activities = new MyActivity[]{
                 new MyActivity(9, 8L, 12L),
                 new MyActivity(10, 2L, 14L),
                 new MyActivity(11, 12L, 16L),
-            new MyActivity(1, 1L, 4L),
-            new MyActivity(2, 3L, 5L),
-            new MyActivity(3, 0L, 6L),
-            new MyActivity(4, 5L, 7L),
-            new MyActivity(5, 3L, 9L),
-            new MyActivity(6, 5L, 9L),
-            new MyActivity(7, 6L, 10L),
-            new MyActivity(8, 8L, 11L),
+                new MyActivity(1, 1L, 4L),
+                new MyActivity(2, 3L, 5L),
+                new MyActivity(3, 0L, 6L),
+                new MyActivity(4, 5L, 7L),
+                new MyActivity(5, 3L, 9L),
+                new MyActivity(6, 5L, 9L),
+                new MyActivity(7, 6L, 10L),
+                new MyActivity(8, 8L, 11L),
         };
         recursiveInit(activities);
         recursiveWrapper();
-        
+
         nonRecursiveInit(activities);
         greedyNonRecursiveSelectWrapper();
     }

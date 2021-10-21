@@ -65,8 +65,7 @@ public class QuickSortAlgo {
         if (r == p) {
             return p;
         }
-        Random rd = new Random();
-        int randomPivot = rd.nextInt(r - p + 1) + p;
+        int randomPivot = new Random().nextInt(r - p + 1) + p;
         MyArrayUtils.swap(arr, randomPivot, r);
         return partition(arr, p, r);
     }

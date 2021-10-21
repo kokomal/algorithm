@@ -90,7 +90,7 @@ public class MyActivity {
     }
 
     public static class MyActivityComparator implements Comparator<MyActivity> {
-        private boolean usingEndTime;
+        private final boolean usingEndTime;
 
         public MyActivityComparator(boolean usingEndTime) {
             this.usingEndTime = usingEndTime;

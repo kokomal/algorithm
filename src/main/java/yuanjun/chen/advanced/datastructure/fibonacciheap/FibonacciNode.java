@@ -1,22 +1,23 @@
-/**  
- * @Title: FibonacciNode.java   
- * @Package: yuanjun.chen.advanced.datastructure.fibonacciheap   
- * @Description: TODO(用一句话描述该文件做什么)   
- * @author: 陈元俊     
- * @date: 2018年11月21日 上午9:20:26   
- * @version V1.0 
- * @Copyright: 2018 All rights reserved. 
+/**
+ * @Title: FibonacciNode.java
+ * @Package: yuanjun.chen.advanced.datastructure.fibonacciheap
+ * @Description: TODO(用一句话描述该文件做什么)
+ * @author: 陈元俊
+ * @date: 2018年11月21日 上午9:20:26
+ * @version V1.0
+ * @Copyright: 2018 All rights reserved.
  */
 package yuanjun.chen.advanced.datastructure.fibonacciheap;
 
-import java.util.ArrayList;
-import java.util.List;
 import yuanjun.chen.base.common.CommonUtils;
 
-/**   
- * @ClassName: FibonacciNode   
- * @Description: TODO(这里用一句话描述这个类的作用)   
- * @author: 陈元俊 
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * @ClassName: FibonacciNode
+ * @Description: TODO(这里用一句话描述这个类的作用)
+ * @author: 陈元俊
  * @date: 2018年11月21日 上午9:20:26  
  */
 public class FibonacciNode<T extends Comparable<T>> {
@@ -26,30 +27,25 @@ public class FibonacciNode<T extends Comparable<T>> {
     List<FibonacciNode<T>> child = new ArrayList<>();
     Integer key;
     T val;
-    
+
     public void addChild(FibonacciNode<T> nd) {
         if (this.child == null) {
             this.child = new ArrayList<>();
-            this.child.add(nd);
         }
-        else {
-            this.child.add(nd);
-        }
+        this.child.add(nd);
     }
-    
+
     public void print() {
         System.out.println("THIS.KEY=" + key + " WITH VAL=" + val);
-        if (child.size() == 0) {
+        if (child.isEmpty()) {
             System.out.println("KEY: " + key + " IS LEAF");
         } else {
             System.out.println("CHILDREN NUM=" + child.size());
-            for (FibonacciNode<T> chd : child) {
-                chd.print();
-            }
+            child.forEach(FibonacciNode::print);
         }
         System.out.println("FINISH PRINTING KEY " + key);
     }
-    
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -57,7 +53,7 @@ public class FibonacciNode<T extends Comparable<T>> {
         result = prime * result + ((key == null) ? 0 : key.hashCode());
         return result;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj)

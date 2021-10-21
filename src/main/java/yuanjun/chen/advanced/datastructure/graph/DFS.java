@@ -94,9 +94,9 @@ public class DFS {
     public static void DFS_Recur_Algo() {
         rewindClock();
         int all = nodes.size();
-        for (int i = 0; i < all; i++) {
-            if (nodes.get(i).amWhite()) {
-                recurVisit(nodes.get(i));
+        for (TREENODE node : nodes) {
+            if (node.amWhite()) {
+                recurVisit(node);
             }
         }
     }
@@ -155,9 +155,9 @@ public class DFS {
         rewindClock();
         int all = nodes.size();
         Stack<TREENODE> stack = new Stack<>();
-        for (int i = 0; i < all; i++) {
-            if (nodes.get(i).amWhite()) {
-                stackVisit2(nodes.get(i), stack);
+        for (TREENODE node : nodes) {
+            if (node.amWhite()) {
+                stackVisit2(node, stack);
             }
         }
     }

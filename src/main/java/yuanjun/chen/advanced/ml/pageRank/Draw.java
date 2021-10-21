@@ -1,7 +1,7 @@
 package yuanjun.chen.advanced.ml.pageRank;
 
-import com.sun.image.codec.jpeg.JPEGCodec;
-import com.sun.image.codec.jpeg.JPEGImageEncoder;
+//import com.sun.image.codec.jpeg.JPEGCodec;
+//import com.sun.image.codec.jpeg.JPEGImageEncoder;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
@@ -62,8 +62,8 @@ public class Draw {
         try {
             FileOutputStream fos = new FileOutputStream(fileLocation);
             BufferedOutputStream bos = new BufferedOutputStream(fos);
-            JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(bos);
-            encoder.encode(image);
+//            JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(bos);
+//            encoder.encode(image);
             bos.close();
         } catch (Exception e) {
             e.printStackTrace();

@@ -8,7 +8,7 @@ import yuanjun.chen.advanced.dp.partycompany.ENTER_TYPE;
 import yuanjun.chen.advanced.dp.partycompany.EmployeeTreeNode;
 
 public class GraphDrawer {
-    public static final String picPath = "d:/graphviz-java-api/";
+    public static final String picPath = "/Users/admin/";
     public static final String type = "png";
     public static final String repesentationType = "dot";
 

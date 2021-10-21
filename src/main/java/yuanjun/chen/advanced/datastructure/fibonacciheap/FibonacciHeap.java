@@ -12,6 +12,7 @@ package yuanjun.chen.advanced.datastructure.fibonacciheap;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 /**
  * @ClassName: FibonacciHeap
@@ -20,7 +21,7 @@ import java.util.List;
  * @date: 2018年11月21日 上午9:35:39
  */
 public class FibonacciHeap<T extends Comparable<T>> {
-    
+
     private static double phi = (Math.sqrt(5) + 1) / 2.0; // 1.618... Golden ratio
     private static double logPhi = Math.log(phi);
     int n = 0; // 总共多少元素
@@ -42,18 +43,17 @@ public class FibonacciHeap<T extends Comparable<T>> {
         cc.val = val;
         fibHeapInsert(cc);
     }
-    
+
     /* FIB-HEAP-INSERT */
     public void fibHeapInsert(FibonacciNode<T> x) { // 假设x.key有值
         x.degree = 0;
         x.parent = null;
         x.child = new ArrayList<>();
         x.mark = false;
+        addRoot(x);
         if (min == null) {
-            addRoot(x);
             this.min = x;
         } else {
-            addRoot(x);
             if (x.key < this.min.key) {
                 this.min = x;
             }
@@ -64,15 +64,15 @@ public class FibonacciHeap<T extends Comparable<T>> {
     public FibonacciNode<T> peekMin() {
         return min;
     }
-    
+
     /* FIB-HEAP-EXTRACT-MIN O[logN] */
     public FibonacciNode<T> extractMin() {
         FibonacciNode<T> z = this.min;
         if (z != null) {
-            for (FibonacciNode<T> node : z.child) {
+            z.child.forEach(node -> {
                 addRoot(node);
                 node.parent = null;
-            }
+            });
             int pos = root.indexOf(z);
             removeRoot(z);
             boolean zAlone = root.isEmpty();
@@ -115,7 +115,9 @@ public class FibonacciHeap<T extends Comparable<T>> {
         this.root.remove(nd);
     }
 
-    /** CONSOLIDATE */
+    /**
+     * CONSOLIDATE
+     */
     @SuppressWarnings("unchecked")
     private void consolidate() {
         int D = calcD();
@@ -125,9 +127,9 @@ public class FibonacciHeap<T extends Comparable<T>> {
         }
         int len = this.root.size();
         List<FibonacciNode<T>> bkp = new ArrayList<>(root); // 拷贝一份root的备份
-        
-        for (int i = 0; i < len; i++) {
-            FibonacciNode<T> x = bkp.get(i); // 获得root的节点可能有问题，因为每次循环会操作root这个链表，影响不定
+
+        // 获得root的节点可能有问题，因为每次循环会操作root这个链表，影响不定
+        for (FibonacciNode<T> x : bkp) {
             if (!root.contains(x)) { // root已经除名，那就跳过
                 continue;
             }
@@ -146,26 +148,24 @@ public class FibonacciHeap<T extends Comparable<T>> {
             A[d] = x;
         }
         this.min = null;
-        for (int i = 0; i < D; i++) {
-            if (A[i] != null) {
-                if (this.min == null) {
-                    this.root = new ArrayList<>();
-                    root.add(A[i]);
+        IntStream.range(0, D).filter(i -> A[i] != null).forEach(i -> {
+            if (this.min == null) {
+                this.root = new ArrayList<>();
+                root.add(A[i]);
+                this.min = A[i];
+            } else {
+                this.root.add(A[i]);
+                if (this.min.key > A[i].key) {
                     this.min = A[i];
-                } else {
-                    this.root.add(A[i]);
-                    if (this.min.key > A[i].key) {
-                        this.min = A[i];
-                    }
                 }
             }
-        }
+        });
     }
 
     private int calcD() {
         return (int) Math.floor(Math.log(this.n) / logPhi);
     }
-    
+
     public void printAll() {
         if (this.root.isEmpty()) {
             System.out.println("THE FIBO HEAP IS EMPTY!");
@@ -178,7 +178,7 @@ public class FibonacciHeap<T extends Comparable<T>> {
             nd.print();
         }
     }
-    
+
     /* FIB-HEAP-DECREASE-KEY O[1]的摊还代价 */
     public void fibHeapDecreaseKey(FibonacciNode<T> x, int k) {
         if (x.key < k) {
@@ -195,13 +195,13 @@ public class FibonacciHeap<T extends Comparable<T>> {
             min = x;
         }
     }
-    
+
     /* FIB-HEAP-DELETE */
     public FibonacciNode<T> fibHeapDelete(FibonacciNode<T> x) {
         fibHeapDecreaseKey(x, Integer.MIN_VALUE);
         return extractMin();
     }
-    
+
     private void cascadingCut(FibonacciNode<T> y) {
         FibonacciNode<T> z = y.parent;
         if (z != null) {
